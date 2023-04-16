@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { fromEvent, takeUntil } from 'rxjs';
 
 export enum MouseButton {
@@ -14,33 +14,41 @@ type DragOption = {
   onMouseMove?: (e: React.MouseEvent) => boolean | void;
   onMouseUp?: (e: React.MouseEvent) => void;
   mouseButton?: MouseButton;
+  moveElementRef?: React.RefObject<Element>;
+  leaveElementRef?: React.RefObject<Element>;
 };
 
-const useDrag = <Target extends Element, Container extends Element>(container: Container | null, option: DragOption) => {
-  if (!container) return undefined;
+const useDrag = <T extends Element>(target: React.RefObject<T>, option: DragOption) => {
+  const targetElement = target.current;
+  if (!targetElement) return;
+
   const { onMouseDown, onMouseMove, onMouseUp } = option;
   const mouseButton = option.mouseButton ?? MouseButton.LEFT;
   let needTerminate: boolean | undefined | void = false;
-  const onMouseDownListener = (e: React.MouseEvent<Target>) => {
+  const onMouseDownListener = (e: React.MouseEvent<Element>) => {
     if (e.button !== mouseButton) return;
     needTerminate = onMouseDown?.(e);
     if (needTerminate) return;
 
-    const mouseup$ = fromEvent<React.MouseEvent<Container>>(container, 'mouseup');
+    const mouseup$ = fromEvent<React.MouseEvent<Element>>(targetElement, 'mouseup');
 
     let isMouseLeave = false;
-    const leaveSub = fromEvent<React.MouseEvent<Container>>(container, 'mouseleave').subscribe(() => {
+
+    let dragLeaveElement = option.leaveElementRef?.current ?? targetElement;
+
+    const leaveSub = fromEvent<React.MouseEvent<Element>>(dragLeaveElement, 'mouseleave').subscribe(() => {
       isMouseLeave = true;
     });
 
-    const moveSub = fromEvent<React.MouseEvent<Container>>(container, 'mousemove')
+    let moveElement = option.moveElementRef?.current ?? targetElement;
+    const moveSub = fromEvent<React.MouseEvent<Element>>(moveElement, 'mousemove')
       .pipe(takeUntil(mouseup$))
       .subscribe((e) => {
         if (isMouseLeave) return;
         needTerminate = onMouseMove?.(e);
         if (needTerminate) return;
       });
-    const upSub = fromEvent<React.MouseEvent<Container>>(container, 'mouseup').subscribe((e) => {
+    const upSub = fromEvent<React.MouseEvent<Element>>(targetElement, 'mouseup').subscribe((e) => {
       if (e.button !== mouseButton) return;
       moveSub.unsubscribe();
       upSub.unsubscribe();
