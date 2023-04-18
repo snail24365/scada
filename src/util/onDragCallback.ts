@@ -1,5 +1,6 @@
 import React, { RefObject } from 'react';
 import { fromEvent, takeUntil } from 'rxjs';
+import { Getter } from '../type';
 
 export enum MouseButton {
   LEFT = 0,
@@ -18,15 +19,31 @@ type DragOption = {
   leaveElementRef?: React.RefObject<Element>;
 };
 
-const useDrag = <T extends Element>(target: React.RefObject<T>, option: DragOption) => {
-  const targetElement = target.current;
-  if (!targetElement) return;
+type targetType<T extends Element> = Getter<T | null> | null | T | React.RefObject<T>;
 
+const onDragCallback = <T extends Element>(target: targetType<T>, option: DragOption) => {
+  let needTerminate: boolean | undefined | void = false;
   const { onMouseDown, onMouseMove, onMouseUp } = option;
   const mouseButton = option.mouseButton ?? MouseButton.LEFT;
-  let needTerminate: boolean | undefined | void = false;
+
   const onMouseDownListener = (e: React.MouseEvent<Element>) => {
+    let targetElement = null;
+    if (!target) {
+      return;
+    } else if (typeof target === 'function') {
+      targetElement = target();
+    } else if ('current' in target) {
+      targetElement = target.current;
+    }
+
+    if (targetElement === null) {
+      return;
+    }
+
+    if (!targetElement) return;
+
     if (e.button !== mouseButton) return;
+
     needTerminate = onMouseDown?.(e);
     if (needTerminate) return;
 
@@ -60,4 +77,4 @@ const useDrag = <T extends Element>(target: React.RefObject<T>, option: DragOpti
   return onMouseDownListener;
 };
 
-export default useDrag;
+export default onDragCallback;
