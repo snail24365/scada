@@ -8,7 +8,9 @@ export type Size = {
   height: number;
 };
 
-export type Viewbox = XY & Size;
 export type Viewport = Size;
+
+export type ClientRect = XY & Size;
+export type Viewbox = XY & Size;
 
 export type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
