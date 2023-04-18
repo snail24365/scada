@@ -1,11 +1,13 @@
 import _ from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import useDrag, { MouseButton } from '../../../hook/useDrag';
+import Pump from '../Pump';
 import Rectangle from '../Rectangle';
 import { EditViewportContext } from './EditViewportContext';
 import Grid from './Grid';
 import MiniMap from './MiniMap';
 import ToolButtonGroup from './ToolButtonGroup';
+import withEdit from './withEdit';
 
 type Props = {
   width: number;
@@ -94,16 +96,42 @@ const EditViewport = ({ width, height }: Props) => {
 
   const zoomAmount = 10;
 
+  const EditablePump = withEdit(Pump);
+
   return (
     <EditViewportContext.Provider value={editViewportContextValue}>
       <div style={{ position: 'relative' }}>
         <div
           ref={containerRef}
-          style={{ width: viewport?.width, height: viewport?.height, position: 'relative', zIndex: 1, border: '1px solid black' }}
+          style={{
+            position: 'relative',
+            width: viewport?.width,
+            height: viewport?.height,
+            zIndex: 1,
+            border: '1px solid black',
+          }}
           onMouseDown={onWheelDrag}
           onWheel={(e) => {
             Math.sign(e.deltaY) < 0 ? zoom('in') : zoom('out');
-          }}></div>
+          }}>
+          <svg
+            ref={editViewportSvgRef}
+            viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
+            width={'100%'}
+            css={{
+              zIndex: 5,
+              backgroundColor: 'transparent',
+            }}>
+            <g>
+              <Grid gap={gridUnit} />
+              <rect x={10} y={10} width={300} height={300} fill="gold" cursor={'pointer'} />
+              <rect x={10} y={10} width={100} height={100} fill="gold" />
+              <Rectangle />
+              <rect x={300} y={800} width={100} height={90} fill="red" />
+              <EditablePump x={150} y={150} width={900} height={600} />
+            </g>
+          </svg>
+        </div>
 
         <MiniMap width={miniMapWidth} />
         <div
@@ -124,24 +152,6 @@ const EditViewport = ({ width, height }: Props) => {
             }}
           />
         </div>
-        <svg
-          ref={editViewportSvgRef}
-          viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
-          width={'100%'}
-          style={{
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            left: 0,
-            top: 0,
-          }}>
-          <g>
-            <Grid gap={gridUnit} />
-            <circle></circle>
-            <Rectangle />
-            <rect x={10} y={10} width={100} height={100} fill="gold" />
-            <rect x={10} y={800} width={100} height={90} fill="red" />
-          </g>
-        </svg>
       </div>
     </EditViewportContext.Provider>
   );
