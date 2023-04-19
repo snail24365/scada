@@ -14,16 +14,18 @@ type DragOption = {
   onMouseDown?: (e: React.MouseEvent) => boolean | void;
   onMouseMove?: (e: React.MouseEvent) => boolean | void;
   onMouseUp?: (e: React.MouseEvent) => void;
+  onMouseLeave?: (e: React.MouseEvent) => void;
   mouseButton?: MouseButton;
   moveElementRef?: React.RefObject<Element>;
   leaveElementRef?: React.RefObject<Element>;
+  upElementRef?: React.RefObject<Element>;
 };
 
 type targetType<T extends Element> = Getter<T | null> | null | T | React.RefObject<T>;
 
 const onDragCallback = <T extends Element>(target: targetType<T>, option: DragOption) => {
   let needTerminate: boolean | undefined | void = false;
-  const { onMouseDown, onMouseMove, onMouseUp } = option;
+  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } = option;
   const mouseButton = option.mouseButton ?? MouseButton.LEFT;
 
   const onMouseDownListener = (e: React.MouseEvent<Element>) => {
@@ -55,9 +57,11 @@ const onDragCallback = <T extends Element>(target: targetType<T>, option: DragOp
 
     const leaveSub = fromEvent<React.MouseEvent<Element>>(dragLeaveElement, 'mouseleave').subscribe(() => {
       isMouseLeave = true;
+      onMouseLeave?.(e);
     });
 
     let moveElement = option.moveElementRef?.current ?? targetElement;
+
     const moveSub = fromEvent<React.MouseEvent<Element>>(moveElement, 'mousemove')
       .pipe(takeUntil(mouseup$))
       .subscribe((e) => {
@@ -65,7 +69,9 @@ const onDragCallback = <T extends Element>(target: targetType<T>, option: DragOp
         needTerminate = onMouseMove?.(e);
         if (needTerminate) return;
       });
-    const upSub = fromEvent<React.MouseEvent<Element>>(targetElement, 'mouseup').subscribe((e) => {
+
+    let upElement = option.upElementRef?.current ?? targetElement;
+    const upSub = fromEvent<React.MouseEvent<Element>>(upElement, 'mouseup').subscribe((e) => {
       if (e.button !== mouseButton) return;
       moveSub.unsubscribe();
       upSub.unsubscribe();

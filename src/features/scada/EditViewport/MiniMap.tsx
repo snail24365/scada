@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import useDrag, { MouseButton } from '../../../hook/useDrag';
+import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
 import { EditViewportContext } from './EditViewportContext';
 import { Viewbox } from '../../../type';
 import _ from 'lodash';
 
 type Props = { width: number };
 
+// TODO : minimap should be changed whenever scene or entity's property changed
 const MiniMap = ({ width }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -19,6 +20,7 @@ const MiniMap = ({ width }: Props) => {
 
   const viewportRatio = viewport.height / viewport.width;
   const viewboxRatio = viewbox.height / viewbox.width;
+
   const height = viewportRatio * width;
 
   const [display, setDisplay] = useState<'none' | 'block'>('none');
@@ -79,13 +81,15 @@ const MiniMap = ({ width }: Props) => {
       setViewbox((prev) => ({ ...prev, x, y }));
     };
 
-    return useDrag(containerRef, {
+    return onDragCallback(containerRef, {
       mouseButton: MouseButton.LEFT,
       onMouseDown: adjustViewboxPosition,
       onMouseMove: adjustViewboxPosition,
       leaveElementRef: editViewportSvgRef,
     });
   })();
+
+  if (viewport.width === 0 || viewbox.width === 0) return <></>;
 
   return (
     <div
@@ -98,7 +102,7 @@ const MiniMap = ({ width }: Props) => {
         bottom: 20,
         width,
         height,
-        zIndex: 10,
+        zIndex: 300,
         backgroundColor: 'white',
         border: '1px solid #ddd',
       }}>

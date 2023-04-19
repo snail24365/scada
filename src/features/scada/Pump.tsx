@@ -17,7 +17,7 @@ const Pump = ({ width, height, x, y }: Props) => {
       </defs>
       <g>
         <rect x="0" y="0" width={viewboxW} height="20" fill="url(#margin-gradient)" />
-        <rect x="20" y="20" width="260" height="180" fill="#ceeaff" stroke="silver" strokeWidth={5} />
+        <rect x="20" y="20" width="260" height="180" fill="#ceeaff" stroke="silver" strokeWidth={1} />
         <rect x="0" y="200" width={viewboxW} height="20" fill="url(#margin-gradient)" />
         <text dx="-30%" x="50%" y="50%" fill="white" fontSize={100}>
           SVG

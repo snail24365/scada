@@ -14,3 +14,4 @@ export type ClientRect = XY & Size;
 export type Viewbox = XY & Size;
 
 export type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
+export type Getter<T> = () => T;

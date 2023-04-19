@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import useDrag, { MouseButton } from '../../../hook/useDrag';
+import { ClientRect } from '../../../type';
+import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
 import Pump from '../Pump';
 import Rectangle from '../Rectangle';
 import { EditViewportContext } from './EditViewportContext';
@@ -13,6 +14,8 @@ type Props = {
   width: number;
   height: number;
 };
+const EditablePump = withEdit(Pump);
+const EditableRect = withEdit(Rectangle);
 
 const EditViewport = ({ width, height }: Props) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -21,14 +24,17 @@ const EditViewport = ({ width, height }: Props) => {
 
   const [viewport, setViewport] = useState({ width, height });
   const [viewbox, setViewbox] = useState({ width: 0, height: 0, x: 0, y: 0 });
+  const [pumpClientRect, setPumpClientRect] = useState<ClientRect>({ x: 400, y: 400, width: 200, height: 150 });
+  const [rectangleClientRect, setRectangleClientRect] = useState<ClientRect>({ x: 600, y: 800, width: 200, height: 150 });
+
   const viewboxRef = useRef({ ...viewbox });
 
   const canvas = ref.current;
 
-  const gridUnit = 10;
+  const gridUnit = 20;
   const miniMapWidth = 200;
 
-  const editViewportContextValue = { viewbox, viewport, setViewbox, setViewport, editViewportSvgRef, viewboxRef };
+  const editViewportContextValue = { viewbox, viewport, setViewbox, setViewport, editViewportSvgRef, viewboxRef, containerRef, gridUnit };
 
   useEffect(() => {
     viewboxRef.current.x = viewbox.x;
@@ -81,7 +87,7 @@ const EditViewport = ({ width, height }: Props) => {
     });
   };
 
-  const onWheelDrag = useDrag(containerRef, {
+  const onWheelDrag = onDragCallback(containerRef, {
     onMouseMove: (e) => {
       const viewbox = viewboxRef.current;
       const speed = 2;
@@ -96,8 +102,6 @@ const EditViewport = ({ width, height }: Props) => {
 
   const zoomAmount = 10;
 
-  const EditablePump = withEdit(Pump);
-
   return (
     <EditViewportContext.Provider value={editViewportContextValue}>
       <div style={{ position: 'relative' }}>
@@ -107,7 +111,7 @@ const EditViewport = ({ width, height }: Props) => {
             position: 'relative',
             width: viewport?.width,
             height: viewport?.height,
-            zIndex: 1,
+            zIndex: 200,
             border: '1px solid black',
           }}
           onMouseDown={onWheelDrag}
@@ -119,17 +123,12 @@ const EditViewport = ({ width, height }: Props) => {
             viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
             width={'100%'}
             css={{
-              zIndex: 5,
+              zIndex: 100,
               backgroundColor: 'transparent',
             }}>
-            <g>
-              <Grid gap={gridUnit} />
-              <rect x={10} y={10} width={300} height={300} fill="gold" cursor={'pointer'} />
-              <rect x={10} y={10} width={100} height={100} fill="gold" />
-              <Rectangle />
-              <rect x={300} y={800} width={100} height={90} fill="red" />
-              <EditablePump x={150} y={150} width={900} height={600} />
-            </g>
+            <Grid gap={gridUnit} />
+            <EditableRect {...rectangleClientRect} setClientRect={setRectangleClientRect} />
+            <EditablePump {...pumpClientRect} setClientRect={setPumpClientRect} />
           </svg>
         </div>
 
@@ -141,7 +140,7 @@ const EditViewport = ({ width, height }: Props) => {
             top: 10,
             width: 50,
             height: 50,
-            zIndex: 1,
+            zIndex: 250,
           }}>
           <ToolButtonGroup
             onZoomIn={() => {

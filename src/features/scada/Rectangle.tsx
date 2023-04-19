@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
+import { ClientRect } from '../../type';
 
-type Props = {};
+export type RectangleProps = { fill?: string } & ClientRect;
 
-const Rectangle = (props: Props) => {
-  return <rect x={0} y={0} width={100} height={200} />;
+const Rectangle = ({ width, height, x, y, fill }: RectangleProps) => {
+  return <rect x={x} y={y} width={width} height={height} fill={fill} />;
 };
 
 export default Rectangle;
