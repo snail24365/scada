@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50mm"
+   height="50mm"
+   viewBox="0 0 50 50"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="arrow_north.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="3.659624"
+     inkscape:cx="97.960883"
+     inkscape:cy="133.75691"
+     inkscape:window-width="1392"
+     inkscape:window-height="1230"
+     inkscape:window-x="260"
+     inkscape:window-y="123"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g299" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="레이어 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g299">
+      <g
+         id="g361"
+         transform="rotate(-90,25.781789,24.955308)">
+        <g
+           id="g3993"
+           transform="matrix(0.77600608,0,0,0.75540338,4.9123687,6.1186076)">
+          <rect
+             style="fill:#235ff5;fill-opacity:1;stroke:#929292;stroke-width:0;stroke-dasharray:none"
+             id="rect3987"
+             width="38.317917"
+             height="5.4223461"
+             x="4.699367"
+             y="19.592747" />
+          <path
+             style="fill:#235ff5;fill-opacity:1;stroke:#929292;stroke-width:0;stroke-dasharray:none"
+             d="M 49.090312,24.942337 38.751703,13.519717 v 11.495375 z"
+             id="path3989" />
+        </g>
+        <g
+           id="g3993-6"
+           transform="matrix(0.77600608,0,0,-0.75540338,4.910091,43.792009)">
+          <rect
+             style="fill:#235ff5;fill-opacity:1;stroke:#929292;stroke-width:0;stroke-dasharray:none"
+             id="rect3987-1"
+             width="38.317917"
+             height="5.4223461"
+             x="4.699367"
+             y="19.592747" />
+          <path
+             style="fill:#235ff5;fill-opacity:1;stroke:#929292;stroke-width:0;stroke-dasharray:none"
+             d="M 49.090312,24.942337 38.751703,13.519717 v 11.495375 z"
+             id="path3989-2" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
