@@ -5,7 +5,7 @@ import editViewportSlice from '@/features/scada/EditViewport/editViewportSlice';
 
 const middlewares: Middleware<any, any>[] = [];
 if (process.env.NODE_ENV === `development`) {
-  middlewares.push(logger);
+  //middlewares.push(logger);
 }
 
 const store = configureStore({

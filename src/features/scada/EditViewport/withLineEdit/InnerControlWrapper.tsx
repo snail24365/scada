@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { UUID, XY } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
-import { normalize } from '@/util/util';
 import _ from 'lodash';
 import { MouseEventHandler, ReactElement, useRef } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -9,6 +8,7 @@ import { Vector2 } from 'three';
 import { isEditingState, scadaEditUtil } from '../../atom/scadaAtom';
 import { isSelectedSelector, updateLinePoint } from '../editSceneSlice';
 import { exclusiveSelect } from '../editViewportSlice';
+import { filterReconciledPoints } from '../util';
 
 type Props = {
   points: XY[];
@@ -68,7 +68,7 @@ const InnerControlWrapper = ({ points, uuid, pointRadius }: Props) => {
           dispatch(
             updateLinePoint({
               uuid,
-              points: normalize(points),
+              points: filterReconciledPoints(points),
             }),
           );
         },
@@ -99,14 +99,14 @@ const InnerControlWrapper = ({ points, uuid, pointRadius }: Props) => {
           const deltaY = xyOnMove.y - downY;
           const translatedPoints = downPoints.map((point) => {
             return {
-              x: point.x + deltaX,
-              y: point.y + deltaY,
+              x: clamp(point.x + deltaX),
+              y: clamp(point.y + deltaY),
             };
           });
           dispatch(
             updateLinePoint({
               uuid,
-              points: normalize(translatedPoints),
+              points: filterReconciledPoints(translatedPoints),
             }),
           );
         },

@@ -47,7 +47,6 @@ const onDragCallback = <U extends Element, V extends Element, S extends Element>
 
     const moveElement = unwrapTarget(moveTarget);
     if (!moveElement) {
-      console.log(`moveTarget is not defined`);
       return;
     }
 

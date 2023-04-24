@@ -1,8 +1,6 @@
-import { ReduxSelector } from '@/store/store';
-import { BBox, BoxEntityProps, Points, StateSetter } from '@/type';
-import { throwIfDev, unwrapStateSetter } from '@/util/util';
-import React, { SetStateAction } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { throwIfDev } from '@/util/util';
+import React from 'react';
+import { useAppSelector } from '../../../store/hooks';
 import Converter from '../entities/Converter';
 import Gastank from '../entities/Gastank';
 import HeatExchanger from '../entities/HeatExchanger';

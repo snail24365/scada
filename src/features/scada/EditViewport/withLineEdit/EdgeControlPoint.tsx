@@ -1,13 +1,12 @@
 import { useAppDispatch } from '@/store/hooks';
 import { XY } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
-import { normalize } from '@/util/util';
 import _ from 'lodash';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { scadaEditUtil } from '../../atom/scadaAtom';
 import { updateLinePoint } from '../editSceneSlice';
-import { EditViewportContext } from '../EditViewportContext';
+import { filterReconciledPoints } from '../util';
 type Props = {};
 
 export const EdgeControlPoint = ({
@@ -22,7 +21,7 @@ export const EdgeControlPoint = ({
   edge: 'start' | 'end';
 }) => {
   const ref = useRef(null);
-  const { containerRef, viewport, viewbox, clamp, getXY } = useRecoilValue(scadaEditUtil);
+  const { containerRef, clamp, getXY } = useRecoilValue(scadaEditUtil);
 
   const dispatch = useAppDispatch();
 
@@ -57,7 +56,8 @@ export const EdgeControlPoint = ({
         clonedPoints.push(updatedEdgePoint);
       }
 
-      const updatedPoints = normalize(clonedPoints);
+      const updatedPoints = filterReconciledPoints(clonedPoints);
+
       dispatch(updateLinePoint({ uuid, points: updatedPoints }));
     },
     moveTarget: containerRef,

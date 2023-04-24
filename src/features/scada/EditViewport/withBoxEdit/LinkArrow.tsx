@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@/store/hooks';
 import { BoxEntityProps } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
-import { filterUnique, manhattanDistance, mapVector2, toVec2 } from '@/util/util';
+import { manhattanDistance, mapVector2, toVec2 } from '@/util/util';
 import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Vector2 } from 'three';
@@ -19,6 +19,7 @@ import { ReactComponent as ArrowEastSvg } from '@/assets/arrow_east.svg';
 import { ReactComponent as ArrowWestSvg } from '@/assets/arrow_west.svg';
 import { ReactComponent as ArrowSouthSvg } from '@/assets/arrow_south.svg';
 import { ReactComponent as ArrowNorthSvg } from '@/assets/arrow_north.svg';
+import { filterAdjointUnique } from '../util';
 
 const LinkArrow = (props: BoxEntityProps) => {
   const { width, height, x, y, uuid: boxUUID } = props;
@@ -104,7 +105,7 @@ const LinkArrow = (props: BoxEntityProps) => {
       let mid2 = new Vector2(normal.x === 0 ? end.x : mid1.x, normal.y === 0 ? end.y : mid1.y);
 
       let points = [base, mid1, mid2, end].map((v) => ({ x: v.x, y: v.y }));
-      const uniquePoints = filterUnique(points);
+      const uniquePoints = filterAdjointUnique(points);
 
       dispatch(updateLinePoint({ uuid: lineUUID, points: uniquePoints }));
     },

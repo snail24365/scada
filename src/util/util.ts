@@ -1,15 +1,26 @@
-import { Viewbox, Viewport } from '../type';
+import { Vector2 } from 'three';
 
-export const getAbsoluteCoordinate = (container: Element, e: React.MouseEvent, viewbox: Viewbox, viewport: Viewport) => {
-  const { x: offsetX, y: offsetY } = container.getBoundingClientRect();
-  const { clientX, clientY } = e;
-  const deltaX = clientX - offsetX;
-  const deltaY = clientY - offsetY;
-  const x = viewbox.x + deltaX * (viewbox.width / viewport.width);
-  const y = viewbox.y + deltaY * (viewbox.height / viewport.height);
-  return { x, y };
+export const throwIfDev = (message: string) => {
+  if (process.env.NODE_ENV === 'development') {
+    throw new Error(message);
+  }
+  console.error(message);
 };
 
-export const clampByGridSize = (x: number, gridSize: number) => {
-  return Math.round(x / gridSize) * gridSize;
+export const unwrapStateSetter = <T>(state: T, setState: (state: T) => void) => {
+  return (newState: Partial<T>) => {
+    setState({ ...state, ...newState });
+  };
+};
+
+export const toVec2 = <T extends { x: number; y: number }>(obj: T) => {
+  return new Vector2(obj.x, obj.y);
+};
+
+export const mapVector2 = (vec2: Vector2, func: (val: number) => number) => {
+  return new Vector2(func(vec2.x), func(vec2.y));
+};
+
+export const manhattanDistance = (a: Vector2, b: Vector2) => {
+  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 };

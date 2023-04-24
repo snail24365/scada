@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../../store/store';
 import { BBox, BoxEntityProps, LineEntityProps, UUID, XY } from '../../../type';
-import { v4 as uuidv4 } from 'uuid';
-import { Vector2, Vector3 } from 'three';
-import { normalize, throwIfDev } from '@/util/util';
 
 type LineState = LineEntityProps & {
   startConnectedUUID?: UUID;
@@ -123,6 +121,9 @@ export const { addLine, updateEntityBBox, translateEntity, updateLinePoint } =
   editSceneSlice.actions;
 
 export const selectEditLines = (state: RootState) => state.editScene.lines;
+export const selectEditLine = (uuid: UUID) => {
+  return (state: RootState) => state.editScene.lines.find((line) => line.uuid === uuid);
+};
 export const selectEditEntities = (state: RootState) => state.editScene.entities;
 export const isSelectedSelector = (uuid: UUID) => {
   return (state: RootState) => state.editViewport.selectionLookup[uuid] ?? false;

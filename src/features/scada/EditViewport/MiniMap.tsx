@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
-import { EditViewportContext } from './EditViewportContext';
-import { Viewbox } from '../../../type';
 import _ from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
 import { containerRefState, viewboxState, viewportState } from '../atom/scadaAtom';
 
 type Props = { width: number };
