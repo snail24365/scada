@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React, { MouseEventHandler, RefObject } from 'react';
 import { fromEvent, takeUntil } from 'rxjs';
 import { Getter } from '../type';
 
@@ -10,74 +10,73 @@ export enum MouseButton {
   FORWARD = 4,
 }
 
-type DragOption = {
+type TargetElement<T extends Element> = Getter<T | null> | RefObject<T> | null;
+
+type DragOption<U extends Element, V extends Element, S extends Element> = {
   onMouseDown?: (e: React.MouseEvent) => boolean | void;
   onMouseMove?: (e: React.MouseEvent) => boolean | void;
   onMouseUp?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
   mouseButton?: MouseButton;
-  moveElementRef?: React.RefObject<Element>;
-  leaveElementRef?: React.RefObject<Element>;
-  upElementRef?: React.RefObject<Element>;
+  moveTarget: TargetElement<U>;
+  upTarget?: TargetElement<S>;
+  leaveTarget?: TargetElement<V>;
+  isTerminateOnMouseLeave?: boolean;
 };
 
-type targetType<T extends Element> = Getter<T | null> | null | T | React.RefObject<T>;
+const onDragCallback = <U extends Element, V extends Element, S extends Element>(
+  option: DragOption<U, V, S>,
+) => {
+  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave, moveTarget, upTarget, leaveTarget } =
+    option;
 
-const onDragCallback = <T extends Element>(target: targetType<T>, option: DragOption) => {
-  let needTerminate: boolean | undefined | void = false;
-  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } = option;
-  const mouseButton = option.mouseButton ?? MouseButton.LEFT;
-
-  const onMouseDownListener = (e: React.MouseEvent<Element>) => {
-    let targetElement = null;
-    if (!target) {
-      return;
-    } else if (typeof target === 'function') {
-      targetElement = target();
-    } else if ('current' in target) {
-      targetElement = target.current;
-    }
-
-    if (targetElement === null) {
-      return;
-    }
-
-    if (!targetElement) return;
-
+  let mouseButton = option.mouseButton ?? MouseButton.LEFT;
+  const onMouseDownListener: MouseEventHandler = (e) => {
     if (e.button !== mouseButton) return;
 
-    needTerminate = onMouseDown?.(e);
-    if (needTerminate) return;
+    const isTerminateOnMouseLeave = option.isTerminateOnMouseLeave ?? false;
 
-    const mouseup$ = fromEvent<React.MouseEvent<Element>>(targetElement, 'mouseup');
+    if (onMouseDown?.(e)) return;
+
+    function unwrapTarget(target: TargetElement<Element> | undefined) {
+      if (!target) return null;
+      if (typeof target === 'function') return target();
+      if ('current' in target) return target.current;
+      return null;
+    }
+
+    const moveElement = unwrapTarget(moveTarget);
+    if (!moveElement) {
+      console.log(`moveTarget is not defined`);
+      return;
+    }
+
+    const leaveElement = unwrapTarget(leaveTarget) ?? moveElement;
+    const upElement = unwrapTarget(upTarget) ?? moveElement;
+
+    const mouseup$ = fromEvent<React.MouseEvent<Element>>(upElement, 'mouseup');
 
     let isMouseLeave = false;
-
-    let dragLeaveElement = option.leaveElementRef?.current ?? targetElement;
-
-    const leaveSub = fromEvent<React.MouseEvent<Element>>(dragLeaveElement, 'mouseleave').subscribe(() => {
-      isMouseLeave = true;
-      onMouseLeave?.(e);
-    });
-
-    let moveElement = option.moveElementRef?.current ?? targetElement;
+    const leaveSub = fromEvent<React.MouseEvent<Element>>(leaveElement, 'mouseleave').subscribe(
+      () => {
+        isMouseLeave = true;
+        onMouseLeave?.(e);
+      },
+    );
 
     const moveSub = fromEvent<React.MouseEvent<Element>>(moveElement, 'mousemove')
       .pipe(takeUntil(mouseup$))
       .subscribe((e) => {
-        if (isMouseLeave) return;
-        needTerminate = onMouseMove?.(e);
-        if (needTerminate) return;
+        if (isMouseLeave && isTerminateOnMouseLeave) return;
+        if (onMouseMove?.(e)) return;
       });
 
-    let upElement = option.upElementRef?.current ?? targetElement;
     const upSub = fromEvent<React.MouseEvent<Element>>(upElement, 'mouseup').subscribe((e) => {
       if (e.button !== mouseButton) return;
       moveSub.unsubscribe();
       upSub.unsubscribe();
       leaveSub.unsubscribe();
-      needTerminate = onMouseUp?.(e);
-      if (needTerminate) return;
+      if (onMouseUp?.(e)) return;
     });
   };
   return onMouseDownListener;
