@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import { EditViewportContext } from './EditViewportContext';
+import { useRecoilValue } from 'recoil';
+import { scadaEditUtil } from '../atom/scadaAtom';
 
 type Props = {
-  gap: number;
+  // gap: number;
 };
 
-const Grid = ({ gap }: Props) => {
-  const { viewport } = useContext(EditViewportContext);
+const Grid = ({}: Props) => {
+  const { gridUnit: gap, viewport } = useRecoilValue(scadaEditUtil);
   let d = '';
 
   for (let i = 0; i < viewport.width; i += gap) {

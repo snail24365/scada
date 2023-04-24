@@ -1,40 +1,56 @@
+import { useAppDispatch } from '@/store/hooks';
 import _ from 'lodash';
-import { useEffect, useRef, useState } from 'react';
-import { ClientRect } from '../../../type';
-import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
-import Pump from '../Pump';
-import Rectangle from '../Rectangle';
+import { useEffect, useRef } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import onDragCallback, { MouseButton } from '@/util/onDragCallback';
+import {
+  containerRefState,
+  scadaEditUtil,
+  selectionBoxState,
+  selectionMousedownState,
+  viewboxState,
+  viewportState,
+} from '../atom/scadaAtom';
+import EditScene from './EditScene';
 import { EditViewportContext } from './EditViewportContext';
 import Grid from './Grid';
 import MiniMap from './MiniMap';
+import SelectFrame from './SelectFrame';
 import ToolButtonGroup from './ToolButtonGroup';
-import withEdit from './withEdit';
+import { unselectAll } from './editViewportSlice';
 
 type Props = {
   width: number;
   height: number;
 };
-const EditablePump = withEdit(Pump);
-const EditableRect = withEdit(Rectangle);
 
 const EditViewport = ({ width, height }: Props) => {
   const ref = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const editViewportSvgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<SVGSVGElement>(null);
 
-  const [viewport, setViewport] = useState({ width, height });
-  const [viewbox, setViewbox] = useState({ width: 0, height: 0, x: 0, y: 0 });
-  const [pumpClientRect, setPumpClientRect] = useState<ClientRect>({ x: 400, y: 400, width: 200, height: 150 });
-  const [rectangleClientRect, setRectangleClientRect] = useState<ClientRect>({ x: 600, y: 800, width: 200, height: 150 });
+  const dispatch = useAppDispatch();
+
+  const [viewport, setViewport] = useRecoilState(viewportState);
+  const [viewbox, setViewbox] = useRecoilState(viewboxState);
+  const setContainerRef = useSetRecoilState(containerRefState);
+
+  useEffect(() => {
+    setViewport({ width, height });
+    setViewbox({ width, height, x: 0, y: 0 });
+    setContainerRef(containerRef);
+    return () => {
+      setContainerRef({ current: null });
+    };
+  }, []);
 
   const viewboxRef = useRef({ ...viewbox });
 
   const canvas = ref.current;
 
-  const gridUnit = 20;
   const miniMapWidth = 200;
-
-  const editViewportContextValue = { viewbox, viewport, setViewbox, setViewport, editViewportSvgRef, viewboxRef, containerRef, gridUnit };
+  const editViewportContextValue = {
+    viewboxRef,
+  };
 
   useEffect(() => {
     viewboxRef.current.x = viewbox.x;
@@ -46,6 +62,7 @@ const EditViewport = ({ width, height }: Props) => {
   useEffect(() => {
     canvas?.style.setProperty('width', `${viewport.width}px`);
     canvas?.style.setProperty('height', `${viewport.height}px`);
+    console.log(viewport.width, viewport.height);
     setViewbox({ x: 0, y: 0, width: viewport.width, height: viewport.height });
   }, [viewport]);
 
@@ -64,11 +81,8 @@ const EditViewport = ({ width, height }: Props) => {
       let newWidth = prev.width + 2 * xDelta;
       let newHeight = prev.height + 2 * yDelta;
 
-      let newX = prev.x - xDelta;
-      let newY = prev.y - yDelta;
-
-      newX = Math.max(newX, 0);
-      newY = Math.max(newY, 0);
+      let newX = Math.max(prev.x - xDelta, 0);
+      let newY = Math.max(prev.y - yDelta, 0);
 
       if (newX + newWidth > viewport.width) {
         newX = prev.x - 2 * xDelta;
@@ -87,7 +101,8 @@ const EditViewport = ({ width, height }: Props) => {
     });
   };
 
-  const onWheelDrag = onDragCallback(containerRef, {
+  const onWheelDrag = onDragCallback({
+    moveTarget: containerRef,
     onMouseMove: (e) => {
       const viewbox = viewboxRef.current;
       const speed = 2;
@@ -100,13 +115,20 @@ const EditViewport = ({ width, height }: Props) => {
     mouseButton: MouseButton.MIDDLE,
   });
 
-  const zoomAmount = 10;
+  const zoomMagnification = 10;
+
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const isEmptySpaceClicked = e.target === containerRef.current;
+    if (isEmptySpaceClicked) {
+      dispatch(unselectAll());
+    }
+    onWheelDrag(e);
+  };
 
   return (
     <EditViewportContext.Provider value={editViewportContextValue}>
       <div style={{ position: 'relative' }}>
         <div
-          ref={containerRef}
           style={{
             position: 'relative',
             width: viewport?.width,
@@ -114,24 +136,23 @@ const EditViewport = ({ width, height }: Props) => {
             zIndex: 200,
             border: '1px solid black',
           }}
-          onMouseDown={onWheelDrag}
-          onWheel={(e) => {
-            Math.sign(e.deltaY) < 0 ? zoom('in') : zoom('out');
-          }}>
+          onMouseDown={onMouseDown}>
           <svg
-            ref={editViewportSvgRef}
+            ref={containerRef}
+            onWheel={(e) => {
+              Math.sign(e.deltaY) < 0 ? zoom('in') : zoom('out');
+            }}
             viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
             width={'100%'}
             css={{
               zIndex: 100,
               backgroundColor: 'transparent',
             }}>
-            <Grid gap={gridUnit} />
-            <EditableRect {...rectangleClientRect} setClientRect={setRectangleClientRect} />
-            <EditablePump {...pumpClientRect} setClientRect={setPumpClientRect} />
+            <Grid />
+            <EditScene />
+            <SelectFrame />
           </svg>
         </div>
-
         <MiniMap width={miniMapWidth} />
         <div
           style={{
@@ -144,10 +165,10 @@ const EditViewport = ({ width, height }: Props) => {
           }}>
           <ToolButtonGroup
             onZoomIn={() => {
-              zoom('in', zoomAmount);
+              zoom('in', zoomMagnification);
             }}
             onZoomOut={() => {
-              zoom('out', zoomAmount);
+              zoom('out', zoomMagnification);
             }}
           />
         </div>

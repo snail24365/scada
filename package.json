@@ -12,17 +12,29 @@
   "dependencies": {
     "@blueprintjs/core": "^4.17.8",
     "@emotion/react": "^11.10.6",
+    "@reduxjs/toolkit": "^1.9.5",
     "@swc/plugin-emotion": "^2.5.59",
     "@types/lodash": "^4.14.194",
+    "@types/redux-logger": "^3.0.9",
+    "@types/three": "^0.150.2",
+    "@types/uuid": "^9.0.1",
     "emotion": "^11.0.0",
     "framer-motion": "^10.11.6",
     "gsap": "^3.11.5",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rxjs": "^7.8.0"
+    "react-redux": "^8.0.5",
+    "recoil": "^0.7.7",
+    "redux": "^4.2.1",
+    "redux-logger": "^3.0.6",
+    "rxjs": "^7.8.0",
+    "three": "^0.151.3",
+    "uuid": "^9.0.0",
+    "vite-plugin-svgr": "^2.4.0"
   },
   "devDependencies": {
+    "@redux-devtools/core": "^3.13.1",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.0",
     "@types/react": "^18.0.28",
@@ -31,6 +43,7 @@
     "jsdom": "^21.1.1",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",
+    "vite-svg-loader": "^4.0.0",
     "vitest": "^0.30.1"
   }
 }
