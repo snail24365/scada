@@ -3,7 +3,7 @@ import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { BoxEntityProps } from '../../../../type';
 import onDragCallback, { MouseButton } from '../../../../util/onDragCallback';
-import { scadaEditUtil } from '../../atom/scadaAtom';
+import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { updateEntityBBox } from '../editSceneSlice';
 import { WithBoxEditContext } from './WithBoxEditContext';
 

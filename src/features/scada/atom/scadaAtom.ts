@@ -1,3 +1,4 @@
+import { ScadaMode } from '@/type';
 import { RefObject } from 'react';
 import { atom, selector } from 'recoil';
 import { Vector2 } from 'three';
@@ -20,6 +21,8 @@ export const viewboxState = atom({
 export const viewportState = atom({
   key: 'viewport',
   default: {
+    resolutionX: 0,
+    resolutionY: 0,
     width: 0,
     height: 0,
   },
@@ -53,8 +56,8 @@ export const getXYFunc = selector({
 
       const { x: offsetX, y: offsetY } = container.getBoundingClientRect();
       const { clientX, clientY } = e;
-      const x = viewbox.x + (clientX - offsetX) * (viewbox.width / viewport.width);
-      const y = viewbox.y + (clientY - offsetY) * (viewbox.height / viewport.height);
+      const x = viewbox.x + (clientX - offsetX) * (viewbox.width / viewport.resolutionX);
+      const y = viewbox.y + (clientY - offsetY) * (viewbox.height / viewport.resolutionY);
       return new Vector2(x, y);
     };
   },
@@ -96,4 +99,9 @@ export const selectionBoxState = atom({
     width: 0,
     height: 0,
   },
+});
+
+export const scadaMode = atom<ScadaMode>({
+  key: 'scada-mode',
+  default: 'monitor',
 });

@@ -4,7 +4,7 @@ import onDragCallback from '@/util/onDragCallback';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
-import { containerRefState, scadaEditUtil, isEditingState } from '../atom/scadaAtom';
+import { containerRefState, scadaEditUtil, isEditingState } from '@/features/scada/atom/scadaAtom';
 import { selectEditEntities, selectEditLines } from './editSceneSlice';
 import { selectItems, unselectAll } from './editViewportSlice';
 

@@ -3,10 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../../store/store';
 import { BBox, BoxEntityProps, LineEntityProps, UUID, XY } from '../../../type';
 
-type LineState = LineEntityProps & {
-  startConnectedUUID?: UUID;
-  endConnectedUUID?: UUID;
-};
+type LineState = LineEntityProps;
 type EntityState = BoxEntityProps;
 
 interface EditSceneState {

@@ -1,33 +1,30 @@
 import { useAppDispatch } from '@/store/hooks';
+import onDragCallback, { MouseButton } from '@/util/onDragCallback';
 import _ from 'lodash';
 import { useEffect, useRef } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import onDragCallback, { MouseButton } from '@/util/onDragCallback';
-import {
-  containerRefState,
-  scadaEditUtil,
-  selectionBoxState,
-  selectionMousedownState,
-  viewboxState,
-  viewportState,
-} from '../atom/scadaAtom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { containerRefState, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
 import EditScene from './EditScene';
 import { EditViewportContext } from './EditViewportContext';
+import { unselectAll } from './editViewportSlice';
 import Grid from './Grid';
 import MiniMap from './MiniMap';
 import SelectFrame from './SelectFrame';
 import ToolButtonGroup from './ToolButtonGroup';
-import { unselectAll } from './editViewportSlice';
 
 type Props = {
-  width: number;
-  height: number;
+  resolutionX: number;
+  resolutionY: number;
+  width?: number;
+  height?: number;
 };
 
-const EditViewport = ({ width, height }: Props) => {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<SVGSVGElement>(null);
+const EditViewport = (props: Props) => {
+  const { resolutionX, resolutionY } = props;
 
+  const rootDivRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<SVGSVGElement>(null);
+  const container = containerRef.current;
   const dispatch = useAppDispatch();
 
   const [viewport, setViewport] = useRecoilState(viewportState);
@@ -35,8 +32,16 @@ const EditViewport = ({ width, height }: Props) => {
   const setContainerRef = useSetRecoilState(containerRefState);
 
   useEffect(() => {
-    setViewport({ width, height });
-    setViewbox({ width, height, x: 0, y: 0 });
+    const rootDiv = rootDivRef.current;
+    if (!rootDiv) return;
+
+    const { width: containerWidth, height: containerHeight } = rootDiv.getBoundingClientRect();
+    const width = props.width ?? (containerWidth || 0);
+    const height = props.height ?? (containerHeight || 0);
+    console.log(width, height);
+
+    setViewport({ resolutionX, resolutionY, width, height });
+    setViewbox({ width: resolutionX, height: resolutionY, x: 0, y: 0 });
     setContainerRef(containerRef);
     return () => {
       setContainerRef({ current: null });
@@ -45,32 +50,24 @@ const EditViewport = ({ width, height }: Props) => {
 
   const viewboxRef = useRef({ ...viewbox });
 
-  const canvas = ref.current;
-
   const miniMapWidth = 200;
   const editViewportContextValue = {
     viewboxRef,
   };
 
   useEffect(() => {
-    viewboxRef.current.x = viewbox.x;
-    viewboxRef.current.y = viewbox.y;
-    viewboxRef.current.width = viewbox.width;
-    viewboxRef.current.height = viewbox.height;
+    Object.assign(viewboxRef.current, viewbox);
   }, [viewbox]);
 
   useEffect(() => {
-    canvas?.style.setProperty('width', `${viewport.width}px`);
-    canvas?.style.setProperty('height', `${viewport.height}px`);
-    console.log(viewport.width, viewport.height);
-    setViewbox({ x: 0, y: 0, width: viewport.width, height: viewport.height });
+    setViewbox({ x: 0, y: 0, width: viewport.resolutionX, height: viewport.resolutionY });
   }, [viewport]);
 
   const zoom = (type: 'in' | 'out', amount: number = 1) => {
     const zoomLimitRatio = 4;
-    const widthLowerBound = width / zoomLimitRatio;
-    const heightLowerBound = height / zoomLimitRatio;
-    const initialViewportRatio = height / width;
+    const widthLowerBound = resolutionX / zoomLimitRatio;
+    const heightLowerBound = resolutionY / zoomLimitRatio;
+    const initialViewportRatio = resolutionY / resolutionX;
 
     const inOutSign = type === 'in' ? -1 : 1;
     const zoomSpeed = 10 * amount;
@@ -84,16 +81,16 @@ const EditViewport = ({ width, height }: Props) => {
       let newX = Math.max(prev.x - xDelta, 0);
       let newY = Math.max(prev.y - yDelta, 0);
 
-      if (newX + newWidth > viewport.width) {
+      if (newX + newWidth > viewport.resolutionX) {
         newX = prev.x - 2 * xDelta;
       }
 
-      if (newY + newHeight > viewport.height) {
+      if (newY + newHeight > viewport.resolutionY) {
         newY = prev.y - 2 * yDelta;
       }
 
-      const isWidthValid = newWidth >= widthLowerBound && newWidth <= viewport.width;
-      const isHeightValid = newHeight >= heightLowerBound && newHeight <= viewport.height;
+      const isWidthValid = newWidth >= widthLowerBound && newWidth <= viewport.resolutionX;
+      const isHeightValid = newHeight >= heightLowerBound && newHeight <= viewport.resolutionY;
       const isValid = isWidthValid && isHeightValid;
       if (!isValid) return prev;
 
@@ -108,8 +105,8 @@ const EditViewport = ({ width, height }: Props) => {
       const speed = 2;
       let newX = viewbox.x + e.movementX * speed;
       let newY = viewbox.y + e.movementY * speed;
-      newX = _.clamp(newX, 0, viewport.width - viewbox.width);
-      newY = _.clamp(newY, 0, viewport.height - viewbox.height);
+      newX = _.clamp(newX, 0, viewport.resolutionX - viewbox.width);
+      newY = _.clamp(newY, 0, viewport.resolutionY - viewbox.height);
       setViewbox((prev) => ({ ...prev, x: newX, y: newY }));
     },
     mouseButton: MouseButton.MIDDLE,
@@ -118,7 +115,7 @@ const EditViewport = ({ width, height }: Props) => {
   const zoomMagnification = 10;
 
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const isEmptySpaceClicked = e.target === containerRef.current;
+    const isEmptySpaceClicked = e.target === container;
     if (isEmptySpaceClicked) {
       dispatch(unselectAll());
     }
@@ -127,12 +124,12 @@ const EditViewport = ({ width, height }: Props) => {
 
   return (
     <EditViewportContext.Provider value={editViewportContextValue}>
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', minHeight: 0, height: '100%' }} ref={rootDivRef}>
         <div
           style={{
             position: 'relative',
-            width: viewport?.width,
-            height: viewport?.height,
+            width: '100%',
+            height: '100%',
             zIndex: 200,
             border: '1px solid black',
           }}
@@ -143,7 +140,8 @@ const EditViewport = ({ width, height }: Props) => {
               Math.sign(e.deltaY) < 0 ? zoom('in') : zoom('out');
             }}
             viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
-            width={'100%'}
+            width={viewport.width}
+            height={viewport.height}
             css={{
               zIndex: 100,
               backgroundColor: 'transparent',

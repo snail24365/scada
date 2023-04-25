@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
-import { containerRefState, viewboxState, viewportState } from '../atom/scadaAtom';
+import { containerRefState, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
 
 type Props = { width: number };
 
@@ -20,7 +20,7 @@ const MiniMap = ({ width }: Props) => {
   const editViewportSvg = container.current;
   const miniMapContainer = miniMapContainerRef.current;
 
-  const viewportRatio = viewport.height / viewport.width;
+  const viewportRatio = viewport.resolutionY / viewport.resolutionX;
   const viewboxRatio = viewbox.height / viewbox.width;
 
   const height = viewportRatio * width;
@@ -41,13 +41,14 @@ const MiniMap = ({ width }: Props) => {
     drawSvg();
 
     function updateZoomArea() {
-      const isZoomed = viewport.width !== viewbox.width || viewport.height !== viewbox.height;
+      const isZoomed =
+        viewport.resolutionX !== viewbox.width || viewport.resolutionY !== viewbox.height;
       setDisplay(isZoomed ? 'block' : 'none');
       setZoomBox({
-        width: (viewbox.width / viewport.width) * width,
-        height: (viewbox.height / viewport.height) * height,
-        left: (viewbox.x / viewport.width) * width,
-        top: (viewbox.y / viewport.height) * height,
+        width: (viewbox.width / viewport.resolutionX) * width,
+        height: (viewbox.height / viewport.resolutionY) * height,
+        left: (viewbox.x / viewport.resolutionX) * width,
+        top: (viewbox.y / viewport.resolutionY) * height,
       });
     }
   }, [viewbox]);
@@ -64,7 +65,7 @@ const MiniMap = ({ width }: Props) => {
   function drawSvg() {
     if (!(editViewportSvg && bgCanvas)) return;
     const originSVg = editViewportSvg.cloneNode(true) as SVGSVGElement;
-    originSVg.setAttribute('viewBox', `0 0 ${viewport.width} ${viewport.height}`);
+    originSVg.setAttribute('viewBox', `0 0 ${viewport.resolutionX} ${viewport.resolutionY}`);
     const originSvgSerialized = new XMLSerializer().serializeToString(originSVg);
     const img = new Image();
     img.src = 'data:image/svg+xml,' + encodeURIComponent(originSvgSerialized);
@@ -87,8 +88,8 @@ const MiniMap = ({ width }: Props) => {
         0,
         height - zoomBox.height,
       );
-      const x = (clampedX / width) * viewport.width;
-      const y = (clampedY / height) * viewport.height;
+      const x = (clampedX / width) * viewport.resolutionX;
+      const y = (clampedY / height) * viewport.resolutionY;
       return { x, y };
     };
 
@@ -98,8 +99,8 @@ const MiniMap = ({ width }: Props) => {
       const relativeContainerY = e.clientY - miniMapOffsetY;
       const clampedX = _.clamp(relativeContainerX - zoomBox.width / 2, 0, width - zoomBox.width);
       const clampedY = _.clamp(relativeContainerY - zoomBox.height / 2, 0, height - zoomBox.height);
-      const x = (clampedX / width) * viewport.width;
-      const y = (clampedY / height) * viewport.height;
+      const x = (clampedX / width) * viewport.resolutionX;
+      const y = (clampedY / height) * viewport.resolutionY;
       return { x, y };
     };
 
@@ -131,7 +132,7 @@ const MiniMap = ({ width }: Props) => {
     });
   })();
 
-  if (viewport.width === 0 || viewbox.width === 0) return <></>;
+  if (viewport.resolutionX === 0 || viewbox.width === 0) return <></>;
 
   return (
     <div

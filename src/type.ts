@@ -8,8 +8,6 @@ export type Size = {
   height: number;
 };
 
-export type Viewport = Size;
-
 export type BBox = XY & Size;
 export type Viewbox = BBox;
 
@@ -23,15 +21,9 @@ export type Entity = {
   type: string;
 };
 
-export type BoxEntityProps = Entity & {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
-
-export type LineEntityProps = Entity & {
-  points: XY[];
-};
+export type BoxEntityProps = Entity & BBox;
+export type LineEntityProps = Entity & Points;
 
 export type UUID = string;
+
+export type ScadaMode = 'monitor' | 'edit';

@@ -1,3 +1,8 @@
+import { ReactComponent as ArrowEastSvg } from '@/assets/arrow_east.svg';
+import { ReactComponent as ArrowNorthSvg } from '@/assets/arrow_north.svg';
+import { ReactComponent as ArrowSouthSvg } from '@/assets/arrow_south.svg';
+import { ReactComponent as ArrowWestSvg } from '@/assets/arrow_west.svg';
+import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { useAppDispatch } from '@/store/hooks';
 import { BoxEntityProps } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
@@ -6,20 +11,9 @@ import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Vector2 } from 'three';
 import { v4 as uuidV4 } from 'uuid';
-import {
-  clampFunc,
-  containerRefState,
-  getXYFunc,
-  gridUnitState,
-  scadaEditUtil,
-} from '../../atom/scadaAtom';
 import { addLine, updateLinePoint } from '../editSceneSlice';
-import { WithBoxEditContext } from './WithBoxEditContext';
-import { ReactComponent as ArrowEastSvg } from '@/assets/arrow_east.svg';
-import { ReactComponent as ArrowWestSvg } from '@/assets/arrow_west.svg';
-import { ReactComponent as ArrowSouthSvg } from '@/assets/arrow_south.svg';
-import { ReactComponent as ArrowNorthSvg } from '@/assets/arrow_north.svg';
 import { filterAdjointUnique } from '../util';
+import { WithBoxEditContext } from './WithBoxEditContext';
 
 const LinkArrow = (props: BoxEntityProps) => {
   const { width, height, x, y, uuid: boxUUID } = props;
@@ -65,7 +59,6 @@ const LinkArrow = (props: BoxEntityProps) => {
             { x: 1, y: 0 },
           ],
           uuid: lineUUID,
-          startConnectedUUID: boxUUID,
         }),
       );
     },

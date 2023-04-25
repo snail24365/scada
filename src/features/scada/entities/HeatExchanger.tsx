@@ -1,11 +1,11 @@
 import { ReactComponent as HeatExchangerSvg } from '@/assets/heatExchanger.svg';
-import { BBox } from '@/type';
+import { BBox, BoxEntityProps } from '@/type';
 import { useEffect, useState } from 'react';
 import { Vector2 } from 'three';
 
 type Props = {
   speed: number;
-} & BBox;
+} & BoxEntityProps;
 
 const HeatExchanger = ({ width, height, x, y, speed }: Props) => {
   speed = speed ?? 1;

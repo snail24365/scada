@@ -24,3 +24,13 @@ export const mapVector2 = (vec2: Vector2, func: (val: number) => number) => {
 export const manhattanDistance = (a: Vector2, b: Vector2) => {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 };
+
+export const objectMap = <T>(obj: Record<string, T>, func: (x: T) => T) => {
+  const ret: Record<string, T> = {};
+  for (const key in obj) {
+    ret[key] = func(obj[key]);
+  }
+  console.log(ret);
+
+  return ret;
+};

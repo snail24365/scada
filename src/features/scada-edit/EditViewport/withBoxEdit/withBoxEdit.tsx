@@ -1,15 +1,13 @@
-import { BBox, BoxEntityProps, StateSetter } from '@/type';
-import React, { ComponentType, useContext, useEffect, useRef, useState } from 'react';
-import { WithBoxEditContext } from './WithBoxEditContext';
+import { useAppSelector } from '@/store/hooks';
+import { BoxEntityProps } from '@/type';
+import React, { useState } from 'react';
+import Frame from './Frame';
 import LinkArrow from './LinkArrow';
 import MouseEventHandler from './MouseEventHandler';
 import ScalePoints from './ScalePoints';
-import Frame from './Frame';
-import { EditViewportContext } from '../EditViewportContext';
-import { useAppSelector } from '@/store/hooks';
-import { selectSelectionLookup } from '../editViewportSlice';
+import { WithBoxEditContext } from './WithBoxEditContext';
 
-function withBoxEdit<T extends BoxEntityProps>(WrappedComponent: (...args: any) => JSX.Element) {
+function withBoxEdit<T extends BoxEntityProps>(WrappedComponent: React.ComponentType<any>) {
   const WithEdit: React.FC<T> = (props) => {
     const [showArrow, setShowArrow] = useState(false);
     const [isEditing, setIsEditing] = useState(false);

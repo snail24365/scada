@@ -4,7 +4,7 @@ import onDragCallback from '@/util/onDragCallback';
 import _ from 'lodash';
 import { useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { scadaEditUtil } from '../../atom/scadaAtom';
+import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { updateLinePoint } from '../editSceneSlice';
 import { filterReconciledPoints } from '../util';
 type Props = {};

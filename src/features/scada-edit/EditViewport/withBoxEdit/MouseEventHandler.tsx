@@ -3,7 +3,7 @@ import { BoxEntityProps } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
 import { useContext, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { scadaEditUtil } from '../../atom/scadaAtom';
+import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { translateEntity } from '../editSceneSlice';
 import { exclusiveSelect } from '../editViewportSlice';
 import { WithBoxEditContext } from './WithBoxEditContext';
@@ -37,8 +37,8 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
       if (!container) return;
       setCursor('move');
 
-      const dx = (e.clientX - downClientX) * (viewbox.width / viewport.width);
-      const dy = (e.clientY - downClientY) * (viewbox.height / viewport.height);
+      const dx = (e.clientX - downClientX) * (viewbox.width / viewport.resolutionX);
+      const dy = (e.clientY - downClientY) * (viewbox.height / viewport.resolutionY);
 
       const newX = clamp(downX + dx);
       const newY = clamp(downY + dy);

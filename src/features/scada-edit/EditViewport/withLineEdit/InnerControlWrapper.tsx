@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { MouseEventHandler, ReactElement, useRef } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
-import { isEditingState, scadaEditUtil } from '../../atom/scadaAtom';
+import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { isSelectedSelector, updateLinePoint } from '../editSceneSlice';
 import { exclusiveSelect } from '../editViewportSlice';
 import { filterReconciledPoints } from '../util';

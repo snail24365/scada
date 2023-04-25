@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../../store/store';
-import { BoxEntityProps, LineEntityProps, UUID, XY } from '../../../type';
-import { v4 as uuidv4 } from 'uuid';
+import { UUID } from '../../../type';
 
 // Define a type for the slice state
 interface EditViewportState {
