@@ -1,7 +1,7 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit';
 import editSceneReducer from '@/features/scada-edit/EditViewport/editSceneSlice';
 import logger from 'redux-logger';
-import editViewportSlice from '@/features/scada-edit/EditViewport/editViewportSlice';
+import scadaEditSlice from '@/features/scada-edit/scadaEditSlice';
 
 const middlewares: Middleware<any, any>[] = [];
 if (process.env.NODE_ENV === `development`) {
@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === `development`) {
 const store = configureStore({
   reducer: {
     editScene: editSceneReducer,
-    editViewport: editViewportSlice,
+    editViewport: scadaEditSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares),
 });

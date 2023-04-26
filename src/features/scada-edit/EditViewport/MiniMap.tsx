@@ -1,13 +1,14 @@
 import _ from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
-import { containerRefState, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import { viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import { EditViewportContext } from './EditViewportContext';
 
 type Props = { width: number };
 
 const MiniMap = ({ width }: Props) => {
-  const container = useRecoilValue(containerRefState);
+  const { rootSvgRef, rootDivRef } = useContext(EditViewportContext);
   const miniMapContainerRef = useRef<HTMLDivElement>(null);
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
   const zoomAreaRef = useRef<HTMLDivElement>(null);
@@ -17,7 +18,6 @@ const MiniMap = ({ width }: Props) => {
   const viewport = useRecoilValue(viewportState);
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
 
-  const editViewportSvg = container.current;
   const miniMapContainer = miniMapContainerRef.current;
 
   const viewportRatio = viewport.resolutionY / viewport.resolutionX;
@@ -63,6 +63,7 @@ const MiniMap = ({ width }: Props) => {
   }, []);
 
   function drawSvg() {
+    const editViewportSvg = rootSvgRef.current;
     if (!(editViewportSvg && bgCanvas)) return;
     const originSVg = editViewportSvg.cloneNode(true) as SVGSVGElement;
     originSVg.setAttribute('viewBox', `0 0 ${viewport.resolutionX} ${viewport.resolutionY}`);
@@ -123,8 +124,7 @@ const MiniMap = ({ width }: Props) => {
     };
 
     return onDragCallback({
-      moveTarget: container,
-      leaveTarget: container,
+      moveTarget: rootDivRef,
       mouseButton: MouseButton.LEFT,
       onMouseDown,
       onMouseMove,
@@ -137,9 +137,6 @@ const MiniMap = ({ width }: Props) => {
   return (
     <div
       ref={miniMapContainerRef}
-      // onMouseMove={(e) => {
-      //   console.log(e.target);
-      // }}
       onMouseDown={onDrag}
       style={{
         display,

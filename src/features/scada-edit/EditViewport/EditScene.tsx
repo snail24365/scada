@@ -2,7 +2,7 @@ import { componentMap } from '@/features/scada/componentMap';
 import Line from '@/features/scada/primitives/Line';
 import { objectMap, throwIfDev } from '@/util/util';
 import { useAppSelector } from '../../../store/hooks';
-import { selectEditEntities, selectEditLines } from './editSceneSlice';
+import { selectEditBoxes, selectEditLines } from './editSceneSlice';
 import withBoxEdit from './withBoxEdit/withBoxEdit';
 import withLineEdit from './withLineEdit/withLineEdit';
 
@@ -14,7 +14,7 @@ type Props = {};
 
 const EditScene = (props: Props) => {
   const lines = useAppSelector(selectEditLines);
-  const entities = useAppSelector(selectEditEntities);
+  const entities = useAppSelector(selectEditBoxes);
   return (
     <>
       {lines.map((line) => {

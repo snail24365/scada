@@ -133,5 +133,6 @@ table {
 
 * {
   box-sizing: border-box;
-  border: 1px solid black !important;
+  user-select: none;
+  /* border: 1px solid black !important; */
 }

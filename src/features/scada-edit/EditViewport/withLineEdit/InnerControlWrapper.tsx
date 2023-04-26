@@ -2,13 +2,14 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { UUID, XY } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
 import _ from 'lodash';
-import { MouseEventHandler, ReactElement, useRef } from 'react';
+import { MouseEventHandler, ReactElement, useContext, useRef } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
 import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { isSelectedSelector, updateLinePoint } from '../editSceneSlice';
-import { exclusiveSelect } from '../editViewportSlice';
+import { exclusiveSelect } from '../../scadaEditSlice';
 import { filterReconciledPoints } from '../util';
+import { EditViewportContext } from '../EditViewportContext';
 
 type Props = {
   points: XY[];
@@ -26,7 +27,8 @@ const InnerControlWrapper = ({ points, uuid, pointRadius }: Props) => {
   const dispatch = useAppDispatch();
   const isSelected = useAppSelector(isSelectedSelector(uuid));
 
-  const { containerRef, getXY, clamp } = useRecoilValue(scadaEditUtil);
+  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
+  const { getXY, clamp } = useRecoilValue(scadaEditUtil);
   const setIsEditing = useSetRecoilState(isEditingState);
 
   const pointVectors = points.map((point) => new Vector2(point.x, point.y));
@@ -76,7 +78,6 @@ const InnerControlWrapper = ({ points, uuid, pointRadius }: Props) => {
           setIsEditing(false);
         },
         moveTarget: containerRef,
-        upTarget: containerRef,
       });
     }
 

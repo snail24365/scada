@@ -1,10 +1,11 @@
+import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { useAppDispatch } from '@/store/hooks';
 import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { BoxEntityProps } from '../../../../type';
 import onDragCallback, { MouseButton } from '../../../../util/onDragCallback';
-import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import { updateEntityBBox } from '../editSceneSlice';
+import { updateBoxBound } from '../editSceneSlice';
+import { EditViewportContext } from '../EditViewportContext';
 import { WithBoxEditContext } from './WithBoxEditContext';
 
 type DirectionInfo = {
@@ -14,7 +15,8 @@ type DirectionInfo = {
 };
 
 const ScalePoints = (props: BoxEntityProps) => {
-  const { containerRef, viewport, viewbox, clamp, getXY } = useRecoilValue(scadaEditUtil);
+  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
+  const { viewport, viewbox, clamp, getXY } = useRecoilValue(scadaEditUtil);
   const { setIsBoxEditing: setIsEditing } = useContext(WithBoxEditContext);
   const { width, height, x, y } = props;
   const scalePointsRef = useRef<(SVGCircleElement | null)[]>([]);
@@ -95,7 +97,7 @@ const ScalePoints = (props: BoxEntityProps) => {
         maxCorner.y = clamp(maxCorner.y);
 
         dispatch(
-          updateEntityBBox({
+          updateBoxBound({
             uuid: props.uuid,
             x: minCorner.x,
             y: minCorner.y,
@@ -105,8 +107,6 @@ const ScalePoints = (props: BoxEntityProps) => {
         );
       },
       moveTarget: containerRef,
-      leaveTarget: containerRef,
-      upTarget: containerRef,
       mouseButton: MouseButton.LEFT,
     });
 

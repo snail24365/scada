@@ -17,6 +17,10 @@ export const toVec2 = <T extends { x: number; y: number }>(obj: T) => {
   return new Vector2(obj.x, obj.y);
 };
 
+export const toXY = <T extends { x: number; y: number }>(obj: T) => {
+  return { x: obj.x, y: obj.y };
+};
+
 export const mapVector2 = (vec2: Vector2, func: (val: number) => number) => {
   return new Vector2(func(vec2.x), func(vec2.y));
 };

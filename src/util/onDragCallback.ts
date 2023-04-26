@@ -10,7 +10,7 @@ export enum MouseButton {
   FORWARD = 4,
 }
 
-type TargetElement<T extends Element> = Getter<T | null> | RefObject<T> | null;
+export type TargetElement<T extends Element> = Getter<T | null> | RefObject<T> | null;
 
 type DragOption<U extends Element, V extends Element, S extends Element> = {
   onMouseDown?: (e: React.MouseEvent) => boolean | void;

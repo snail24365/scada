@@ -3,56 +3,76 @@ import onDragCallback, { MouseButton } from '@/util/onDragCallback';
 import _ from 'lodash';
 import { useEffect, useRef } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { containerRefState, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import { editViewportOffset, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
 import EditScene from './EditScene';
 import { EditViewportContext } from './EditViewportContext';
-import { unselectAll } from './editViewportSlice';
+import { unselectAll } from '../scadaEditSlice';
 import Grid from './Grid';
 import MiniMap from './MiniMap';
 import SelectFrame from './SelectFrame';
 import ToolButtonGroup from './ToolButtonGroup';
+import { throwIfDev, toXY } from '@/util/util';
+import { useWindowSize } from '@/hooks/useWindowSize';
+import { useEditViewportKeyControl } from './useEditViewportKeyControl';
+import { selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
 
 type Props = {
   resolutionX: number;
   resolutionY: number;
-  width?: number;
-  height?: number;
 };
 
 const EditViewport = (props: Props) => {
   const { resolutionX, resolutionY } = props;
 
   const rootDivRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<SVGSVGElement>(null);
-  const container = containerRef.current;
+  const rootSvgRef = useRef<SVGSVGElement>(null);
+
   const dispatch = useAppDispatch();
 
+  const setEditViewportOffset = useSetRecoilState(editViewportOffset);
   const [viewport, setViewport] = useRecoilState(viewportState);
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
-  const setContainerRef = useSetRecoilState(containerRefState);
+  const setSelectedMenuIndex = useSetRecoilState(selectedEditMenuIndexState);
+  const windowSize = useWindowSize();
 
-  useEffect(() => {
+  function setViewportSize() {
     const rootDiv = rootDivRef.current;
-    if (!rootDiv) return;
+    if (!rootDiv) {
+      throwIfDev('rootDiv or container is null');
+      return;
+    }
 
     const { width: containerWidth, height: containerHeight } = rootDiv.getBoundingClientRect();
-    const width = props.width ?? (containerWidth || 0);
-    const height = props.height ?? (containerHeight || 0);
-    console.log(width, height);
+    const resolutionRatio = resolutionX / resolutionY;
+    const stretchedWidth = resolutionRatio * containerHeight;
+    const stretchedHeight = containerWidth / resolutionRatio;
 
-    setViewport({ resolutionX, resolutionY, width, height });
+    if (stretchedWidth > containerWidth) {
+      const width = containerWidth;
+      const height = stretchedHeight;
+      setViewport({ resolutionX, resolutionY, width, height });
+    } else {
+      const width = stretchedWidth;
+      const height = containerHeight;
+      setViewport({ resolutionX, resolutionY, width, height });
+    }
     setViewbox({ width: resolutionX, height: resolutionY, x: 0, y: 0 });
-    setContainerRef(containerRef);
-    return () => {
-      setContainerRef({ current: null });
-    };
+  }
+  useEffect(() => {
+    setViewportSize();
   }, []);
+
+  useEffect(() => {
+    setViewportSize();
+  }, [windowSize]);
 
   const viewboxRef = useRef({ ...viewbox });
 
   const miniMapWidth = 200;
   const editViewportContextValue = {
     viewboxRef,
+    rootSvgRef,
+    rootDivRef,
   };
 
   useEffect(() => {
@@ -60,7 +80,13 @@ const EditViewport = (props: Props) => {
   }, [viewbox]);
 
   useEffect(() => {
+    const container = rootSvgRef.current;
+    if (!container) {
+      throwIfDev('container is null');
+      return;
+    }
     setViewbox({ x: 0, y: 0, width: viewport.resolutionX, height: viewport.resolutionY });
+    setEditViewportOffset(toXY(container.getBoundingClientRect()));
   }, [viewport]);
 
   const zoom = (type: 'in' | 'out', amount: number = 1) => {
@@ -99,7 +125,7 @@ const EditViewport = (props: Props) => {
   };
 
   const onWheelDrag = onDragCallback({
-    moveTarget: containerRef,
+    moveTarget: rootSvgRef,
     onMouseMove: (e) => {
       const viewbox = viewboxRef.current;
       const speed = 2;
@@ -115,27 +141,44 @@ const EditViewport = (props: Props) => {
   const zoomMagnification = 10;
 
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // selection rset
+    const container = rootSvgRef.current;
     const isEmptySpaceClicked = e.target === container;
     if (isEmptySpaceClicked) {
       dispatch(unselectAll());
     }
+
+    // wheel move
     onWheelDrag(e);
+
+    // menu collapse reset
+    setSelectedMenuIndex(-1);
   };
+
+  const controls = useEditViewportKeyControl();
 
   return (
     <EditViewportContext.Provider value={editViewportContextValue}>
       <div style={{ position: 'relative', minHeight: 0, height: '100%' }} ref={rootDivRef}>
         <div
-          style={{
+          tabIndex={0}
+          css={{
             position: 'relative',
             width: '100%',
             height: '100%',
             zIndex: 200,
             border: '1px solid black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            '&:focus': {
+              outline: 'none',
+            },
           }}
+          onKeyDown={controls.onKeyDown}
           onMouseDown={onMouseDown}>
           <svg
-            ref={containerRef}
+            ref={rootSvgRef}
             onWheel={(e) => {
               Math.sign(e.deltaY) < 0 ? zoom('in') : zoom('out');
             }}

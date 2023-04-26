@@ -1,17 +1,18 @@
+import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { UUID, XY } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
-import { containerRefState, scadaEditUtil, isEditingState } from '@/features/scada/atom/scadaAtom';
-import { selectEditEntities, selectEditLines } from './editSceneSlice';
-import { selectItems, unselectAll } from './editViewportSlice';
+import { selectEditBoxes, selectEditLines } from './editSceneSlice';
+import { EditViewportContext } from './EditViewportContext';
+import { selectItems, unselectAll } from '../scadaEditSlice';
 
 type Props = {};
 
 const SelectFrame = (props: Props) => {
-  const containerRef = useRecoilValue(containerRefState);
+  const { rootSvgRef } = useContext(EditViewportContext);
   const [selectionBox, setSelectionBox] = useState({ x: -1, y: -1, width: 0, height: 0 });
 
   const selectonBoxRef = useRef({ ...selectionBox });
@@ -24,18 +25,18 @@ const SelectFrame = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const lines = useAppSelector(selectEditLines);
-  const entities = useAppSelector(selectEditEntities);
+  const entities = useAppSelector(selectEditBoxes);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
+    const rootSvg = rootSvgRef.current;
+    if (!rootSvg) {
       return;
     }
     let downXY = new Vector2();
     const onMousedown = onDragCallback({
-      moveTarget: containerRef,
+      moveTarget: rootSvgRef,
       onMouseDown: (e) => {
-        const isBlankSpaceClicked = e.target === container;
+        const isBlankSpaceClicked = e.target === rootSvg;
         if (!isBlankSpaceClicked) return true;
 
         downXY = getXY(e);
@@ -98,11 +99,11 @@ const SelectFrame = (props: Props) => {
       },
     }) as any;
 
-    container.addEventListener('mousedown', onMousedown);
+    rootSvg.addEventListener('mousedown', onMousedown);
     return () => {
-      container.removeEventListener('mousedown', onMousedown);
+      rootSvg.removeEventListener('mousedown', onMousedown);
     };
-  }, [containerRef, dispatch, lines, entities, selectonBoxRef]);
+  }, [rootSvgRef, dispatch, lines, entities, selectonBoxRef, getXY]);
 
   return <rect opacity={0.3} fill="#8833ff" stroke={'blue'} strokeWidth={3} {...selectionBox} />;
 };

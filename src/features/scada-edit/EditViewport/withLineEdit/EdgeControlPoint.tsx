@@ -2,11 +2,12 @@ import { useAppDispatch } from '@/store/hooks';
 import { XY } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
 import _ from 'lodash';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { updateLinePoint } from '../editSceneSlice';
 import { filterReconciledPoints } from '../util';
+import { EditViewportContext } from '../EditViewportContext';
 type Props = {};
 
 export const EdgeControlPoint = ({
@@ -21,7 +22,8 @@ export const EdgeControlPoint = ({
   edge: 'start' | 'end';
 }) => {
   const ref = useRef(null);
-  const { containerRef, clamp, getXY } = useRecoilValue(scadaEditUtil);
+  const { clamp, getXY } = useRecoilValue(scadaEditUtil);
+  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
 
   const dispatch = useAppDispatch();
 
@@ -61,7 +63,6 @@ export const EdgeControlPoint = ({
       dispatch(updateLinePoint({ uuid, points: updatedPoints }));
     },
     moveTarget: containerRef,
-    upTarget: containerRef,
   });
   return (
     <circle onMouseDown={onDrag} ref={ref} cx={cx} cy={cy} r={radius} fill="red" cursor="pointer" />

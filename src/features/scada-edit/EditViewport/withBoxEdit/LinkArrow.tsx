@@ -12,13 +12,15 @@ import { useRecoilValue } from 'recoil';
 import { Vector2 } from 'three';
 import { v4 as uuidV4 } from 'uuid';
 import { addLine, updateLinePoint } from '../editSceneSlice';
+import { EditViewportContext } from '../EditViewportContext';
 import { filterAdjointUnique } from '../util';
 import { WithBoxEditContext } from './WithBoxEditContext';
 
 const LinkArrow = (props: BoxEntityProps) => {
   const { width, height, x, y, uuid: boxUUID } = props;
+  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
 
-  const { gridUnit, containerRef, getXY, clamp, isEditing } = useRecoilValue(scadaEditUtil);
+  const { gridUnit, getXY, clamp, isEditing } = useRecoilValue(scadaEditUtil);
 
   const { showArrow, isBoxEditing } = useContext(WithBoxEditContext);
 
@@ -102,8 +104,6 @@ const LinkArrow = (props: BoxEntityProps) => {
 
       dispatch(updateLinePoint({ uuid: lineUUID, points: uniquePoints }));
     },
-    leaveTarget: containerRef,
-    upTarget: containerRef,
   });
 
   const display = showArrow && !isBoxEditing && !isEditing ? 'block' : 'none';

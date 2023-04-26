@@ -27,3 +27,5 @@ export type LineEntityProps = Entity & Points;
 export type UUID = string;
 
 export type ScadaMode = 'monitor' | 'edit';
+
+export type Optional<T> = T | undefined;

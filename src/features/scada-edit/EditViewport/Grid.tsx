@@ -15,7 +15,7 @@ const Grid = ({}: Props) => {
   for (let i = 0; i < viewport.resolutionY; i += gap) {
     d += `M 0 ${i} L ${viewport.resolutionX} ${i} `;
   }
-  return <path d={d} fill="transparent" stroke="silver" strokeWidth={0.5} />;
+  return <path d={d} fill="transparent" stroke="silver" strokeWidth={0.1} />;
 };
 
 export default Grid;

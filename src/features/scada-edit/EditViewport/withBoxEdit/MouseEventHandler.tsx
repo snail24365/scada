@@ -1,17 +1,20 @@
+import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import { useAppDispatch } from '@/store/hooks';
 import { BoxEntityProps } from '@/type';
 import onDragCallback from '@/util/onDragCallback';
 import { useContext, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import { translateEntity } from '../editSceneSlice';
-import { exclusiveSelect } from '../editViewportSlice';
+import { translateBoxEntity } from '../editSceneSlice';
+import { EditViewportContext } from '../EditViewportContext';
+import { exclusiveSelect } from '../../scadaEditSlice';
 import { WithBoxEditContext } from './WithBoxEditContext';
 
 const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
   const ref = useRef<SVGRectElement>(null);
   const [cursor, setCursor] = useState('pointer');
-  const { containerRef, viewbox, viewport, clamp } = useRecoilValue(scadaEditUtil);
+  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
+
+  const { viewbox, viewport, clamp, getXY } = useRecoilValue(scadaEditUtil);
   const { setIsBoxEditing: setIsEditing } = useContext(WithBoxEditContext);
 
   const dispatch = useAppDispatch();
@@ -27,6 +30,8 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
       if (!container) return;
       downClientX = e.clientX;
       downClientY = e.clientY;
+      console.log(getXY(e));
+
       downX = x;
       downY = y;
       dispatch(exclusiveSelect({ uuid }));
@@ -44,7 +49,7 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
       const newY = clamp(downY + dy);
 
       dispatch(
-        translateEntity({
+        translateBoxEntity({
           x: newX,
           y: newY,
           uuid,

@@ -4,11 +4,11 @@ import { RootState } from '../../../store/store';
 import { BBox, BoxEntityProps, LineEntityProps, UUID, XY } from '../../../type';
 
 type LineState = LineEntityProps;
-type EntityState = BoxEntityProps;
+type BoxState = BoxEntityProps;
 
 interface EditSceneState {
   lines: LineState[];
-  entities: EntityState[];
+  boxes: BoxState[];
 }
 
 const initialState: EditSceneState = {
@@ -24,7 +24,7 @@ const initialState: EditSceneState = {
     //   ],
     // },
   ],
-  entities: [
+  boxes: [
     {
       uuid: '3',
       type: 'converter',
@@ -88,6 +88,10 @@ export const editSceneSlice = createSlice({
   name: 'editScene',
   initialState,
   reducers: {
+    deleteEntities: (state, action: PayloadAction<UUID[]>) => {
+      state.boxes = state.boxes.filter((entity) => !action.payload.includes(entity.uuid));
+      state.lines = state.lines.filter((line) => !action.payload.includes(line.uuid));
+    },
     addLine: (state, action: PayloadAction<Omit<LineState, 'type'>>) => {
       const uuid = action.payload.uuid ?? uuidv4();
       state.lines.push({
@@ -101,27 +105,27 @@ export const editSceneSlice = createSlice({
       if (!line) return;
       Object.assign(line, action.payload);
     },
-    updateEntityBBox: (state, action: PayloadAction<{ uuid: UUID } & BBox>) => {
-      const entity = state.entities.find((entity) => entity.uuid === action.payload.uuid);
+    updateBoxBound: (state, action: PayloadAction<{ uuid: UUID } & BBox>) => {
+      const entity = state.boxes.find((entity) => entity.uuid === action.payload.uuid);
       if (!entity) return;
       Object.assign(entity, action.payload);
     },
-    translateEntity: (state, action: PayloadAction<{ uuid: UUID } & XY>) => {
-      const entity = state.entities.find((entity) => entity.uuid === action.payload.uuid);
+    translateBoxEntity: (state, action: PayloadAction<{ uuid: UUID } & XY>) => {
+      const entity = state.boxes.find((entity) => entity.uuid === action.payload.uuid);
       if (!entity) return;
       Object.assign(entity, action.payload);
     },
   },
 });
 
-export const { addLine, updateEntityBBox, translateEntity, updateLinePoint } =
+export const { addLine, updateBoxBound, translateBoxEntity, updateLinePoint, deleteEntities } =
   editSceneSlice.actions;
 
 export const selectEditLines = (state: RootState) => state.editScene.lines;
 export const selectEditLine = (uuid: UUID) => {
   return (state: RootState) => state.editScene.lines.find((line) => line.uuid === uuid);
 };
-export const selectEditEntities = (state: RootState) => state.editScene.entities;
+export const selectEditBoxes = (state: RootState) => state.editScene.boxes;
 export const isSelectedSelector = (uuid: UUID) => {
   return (state: RootState) => state.editViewport.selectionLookup[uuid] ?? false;
 };

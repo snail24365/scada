@@ -1,5 +1,5 @@
 import {
-  selectEditEntities,
+  selectEditBoxes,
   selectEditLines,
 } from '@/features/scada-edit/EditViewport/editSceneSlice';
 import { componentMap } from '@/features/scada/componentMap';
@@ -10,7 +10,7 @@ type Props = {};
 
 const MonitorScene = (props: Props) => {
   const lines = useAppSelector(selectEditLines);
-  const entities = useAppSelector(selectEditEntities);
+  const entities = useAppSelector(selectEditBoxes);
   return (
     <>
       {lines.map((line) => {

@@ -1,4 +1,4 @@
-import { ScadaMode } from '@/type';
+import { ScadaMode, XY } from '@/type';
 import { RefObject } from 'react';
 import { atom, selector } from 'recoil';
 import { Vector2 } from 'three';
@@ -28,11 +28,6 @@ export const viewportState = atom({
   },
 });
 
-export const containerRefState = atom<RefObject<SVGSVGElement>>({
-  key: 'containerRef',
-  default: { current: null },
-});
-
 export const clampFunc = selector({
   key: 'clamp',
   get: ({ get }) => {
@@ -46,19 +41,17 @@ export const getXYFunc = selector({
   get: ({ get }) => {
     const viewbox = get(viewboxState);
     const viewport = get(viewportState);
-    const containerRef = get(containerRefState);
-
+    const { x: offsetX, y: offsetY } = get(editViewportOffset);
     return (e: React.MouseEvent<Element, MouseEvent>) => {
-      const container = containerRef.current;
-      if (!container) {
-        return new Vector2(0, 0);
-      }
-
-      const { x: offsetX, y: offsetY } = container.getBoundingClientRect();
+      // TODO : manage offset, offsetY as recoil value;
+      //container.getBoundingClientRect(); need to introduce new atom
       const { clientX, clientY } = e;
-      const x = viewbox.x + (clientX - offsetX) * (viewbox.width / viewport.resolutionX);
-      const y = viewbox.y + (clientY - offsetY) * (viewbox.height / viewport.resolutionY);
-      return new Vector2(x, y);
+      const x = clientX - offsetX;
+      const y = clientY - offsetY;
+
+      const svgXCoordinate = viewbox.x + (x / viewport.width) * viewbox.width;
+      const svgYCoordinate = viewbox.y + (y / viewport.height) * viewbox.height;
+      return new Vector2(svgXCoordinate, svgYCoordinate);
     };
   },
 });
@@ -75,7 +68,6 @@ export const scadaEditUtil = selector({
       viewport: get(viewportState),
       viewbox: get(viewboxState),
       gridUnit: get(gridUnitState),
-      containerRef: get(containerRefState),
       clamp: get(clampFunc),
       getXY: get(getXYFunc),
       isEditing: get(isEditingState),
@@ -104,4 +96,12 @@ export const selectionBoxState = atom({
 export const scadaMode = atom<ScadaMode>({
   key: 'scada-mode',
   default: 'monitor',
+});
+
+export const editViewportOffset = atom<XY>({
+  key: 'edit-viewport-offset',
+  default: {
+    x: 0,
+    y: 0,
+  },
 });
