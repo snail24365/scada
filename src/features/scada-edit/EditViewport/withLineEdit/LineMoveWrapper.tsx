@@ -1,7 +1,7 @@
 import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
-import { BBox, UUID, XY } from '@/type';
+import { BBox, UUID, XY } from '@/types/type';
 import _ from 'lodash';
 import { useContext } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';

@@ -1,5 +1,5 @@
 import { ReactComponent as Watertank } from '@/assets/watertank2.svg';
-import { BoxEntityProps } from '@/type';
+import { BoxEntityProps } from '@/types/type';
 
 type Props = {} & BoxEntityProps;
 

@@ -1,6 +1,6 @@
 import { ReactComponent as ConverterSvg } from '@/assets/converter.svg';
-import { BBox } from '@/type';
-import { BoxEntityProps } from '../../../type';
+import { BBox } from '@/types/type';
+import { BoxEntityProps } from '../../../../types/type';
 
 type Props = {} & BoxEntityProps;
 

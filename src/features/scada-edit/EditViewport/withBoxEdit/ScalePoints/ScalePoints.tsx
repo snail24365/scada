@@ -1,4 +1,4 @@
-import { BoxEntityProps } from '../../../../../type';
+import { BoxEntityProps } from '../../../../../types/type';
 import ScalePoint, { ScalePointDirection } from './ScalePoint';
 
 const ScalePoints = (props: BoxEntityProps & { radius?: number }) => {

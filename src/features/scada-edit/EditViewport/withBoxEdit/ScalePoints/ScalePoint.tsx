@@ -2,7 +2,7 @@ import { primaryBlue } from '@/assets/color';
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
-import { BBox, UUID } from '@/type';
+import { BBox, UUID } from '@/types/type';
 import { useContext } from 'react';
 import { useRecoilValue } from 'recoil';
 import { updateBoxBound } from '../../editSceneSlice';

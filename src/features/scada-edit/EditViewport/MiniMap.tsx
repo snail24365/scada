@@ -3,7 +3,7 @@ import useDrag from '@/hooks/useDrag';
 import useInterval from '@/hooks/useInterval';
 import useRefObjectSync from '@/hooks/useRefObjectSync';
 import { fitParent } from '@/style/style';
-import { DisplayStyle } from '@/type';
+import { DisplayStyle } from '@/types/type';
 import { drawNodeOnCanvas, toVec2, toXY } from '@/util/util';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';

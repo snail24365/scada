@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import { UUID } from '../../type';
+import { UUID } from '../../types/type';
 
 // Define a type for the slice state
 interface ScadaEditState {

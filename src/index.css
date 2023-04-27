@@ -136,3 +136,19 @@ table {
   user-select: none;
   /* border: 1px solid black !important; */
 }
+
+body {
+  position: relative;
+}
+
+#drag-drop-layer {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+body {
+  overflow: hidden;
+}

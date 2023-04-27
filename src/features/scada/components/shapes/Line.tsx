@@ -1,4 +1,4 @@
-import { XY } from '../../../type';
+import { XY } from '../../../../types/type';
 
 export type LineProps = {
   points: XY[];

@@ -1,4 +1,4 @@
-import { UUID, XY } from '@/type';
+import { UUID, XY } from '@/types/type';
 import { toVec2 } from '@/util/util';
 import { ReactElement } from 'react';
 import { Vector2 } from 'three';

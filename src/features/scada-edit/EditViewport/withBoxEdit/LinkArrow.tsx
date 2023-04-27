@@ -5,7 +5,7 @@ import { ReactComponent as ArrowWestSvg } from '@/assets/arrow_west.svg';
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
-import { BoxEntityProps } from '@/type';
+import { BoxEntityProps } from '@/types/type';
 import { manhattanDistance, mapVector2, toVec2 } from '@/util/util';
 import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';

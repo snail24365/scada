@@ -1,4 +1,4 @@
-import { XY } from '@/type';
+import { XY } from '@/types/type';
 import { Vector2 } from 'three';
 
 export const throwIfDev = (message: string) => {
@@ -30,7 +30,7 @@ export const manhattanDistance = (a: Vector2, b: Vector2) => {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 };
 
-export const objectMap = <T>(obj: Record<string, T>, func: (x: T) => T) => {
+export const objectMap = <T>(obj: Record<string, T>, func: <U extends T>(x: U) => any) => {
   const ret: Record<string, T> = {};
   for (const key in obj) {
     ret[key] = func(obj[key]);

@@ -2,7 +2,7 @@ import { darkBlue } from '@/assets/color';
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { XY } from '@/type';
+import { XY } from '@/types/type';
 import _ from 'lodash';
 import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';

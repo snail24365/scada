@@ -1,5 +1,5 @@
 import { ReactComponent as GastankSvg } from '@/assets/gastank.svg';
-import { BBox, BoxEntityProps } from '@/type';
+import { BBox, BoxEntityProps } from '@/types/type';
 
 type Props = {} & BoxEntityProps;
 

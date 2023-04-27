@@ -2,7 +2,7 @@ import {
   selectEditBoxes,
   selectEditLines,
 } from '@/features/scada-edit/EditViewport/editSceneSlice';
-import { componentMap } from '@/features/scada/componentMap';
+import { scadaComponentsMap } from '@/features/scada/componentMap';
 import { useAppSelector } from '@/store/hooks';
 import { throwIfDev } from '@/util/util';
 
@@ -17,7 +17,7 @@ const MonitorScene = (props: Props) => {
         // return <Line key={line.uuid} points={line.points} type="line" uuid={line.uuid} />;
       })}
       {entities.map((entity) => {
-        const Component = componentMap[entity.type];
+        const Component = scadaComponentsMap[entity.type];
 
         if (!Component) throwIfDev('No component found for type: ' + entity.type);
 

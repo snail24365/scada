@@ -1,5 +1,5 @@
 import { primaryBlue } from '@/assets/color';
-import { BoxEntityProps } from '@/type';
+import { BoxEntityProps } from '@/types/type';
 import React, { useContext } from 'react';
 import { WithBoxEditContext } from './WithBoxEditContext';
 

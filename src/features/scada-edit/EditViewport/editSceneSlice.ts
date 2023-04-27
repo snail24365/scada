@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../../store/store';
-import { BBox, BoxEntityProps, LineEntityProps, UUID, XY } from '../../../type';
+import { BBox, BoxEntityProps, LineEntityProps, UUID, XY } from '../../../types/type';
 
 type LineState = LineEntityProps;
 type BoxState = BoxEntityProps;
@@ -27,7 +27,7 @@ const initialState: EditSceneState = {
   boxes: [
     {
       uuid: '3',
-      type: 'converter',
+      type: 'Converter',
       x: 0,
       y: 0,
       width: 200,
@@ -100,6 +100,11 @@ export const editSceneSlice = createSlice({
         type: 'line',
       });
     },
+    addBoxEntity: (state, action: PayloadAction<BoxState>) => {
+      console.log(action.payload);
+      
+      state.boxes.push(action.payload);
+    },
     updateLinePoint: (state, action: PayloadAction<{ uuid: UUID; points: XY[] }>) => {
       const line = state.lines.find((line) => line.uuid === action.payload.uuid);
       if (!line) return;
@@ -118,8 +123,14 @@ export const editSceneSlice = createSlice({
   },
 });
 
-export const { addLine, updateBoxBound, translateBoxEntity, updateLinePoint, deleteEntities } =
-  editSceneSlice.actions;
+export const {
+  addLine,
+  addBoxEntity,
+  updateBoxBound,
+  translateBoxEntity,
+  updateLinePoint,
+  deleteEntities,
+} = editSceneSlice.actions;
 
 export const selectEditLines = (state: RootState) => state.editScene.lines;
 export const selectEditLine = (uuid: UUID) => {

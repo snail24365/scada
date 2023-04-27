@@ -1,4 +1,4 @@
-import { Optional, StateSetter } from '@/type';
+import { Optional, StateSetter } from '@/types/type';
 import { createContext } from 'react';
 
 type ButtonGroupContext = {

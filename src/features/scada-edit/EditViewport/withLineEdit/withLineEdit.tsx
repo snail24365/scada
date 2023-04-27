@@ -1,4 +1,4 @@
-import { LineEntityProps } from '@/type';
+import { LineEntityProps } from '@/types/type';
 import React, { ComponentType } from 'react';
 import EdgeControlPoint from './EdgeControlPoint';
 import InnerControlWrapper from './InnerControlWrapper';

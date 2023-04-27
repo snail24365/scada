@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Viewbox } from '../../../type';
+import { Viewbox } from '../../../types/type';
 
 type EditViewportContextType = {
   viewboxRef: React.RefObject<Viewbox>;

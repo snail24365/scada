@@ -2,7 +2,7 @@ import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import useRefObjectSync from '@/hooks/useRefObjectSync';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { UUID } from '@/type';
+import { UUID } from '@/types/type';
 import { AABBTest, toVec2, toXY } from '@/util/util';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';

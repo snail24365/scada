@@ -1,4 +1,4 @@
-import { StateSetter } from '@/type';
+import { StateSetter } from '@/types/type';
 import { createContext } from 'react';
 
 type WithBoxEditContextType = {
