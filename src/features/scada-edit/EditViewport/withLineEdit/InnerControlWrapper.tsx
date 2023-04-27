@@ -1,15 +1,9 @@
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { UUID, XY } from '@/type';
-import onDragCallback from '@/util/onDragCallback';
-import _ from 'lodash';
-import { MouseEventHandler, ReactElement, useContext, useRef } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { toVec2 } from '@/util/util';
+import { ReactElement } from 'react';
 import { Vector2 } from 'three';
-import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import { isSelectedSelector, updateLinePoint } from '../editSceneSlice';
-import { exclusiveSelect } from '../../scadaEditSlice';
-import { filterReconciledPoints } from '../util';
-import { EditViewportContext } from '../EditViewportContext';
+import ControlPoint from './ControlPoint';
+import LineMoveWrapper from './LineMoveWrapper';
 
 type Props = {
   points: XY[];
@@ -19,104 +13,12 @@ type Props = {
 
 const InnerControlWrapper = ({ points, uuid, pointRadius }: Props) => {
   const lineWrappers: ReactElement[] = [];
-  const lineWrappersRef = useRef<(SVGRectElement | null)[]>([]);
-
   const midPoints: ReactElement[] = [];
-  const midPointsRef = useRef<(SVGCircleElement | null)[]>([]);
-
-  const dispatch = useAppDispatch();
-  const isSelected = useAppSelector(isSelectedSelector(uuid));
-
-  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
-  const { getXY, clamp } = useRecoilValue(scadaEditUtil);
-  const setIsEditing = useSetRecoilState(isEditingState);
-
-  const pointVectors = points.map((point) => new Vector2(point.x, point.y));
 
   const wrapperWidth = 4;
-  for (let i = 0; i < pointVectors.length - 1; i++) {
-    const onMidPointDrag = createModifyingDrag();
-    const onLineWrapperDrag = createLineWrapperDrag();
-
-    const here = pointVectors[i];
-    const next = pointVectors[i + 1];
-    const isHorizontal = next.y === here.y;
-    const cursor = isHorizontal ? 'row-resize' : 'col-resize';
-
-    lineWrappers.push(createLineWrapper(isHorizontal, here, next, i, onLineWrapperDrag));
-    midPoints.push(createMidPoint(here, next, cursor, onMidPointDrag, i));
-
-    function createModifyingDrag() {
-      return onDragCallback({
-        onMouseDown: () => {
-          setIsEditing(true);
-          dispatch(exclusiveSelect({ uuid }));
-        },
-        onMouseMove: (e) => {
-          const container = containerRef.current;
-          if (!container) return;
-          points = _.cloneDeep(points);
-
-          const updateAlongAxis = (point: { x: number; y: number }) => {
-            const { x: mouseX, y: mouseY } = getXY(e);
-            const updateValue = isHorizontal ? clamp(mouseY) : clamp(mouseX);
-            const updateAxis = isHorizontal ? 'y' : 'x';
-            point[updateAxis] = updateValue;
-          };
-
-          updateAlongAxis(points[i]);
-          updateAlongAxis(points[i + 1]);
-
-          dispatch(
-            updateLinePoint({
-              uuid,
-              points: filterReconciledPoints(points),
-            }),
-          );
-        },
-        onMouseUp: () => {
-          setIsEditing(false);
-        },
-        moveTarget: containerRef,
-      });
-    }
-
-    function createLineWrapperDrag() {
-      let downX = 0;
-      let downY = 0;
-      let downPoints = _.cloneDeep(points);
-
-      return onDragCallback({
-        onMouseDown: (e) => {
-          setIsEditing(true);
-          dispatch(exclusiveSelect({ uuid }));
-          const xyOnDown = getXY(e);
-          downX = xyOnDown.x;
-          downY = xyOnDown.y;
-        },
-        onMouseMove: (e) => {
-          const xyOnMove = getXY(e);
-          const deltaX = xyOnMove.x - downX;
-          const deltaY = xyOnMove.y - downY;
-          const translatedPoints = downPoints.map((point) => {
-            return {
-              x: clamp(point.x + deltaX),
-              y: clamp(point.y + deltaY),
-            };
-          });
-          dispatch(
-            updateLinePoint({
-              uuid,
-              points: filterReconciledPoints(translatedPoints),
-            }),
-          );
-        },
-        onMouseUp: () => {
-          setIsEditing(false);
-        },
-        moveTarget: containerRef,
-      });
-    }
+  for (let i = 0; i < points.length - 1; i++) {
+    lineWrappers.push(createLineMoveWrapper(points, i));
+    midPoints.push(createMidPoint(points, i));
   }
 
   return (
@@ -126,13 +28,11 @@ const InnerControlWrapper = ({ points, uuid, pointRadius }: Props) => {
     </>
   );
 
-  function createLineWrapper(
-    isHorizontal: boolean,
-    here: Vector2,
-    next: Vector2,
-    index: number,
-    onDrag: any,
-  ) {
+  function createLineMoveWrapper(points: XY[], index: number) {
+    const here = toVec2(points[index]);
+    const next = toVec2(points[index + 1]);
+    const isHorizontal = next.y === here.y;
+
     const normal = isHorizontal ? new Vector2(0, 1) : new Vector2(1, 0);
     const offset = normal.multiplyScalar(wrapperWidth);
     const p1 = new Vector2().addVectors(here, offset);
@@ -150,47 +50,35 @@ const InnerControlWrapper = ({ points, uuid, pointRadius }: Props) => {
     const width = maxPoint.x - minPoint.x;
     const height = maxPoint.y - minPoint.y;
     const { x, y } = minPoint;
-    const key = `${index}_${x}_${y}_${width}_${height}}`;
-    const rect = (
-      <rect
-        onMouseDown={onDrag}
-        key={key}
+    return (
+      <LineMoveWrapper
+        key={`${uuid}-${index}-mid-${here.x}-${here.y}-${next.x}-${next.y}}`}
         x={x}
         y={y}
         width={width}
         height={height}
-        fill="transparent"
-        cursor={'move'}
-        ref={(el) => {
-          lineWrappersRef.current[index] = el;
-        }}
+        points={points}
+        uuid={uuid}
       />
     );
-    return rect;
   }
 
-  function createMidPoint(
-    here: Vector2,
-    next: Vector2,
-    cursor: string,
-    onDrag: MouseEventHandler,
-    index: number,
-  ) {
-    const midPoint = here.clone().add(next).multiplyScalar(0.5);
+  function createMidPoint(points: XY[], index: number) {
+    const here = points[index];
+    const next = points[index + 1];
+    const midPoint = toVec2(here).clone().add(toVec2(next)).multiplyScalar(0.5);
+    const isHorizontal = next.y === here.y;
     const { x: cx, y: cy } = midPoint;
     return (
-      <circle
-        display={isSelected ? 'block' : 'none'}
-        ref={(el) => {
-          midPointsRef.current[index] = el;
-        }}
-        key={`${index}_${cx}_${cy}`}
+      <ControlPoint
+        key={`${uuid}-${index}-mid-${here.x}-${here.y}-${next.x}-${next.y}}`}
+        points={points}
+        index={index}
+        uuid={uuid}
         cx={cx}
         cy={cy}
         r={pointRadius}
-        fill="blue"
-        cursor={cursor}
-        onMouseDown={onDrag}
+        isHorizontal={isHorizontal}
       />
     );
   }

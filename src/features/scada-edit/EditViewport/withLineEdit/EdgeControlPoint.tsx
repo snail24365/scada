@@ -1,14 +1,14 @@
-import { useAppDispatch } from '@/store/hooks';
+import { darkBlue } from '@/assets/color';
+import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
+import useDrag from '@/hooks/useDrag';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { XY } from '@/type';
-import onDragCallback from '@/util/onDragCallback';
 import _ from 'lodash';
 import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import { updateLinePoint } from '../editSceneSlice';
-import { filterReconciledPoints } from '../util';
+import { isSelectedSelector, updateLinePoint } from '../editSceneSlice';
 import { EditViewportContext } from '../EditViewportContext';
-type Props = {};
+import { filterReconciledPoints } from '../util';
 
 export const EdgeControlPoint = ({
   points,
@@ -24,12 +24,13 @@ export const EdgeControlPoint = ({
   const ref = useRef(null);
   const { clamp, getXY } = useRecoilValue(scadaEditUtil);
   const { rootSvgRef: containerRef } = useContext(EditViewportContext);
+  const isSelected = useAppSelector(isSelectedSelector(uuid));
 
   const dispatch = useAppDispatch();
 
   const index = edge === 'start' ? 0 : points.length - 1;
   const { x: cx, y: cy } = points[index];
-  const onDrag = onDragCallback({
+  const onMouseDownDrag = useDrag({
     onMouseMove: (e) => {
       const container = containerRef.current;
 
@@ -62,10 +63,22 @@ export const EdgeControlPoint = ({
 
       dispatch(updateLinePoint({ uuid, points: updatedPoints }));
     },
-    moveTarget: containerRef,
+    containerRef,
   });
-  return (
-    <circle onMouseDown={onDrag} ref={ref} cx={cx} cy={cy} r={radius} fill="red" cursor="pointer" />
+  return isSelected ? (
+    <circle
+      onMouseDown={onMouseDownDrag}
+      ref={ref}
+      cx={cx}
+      cy={cy}
+      r={radius}
+      fill={'red'}
+      strokeWidth={1}
+      stroke="#eee"
+      cursor="pointer"
+    />
+  ) : (
+    <></>
   );
 };
 export default EdgeControlPoint;

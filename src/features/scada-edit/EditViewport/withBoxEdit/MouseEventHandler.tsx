@@ -24,7 +24,7 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
   let downX = 0;
   let downY = 0;
 
-  const onDrag = useDrag({
+  const onMouseDownDrag = useDrag({
     onMouseDown: (e) => {
       const container = containerRef.current;
       if (!container) return;
@@ -64,7 +64,7 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
   return (
     <rect
       ref={ref}
-      onMouseDown={onDrag}
+      onMouseDown={onMouseDownDrag}
       cursor={cursor}
       x={x}
       y={y}
