@@ -1,16 +1,14 @@
-import _ from 'lodash';
+import { viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import useDrag from '@/hooks/useDrag';
+import useInterval from '@/hooks/useInterval';
+import useRefObjectSync from '@/hooks/useRefObjectSync';
+import { fitParent } from '@/style/style';
+import { DisplayStyle } from '@/type';
+import { drawNodeOnCanvas, toVec2, toXY } from '@/util/util';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
-import { viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
-import { EditViewportContext } from './EditViewportContext';
-import useDrag from '@/hooks/useDrag';
-import { drawNodeOnCanvas, mapVector2, toVec2, toXY } from '@/util/util';
 import { Vector2 } from 'three';
-import useRefObjectSync from '@/hooks/useRefObjectSync';
-import { DisplayStyle } from '@/type';
-import useInterval from '@/hooks/useInterval';
-import { fitParent } from '@/style/style';
+import { EditViewportContext } from './EditViewportContext';
 
 type Props = { width: number };
 
