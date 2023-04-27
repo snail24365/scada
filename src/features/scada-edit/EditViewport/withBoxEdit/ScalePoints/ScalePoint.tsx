@@ -1,23 +1,24 @@
-import { primaryBlue } from '@/assets/color';
-import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import useDrag from '@/hooks/useDrag';
-import { useAppDispatch } from '@/store/hooks';
-import { BBox, UUID } from '@/types/type';
-import { useContext } from 'react';
-import { useRecoilValue } from 'recoil';
-import { updateBoxBound } from '../../editSceneSlice';
-import { EditViewportContext } from '../../EditViewportContext';
-import { WithBoxEditContext } from '../WithBoxEditContext';
+import { primaryBlue } from "@/assets/color";
+import { scadaEditUtil } from "@/features/scada/atom/scadaAtom";
+import useDrag from "@/hooks/useDrag";
+import { useAppDispatch } from "@/store/hooks";
+import { BBox, UUID } from "@/types/type";
+import { useContext } from "react";
+import { useRecoilValue } from "recoil";
+import { updateBoxBound } from "../../editSceneSlice";
+import { EditViewportContext } from "../../EditViewportContext";
+import { WithBoxEditContext } from "../WithBoxEditContext";
+import { EditSectionContext } from "@/features/scada-edit/EditSectionContext";
 
 export enum ScalePointDirection {
-  nw = 'nw',
-  n = 'n',
-  ne = 'ne',
-  e = 'e',
-  se = 'se',
-  s = 's',
-  sw = 'sw',
-  w = 'w',
+  nw = "nw",
+  n = "n",
+  ne = "ne",
+  e = "e",
+  se = "se",
+  s = "s",
+  sw = "sw",
+  w = "w",
 }
 
 type Props = {
@@ -34,18 +35,18 @@ type DirectionInfo = {
 };
 
 const eightDirectionInfos: Record<ScalePointDirection, DirectionInfo> = {
-  nw: { dx: -1, dy: -1, cursor: 'nwse-resize' },
-  n: { dx: 0, dy: -1, cursor: 'ns-resize' },
-  ne: { dx: 1, dy: -1, cursor: 'nesw-resize' },
-  e: { dx: 1, dy: 0, cursor: 'ew-resize' },
-  se: { dx: 1, dy: 1, cursor: 'nwse-resize' },
-  s: { dx: 0, dy: 1, cursor: 'ns-resize' },
-  sw: { dx: -1, dy: 1, cursor: 'nesw-resize' },
-  w: { dx: -1, dy: 0, cursor: 'ew-resize' },
+  nw: { dx: -1, dy: -1, cursor: "nwse-resize" },
+  n: { dx: 0, dy: -1, cursor: "ns-resize" },
+  ne: { dx: 1, dy: -1, cursor: "nesw-resize" },
+  e: { dx: 1, dy: 0, cursor: "ew-resize" },
+  se: { dx: 1, dy: 1, cursor: "nwse-resize" },
+  s: { dx: 0, dy: 1, cursor: "ns-resize" },
+  sw: { dx: -1, dy: 1, cursor: "nesw-resize" },
+  w: { dx: -1, dy: 0, cursor: "ew-resize" },
 };
 
 const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
-  const { rootSvgRef } = useContext(EditViewportContext);
+  const { rootSvgRef } = useContext(EditSectionContext);
   const { setIsBoxEditing: setIsEditing } = useContext(WithBoxEditContext);
   const { clamp, getXY } = useRecoilValue(scadaEditUtil);
   const { dx, dy, cursor } = eightDirectionInfos[direction];
@@ -70,19 +71,19 @@ const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
 
       type key = `${number},${number}`;
       const corners: Record<key, { x: number; y: number }> = {
-        '-1,-1': {
+        "-1,-1": {
           x,
           y,
         },
-        '-1,1': {
+        "-1,1": {
           x,
           y: y + height,
         },
-        '1,-1': {
+        "1,-1": {
           x: x + width,
           y,
         },
-        '1,1': {
+        "1,1": {
           x: x + width,
           y: y + height,
         },
@@ -101,15 +102,17 @@ const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
         corners[`${dx},${dy}`].y = pivotY;
       }
 
-      const getCorner = (type: 'min' | 'max') => {
-        const func = type === 'min' ? Math.min : Math.max;
-        return Object.values(corners).reduce(({ x: x1, y: y1 }, { x: x2, y: y2 }) => ({
-          x: func(x1, x2),
-          y: func(y1, y2),
-        }));
+      const getCorner = (type: "min" | "max") => {
+        const func = type === "min" ? Math.min : Math.max;
+        return Object.values(corners).reduce(
+          ({ x: x1, y: y1 }, { x: x2, y: y2 }) => ({
+            x: func(x1, x2),
+            y: func(y1, y2),
+          })
+        );
       };
-      const minCorner = getCorner('min');
-      const maxCorner = getCorner('max');
+      const minCorner = getCorner("min");
+      const maxCorner = getCorner("max");
       minCorner.x = clamp(minCorner.x);
       minCorner.y = clamp(minCorner.y);
       maxCorner.x = clamp(maxCorner.x);
@@ -122,7 +125,7 @@ const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
           y: minCorner.y,
           width: maxCorner.x - minCorner.x,
           height: maxCorner.y - minCorner.y,
-        }),
+        })
       );
     },
   });
@@ -135,7 +138,7 @@ const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
       cy={cy}
       r={r}
       fill={primaryBlue}
-      stroke={'#eee'}
+      stroke={"#eee"}
       strokeWidth={2}
     />
   );

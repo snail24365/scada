@@ -1,14 +1,15 @@
-import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import useDrag from '@/hooks/useDrag';
-import { useAppDispatch } from '@/store/hooks';
-import { BBox, UUID, XY } from '@/types/type';
-import _ from 'lodash';
-import { useContext } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { exclusiveSelect } from '../../scadaEditSlice';
-import { updateLinePoint } from '../editSceneSlice';
-import { EditViewportContext } from '../EditViewportContext';
-import { filterReconciledPoints } from '../util';
+import { isEditingState, scadaEditUtil } from "@/features/scada/atom/scadaAtom";
+import useDrag from "@/hooks/useDrag";
+import { useAppDispatch } from "@/store/hooks";
+import { BBox, UUID, XY } from "@/types/type";
+import _ from "lodash";
+import { useContext } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { exclusiveSelect } from "../../scadaEditSlice";
+import { updateLinePoint } from "../editSceneSlice";
+import { EditViewportContext } from "../EditViewportContext";
+import { filterReconciledPoints } from "../util";
+import { EditSectionContext } from "../../EditSectionContext";
 
 type Props = {
   points: XY[];
@@ -16,7 +17,7 @@ type Props = {
 } & BBox;
 
 const LineMoveWrapper = ({ points, uuid, x, y, width, height }: Props) => {
-  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
+  const { rootSvgRef: containerRef } = useContext(EditSectionContext);
 
   const dispatch = useAppDispatch();
   const setIsEditing = useSetRecoilState(isEditingState);
@@ -48,7 +49,7 @@ const LineMoveWrapper = ({ points, uuid, x, y, width, height }: Props) => {
         updateLinePoint({
           uuid,
           points: filterReconciledPoints(translatedPoints),
-        }),
+        })
       );
     },
     onMouseUp: () => {
@@ -65,7 +66,7 @@ const LineMoveWrapper = ({ points, uuid, x, y, width, height }: Props) => {
       width={width}
       height={height}
       fill="transparent"
-      cursor={'move'}
+      cursor={"move"}
     />
   );
 };

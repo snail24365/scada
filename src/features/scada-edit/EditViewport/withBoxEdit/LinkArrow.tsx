@@ -1,24 +1,25 @@
-import { ReactComponent as ArrowEastSvg } from '@/assets/arrow_east.svg';
-import { ReactComponent as ArrowNorthSvg } from '@/assets/arrow_north.svg';
-import { ReactComponent as ArrowSouthSvg } from '@/assets/arrow_south.svg';
-import { ReactComponent as ArrowWestSvg } from '@/assets/arrow_west.svg';
-import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import useDrag from '@/hooks/useDrag';
-import { useAppDispatch } from '@/store/hooks';
-import { BoxEntityProps } from '@/types/type';
-import { manhattanDistance, mapVector2, toVec2 } from '@/util/util';
-import { useContext, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
-import { Vector2 } from 'three';
-import { v4 as uuidV4 } from 'uuid';
-import { addLine, updateLinePoint } from '../editSceneSlice';
-import { EditViewportContext } from '../EditViewportContext';
-import { filterAdjointUnique } from '../util';
-import { WithBoxEditContext } from './WithBoxEditContext';
+import { ReactComponent as ArrowEastSvg } from "@/assets/arrow_east.svg";
+import { ReactComponent as ArrowNorthSvg } from "@/assets/arrow_north.svg";
+import { ReactComponent as ArrowSouthSvg } from "@/assets/arrow_south.svg";
+import { ReactComponent as ArrowWestSvg } from "@/assets/arrow_west.svg";
+import { scadaEditUtil } from "@/features/scada/atom/scadaAtom";
+import useDrag from "@/hooks/useDrag";
+import { useAppDispatch } from "@/store/hooks";
+import { BoxEntityProps } from "@/types/type";
+import { manhattanDistance, mapVector2, toVec2 } from "@/util/util";
+import { useContext, useRef } from "react";
+import { useRecoilValue } from "recoil";
+import { Vector2 } from "three";
+import { v4 as uuidV4 } from "uuid";
+import { addLine, updateLinePoint } from "../editSceneSlice";
+import { EditViewportContext } from "../EditViewportContext";
+import { filterAdjointUnique } from "../util";
+import { WithBoxEditContext } from "./WithBoxEditContext";
+import { EditSectionContext } from "../../EditSectionContext";
 
 const LinkArrow = (props: BoxEntityProps) => {
   const { width, height, x, y, uuid: boxUUID } = props;
-  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
+  const { rootSvgRef: containerRef } = useContext(EditSectionContext);
 
   const { gridUnit, getXY, clamp, isEditing } = useRecoilValue(scadaEditUtil);
 
@@ -47,7 +48,7 @@ const LinkArrow = (props: BoxEntityProps) => {
 
   const arrowRef = useRef<SVGGElement>(null);
 
-  let lineUUID = '';
+  let lineUUID = "";
   const onMouseDownDrag = useDrag({
     containerRef,
     onMouseDown: () => {
@@ -61,7 +62,7 @@ const LinkArrow = (props: BoxEntityProps) => {
             { x: 1, y: 0 },
           ],
           uuid: lineUUID,
-        }),
+        })
       );
     },
     onMouseMove: (e) => {
@@ -70,7 +71,8 @@ const LinkArrow = (props: BoxEntityProps) => {
 
       const target = toVec2(getXY(e));
       const source = sources.reduce((prev, curr) => {
-        return manhattanDistance(target, curr.base) < manhattanDistance(target, prev.base)
+        return manhattanDistance(target, curr.base) <
+          manhattanDistance(target, prev.base)
           ? curr
           : prev;
       });
@@ -83,7 +85,7 @@ const LinkArrow = (props: BoxEntityProps) => {
 
       let mid1 = new Vector2().addVectors(
         base,
-        normal.clone().multiplyScalar(0.5).multiply(clampedGap),
+        normal.clone().multiplyScalar(0.5).multiply(clampedGap)
       );
 
       let end = mapVector2(target, clamp);
@@ -95,9 +97,15 @@ const LinkArrow = (props: BoxEntityProps) => {
       const isUnderThreshold = normalDistance < threshold;
 
       if (isUnderThreshold) {
-        end = new Vector2().addVectors(base, normal.clone().multiply(clampedGap));
+        end = new Vector2().addVectors(
+          base,
+          normal.clone().multiply(clampedGap)
+        );
       }
-      let mid2 = new Vector2(normal.x === 0 ? end.x : mid1.x, normal.y === 0 ? end.y : mid1.y);
+      let mid2 = new Vector2(
+        normal.x === 0 ? end.x : mid1.x,
+        normal.y === 0 ? end.y : mid1.y
+      );
 
       let points = [base, mid1, mid2, end].map((v) => ({ x: v.x, y: v.y }));
       const uniquePoints = filterAdjointUnique(points);
@@ -106,7 +114,7 @@ const LinkArrow = (props: BoxEntityProps) => {
     },
   });
 
-  const display = showArrow && !isBoxEditing && !isEditing ? 'block' : 'none';
+  const display = showArrow && !isBoxEditing && !isEditing ? "block" : "none";
 
   const Arrows = [ArrowWestSvg, ArrowEastSvg, ArrowNorthSvg, ArrowSouthSvg];
 
@@ -123,13 +131,14 @@ const LinkArrow = (props: BoxEntityProps) => {
         y={rectY}
         width={arrowWidth}
         height={arrowHeight}
-        cursor={'crosshair'}
+        cursor={"crosshair"}
         opacity={0.3}
         css={{
-          '&:hover': {
+          "&:hover": {
             opacity: 1,
           },
-        }}>
+        }}
+      >
         <g display={display}>
           <ArrowSvg width={arrowWidth} height={arrowHeight} />
         </g>

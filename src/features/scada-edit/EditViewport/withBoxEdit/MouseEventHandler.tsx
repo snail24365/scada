@@ -1,18 +1,19 @@
-import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import useDrag from '@/hooks/useDrag';
-import { useAppDispatch } from '@/store/hooks';
-import { BoxEntityProps } from '@/types/type';
-import { useContext, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { exclusiveSelect } from '../../scadaEditSlice';
-import { translateBoxEntity } from '../editSceneSlice';
-import { EditViewportContext } from '../EditViewportContext';
-import { WithBoxEditContext } from './WithBoxEditContext';
+import { scadaEditUtil } from "@/features/scada/atom/scadaAtom";
+import useDrag from "@/hooks/useDrag";
+import { useAppDispatch } from "@/store/hooks";
+import { BoxEntityProps } from "@/types/type";
+import { useContext, useRef, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { exclusiveSelect } from "../../scadaEditSlice";
+import { translateBoxEntity } from "../editSceneSlice";
+import { EditViewportContext } from "../EditViewportContext";
+import { WithBoxEditContext } from "./WithBoxEditContext";
+import { EditSectionContext } from "../../EditSectionContext";
 
 const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
   const ref = useRef<SVGRectElement>(null);
-  const [cursor, setCursor] = useState('pointer');
-  const { rootSvgRef: containerRef } = useContext(EditViewportContext);
+  const [cursor, setCursor] = useState("pointer");
+  const { rootSvgRef: containerRef } = useContext(EditSectionContext);
 
   const { viewbox, viewport, clamp, getXY } = useRecoilValue(scadaEditUtil);
   const { setIsBoxEditing: setIsEditing } = useContext(WithBoxEditContext);
@@ -38,10 +39,12 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
     onMouseMove: (e) => {
       const container = containerRef.current;
       if (!container) return;
-      setCursor('move');
+      setCursor("move");
 
-      const dx = (e.clientX - downClientX) * (viewbox.width / viewport.resolutionX);
-      const dy = (e.clientY - downClientY) * (viewbox.height / viewport.resolutionY);
+      const dx =
+        (e.clientX - downClientX) * (viewbox.width / viewport.resolutionX);
+      const dy =
+        (e.clientY - downClientY) * (viewbox.height / viewport.resolutionY);
 
       const newX = clamp(downX + dx);
       const newY = clamp(downY + dy);
@@ -51,11 +54,11 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
           x: newX,
           y: newY,
           uuid,
-        }),
+        })
       );
     },
     onMouseUp: (e) => {
-      setCursor('pointer');
+      setCursor("pointer");
       setIsEditing(false);
     },
     containerRef,

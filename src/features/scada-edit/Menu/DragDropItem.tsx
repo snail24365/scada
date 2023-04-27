@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import { addBoxEntity } from "../EditViewport/editSceneSlice";
 import EntityDragDropSticker from "./DragDropSticker";
 import { EditViewportContext } from "../EditViewport/EditViewportContext";
+import { EditSectionContext } from "../EditSectionContext";
 
 type Prop = {
   component: React.ReactElement<Size & Omit<Entity, "uuid">>;
@@ -30,7 +31,7 @@ const DragDropItem = ({ component, stickerSize, type }: Prop) => {
 
   const dispatch = useAppDispatch();
   const { getXY, reducedScaleState } = useRecoilValue(scadaEditUtil);
-  const { rootSvgRef } = useContext(EditViewportContext);
+  const { rootSvgRef } = useContext(EditSectionContext);
   const updateCursor = (e: React.MouseEvent) => {
     setCursor({
       left: e.clientX + stickerOffsetX,

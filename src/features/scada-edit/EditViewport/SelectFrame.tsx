@@ -1,22 +1,28 @@
-import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import useDrag from '@/hooks/useDrag';
-import useRefObjectSync from '@/hooks/useRefObjectSync';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { UUID } from '@/types/type';
-import { AABBTest, toVec2, toXY } from '@/util/util';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { Vector2 } from 'three';
-import { selectItems, unselectAll } from '../scadaEditSlice';
-import { selectEditBoxes, selectEditLines } from './editSceneSlice';
-import { EditViewportContext } from './EditViewportContext';
+import { isEditingState, scadaEditUtil } from "@/features/scada/atom/scadaAtom";
+import useDrag from "@/hooks/useDrag";
+import useRefObjectSync from "@/hooks/useRefObjectSync";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { UUID } from "@/types/type";
+import { AABBTest, toVec2, toXY } from "@/util/util";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Vector2 } from "three";
+import { selectItems, unselectAll } from "../scadaEditSlice";
+import { selectEditBoxes, selectEditLines } from "./editSceneSlice";
+import { EditViewportContext } from "./EditViewportContext";
+import { EditSectionContext } from "../EditSectionContext";
 
 const SelectFrame = () => {
-  const [selectionRect, setSelectionRect] = useState({ x: -1, y: -1, width: 0, height: 0 });
+  const [selectionRect, setSelectionRect] = useState({
+    x: -1,
+    y: -1,
+    width: 0,
+    height: 0,
+  });
   const selectonRectRef = useRef({ ...selectionRect });
   useRefObjectSync(selectonRectRef, selectionRect);
 
-  const { rootSvgRef } = useContext(EditViewportContext);
+  const { rootSvgRef } = useContext(EditSectionContext);
   const { getXY } = useRecoilValue(scadaEditUtil);
   const setIsEditing = useSetRecoilState(isEditingState);
   const dispatch = useAppDispatch();
@@ -96,13 +102,21 @@ const SelectFrame = () => {
   useEffect(() => {
     const rootSvg = rootSvgRef.current;
     if (!rootSvg) return;
-    rootSvg.addEventListener('mousedown', onMouseDownDrag as any);
+    rootSvg.addEventListener("mousedown", onMouseDownDrag as any);
     return () => {
-      rootSvg.removeEventListener('mousedown', onMouseDownDrag as any);
+      rootSvg.removeEventListener("mousedown", onMouseDownDrag as any);
     };
   }, [rootSvgRef, dispatch, lines, entities, selectonRectRef, getXY]);
 
-  return <rect opacity={0.3} fill="#8833ff" stroke={'blue'} strokeWidth={3} {...selectionRect} />;
+  return (
+    <rect
+      opacity={0.3}
+      fill="#8833ff"
+      stroke={"blue"}
+      strokeWidth={3}
+      {...selectionRect}
+    />
+  );
 };
 
 export default SelectFrame;

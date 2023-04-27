@@ -29,11 +29,9 @@ type Props = {
 
 const EditViewport = (props: Props) => {
   const { resolutionX, resolutionY } = props;
-  const rootDivRef = useRef<HTMLDivElement>(null);
-  const rootSvgRef = useRef<SVGSVGElement>(null);
 
   const dispatch = useAppDispatch();
-  // const {rootDivRef, rootSvgRef} = useContext(EditSectionContext)
+  const { rootDivRef, rootSvgRef } = useContext(EditSectionContext);
   const setEditViewportOffset = useSetRecoilState(editViewportOffset);
   const [viewport, setViewport] = useRecoilState(viewportState);
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
@@ -77,8 +75,6 @@ const EditViewport = (props: Props) => {
   const miniMapWidth = 200;
   const editViewportContextValue = {
     viewboxRef,
-    rootSvgRef,
-    rootDivRef,
   };
 
   useEffect(() => {
