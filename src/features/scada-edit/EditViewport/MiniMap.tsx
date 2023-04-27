@@ -38,10 +38,13 @@ const MiniMap = ({ width }: Props) => {
 
   useEffect(() => {
     updateZoom();
-    drawSvg();
-  }, [viewbox, drawSvg, updateZoom]);
+  }, [viewport, viewbox]);
 
-  useInterval(drawSvg, renderPeriod, [drawSvg]);
+  useEffect(() => {
+    drawMinimap();
+  }, [viewbox, viewport]);
+
+  useInterval(drawMinimap, renderPeriod, [drawMinimap]);
 
   const onMouseDownDrag = useDrag({
     onMouseDown,
@@ -77,7 +80,7 @@ const MiniMap = ({ width }: Props) => {
     </div>
   );
 
-  function drawSvg() {
+  function drawMinimap() {
     const rootSvg = rootSvgRef.current;
     const canvas = canvasRef.current;
 
@@ -85,8 +88,6 @@ const MiniMap = ({ width }: Props) => {
 
     const shrinkedRootSvg = rootSvg.cloneNode(true) as SVGSVGElement;
     shrinkedRootSvg.setAttribute('viewBox', `0 0 ${viewport.resolutionX} ${viewport.resolutionY}`);
-    console.log('viewBox', `0 0 ${viewport.resolutionX} ${viewport.resolutionY}`);
-
     drawNodeOnCanvas(shrinkedRootSvg, canvas);
   }
 

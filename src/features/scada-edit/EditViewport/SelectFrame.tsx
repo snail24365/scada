@@ -11,9 +11,7 @@ import { selectItems, unselectAll } from '../scadaEditSlice';
 import { selectEditBoxes, selectEditLines } from './editSceneSlice';
 import { EditViewportContext } from './EditViewportContext';
 
-type Props = {};
-
-const SelectFrame = (props: Props) => {
+const SelectFrame = () => {
   const [selectionRect, setSelectionRect] = useState({ x: -1, y: -1, width: 0, height: 0 });
   const selectonRectRef = useRef({ ...selectionRect });
   useRefObjectSync(selectonRectRef, selectionRect);

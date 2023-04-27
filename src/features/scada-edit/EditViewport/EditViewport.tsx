@@ -1,20 +1,21 @@
+import { editViewportOffset, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import useDrag, { MouseButton } from '@/hooks/useDrag';
+import { useWindowSize } from '@/hooks/useWindowSize';
 import { useAppDispatch } from '@/store/hooks';
-import onDragCallback, { MouseButton } from '@/util/onDragCallback';
+import { throwIfDev, toVec2, toXY } from '@/util/util';
 import _ from 'lodash';
 import { useEffect, useRef } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { editViewportOffset, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import { Vector2 } from 'three';
+import { selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
+import { unselectAll } from '../scadaEditSlice';
 import EditScene from './EditScene';
 import { EditViewportContext } from './EditViewportContext';
-import { unselectAll } from '../scadaEditSlice';
 import Grid from './Grid';
 import MiniMap from './MiniMap';
 import SelectFrame from './SelectFrame';
 import ToolButtonGroup from './ToolButtonGroup';
-import { throwIfDev, toXY } from '@/util/util';
-import { useWindowSize } from '@/hooks/useWindowSize';
 import { useEditViewportKeyControl } from './useEditViewportKeyControl';
-import { selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
 
 type Props = {
   resolutionX: number;
@@ -125,8 +126,8 @@ const EditViewport = (props: Props) => {
     });
   };
 
-  const onWheelDrag = onDragCallback({
-    moveTarget: rootSvgRef,
+  const onWheelDrag = useDrag({
+    containerRef: rootSvgRef,
     onMouseMove: (e) => {
       const viewbox = viewboxRef.current;
       const speed = 2;
@@ -142,7 +143,7 @@ const EditViewport = (props: Props) => {
   const zoomMagnification = 10;
 
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    // selection rset
+    // selection reset
     const container = rootSvgRef.current;
     const isEmptySpaceClicked = e.target === container;
     if (isEmptySpaceClicked) {

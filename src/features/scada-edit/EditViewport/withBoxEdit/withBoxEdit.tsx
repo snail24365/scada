@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Frame from './Frame';
 import LinkArrow from './LinkArrow';
 import MouseEventHandler from './MouseEventHandler';
-import ScalePoints from './ScalePoints';
+import ScalePoints from './ScalePoints/ScalePoints';
 import { WithBoxEditContext } from './WithBoxEditContext';
 
 function withBoxEdit<T extends BoxEntityProps>(WrappedComponent: React.ComponentType<any>) {

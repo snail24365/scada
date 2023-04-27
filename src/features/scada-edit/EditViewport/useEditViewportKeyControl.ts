@@ -3,9 +3,6 @@ import { deleteEntities, selectEditBoxes, selectEditLines } from './editSceneSli
 import { selectSelectedEntitiesUUID } from '../scadaEditSlice';
 
 export const useEditViewportKeyControl = () => {
-  // const entities = useAppSelector(selectEditBoxes);
-  // const lines = useAppSelector(selectEditLines);
-  // const selectedEntites = useAppSelector(selectEditBoxes);
   const selectedEntitiesUUIDs = useAppSelector(selectSelectedEntitiesUUID);
 
   const dispatch = useAppDispatch();
