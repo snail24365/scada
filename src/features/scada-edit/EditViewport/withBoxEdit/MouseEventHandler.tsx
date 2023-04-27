@@ -1,12 +1,12 @@
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
+import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
 import { BoxEntityProps } from '@/type';
-import onDragCallback from '@/util/onDragCallback';
 import { useContext, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { exclusiveSelect } from '../../scadaEditSlice';
 import { translateBoxEntity } from '../editSceneSlice';
 import { EditViewportContext } from '../EditViewportContext';
-import { exclusiveSelect } from '../../scadaEditSlice';
 import { WithBoxEditContext } from './WithBoxEditContext';
 
 const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
@@ -24,14 +24,12 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
   let downX = 0;
   let downY = 0;
 
-  const onDrag = onDragCallback({
+  const onDrag = useDrag({
     onMouseDown: (e) => {
       const container = containerRef.current;
       if (!container) return;
       downClientX = e.clientX;
       downClientY = e.clientY;
-      console.log(getXY(e));
-
       downX = x;
       downY = y;
       dispatch(exclusiveSelect({ uuid }));
@@ -60,12 +58,7 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
       setCursor('pointer');
       setIsEditing(false);
     },
-    onMouseLeave: (e) => {
-      setCursor('pointer');
-    },
-    moveTarget: containerRef,
-    leaveTarget: containerRef,
-    isTerminateOnMouseLeave: false,
+    containerRef,
   });
 
   return (
