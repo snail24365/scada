@@ -3,9 +3,9 @@ import { ReactComponent as ArrowNorthSvg } from '@/assets/arrow_north.svg';
 import { ReactComponent as ArrowSouthSvg } from '@/assets/arrow_south.svg';
 import { ReactComponent as ArrowWestSvg } from '@/assets/arrow_west.svg';
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
+import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
 import { BoxEntityProps } from '@/type';
-import onDragCallback from '@/util/onDragCallback';
 import { manhattanDistance, mapVector2, toVec2 } from '@/util/util';
 import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -48,8 +48,8 @@ const LinkArrow = (props: BoxEntityProps) => {
   const arrowRef = useRef<SVGGElement>(null);
 
   let lineUUID = '';
-  const onArrowDrag = onDragCallback({
-    moveTarget: containerRef,
+  const onMouseDownDrag = useDrag({
+    containerRef,
     onMouseDown: () => {
       const container = containerRef.current;
       if (!container) return;
@@ -117,7 +117,19 @@ const LinkArrow = (props: BoxEntityProps) => {
     const rectY = pivotY + (arrowWidth * (dy - 1)) / 2;
     const ArrowSvg = Arrows[i];
     return (
-      <svg key={i} x={rectX} y={rectY} width={arrowWidth} height={arrowHeight} cursor={'crosshair'}>
+      <svg
+        key={i}
+        x={rectX}
+        y={rectY}
+        width={arrowWidth}
+        height={arrowHeight}
+        cursor={'crosshair'}
+        opacity={0.3}
+        css={{
+          '&:hover': {
+            opacity: 1,
+          },
+        }}>
         <g display={display}>
           <ArrowSvg width={arrowWidth} height={arrowHeight} />
         </g>
@@ -127,7 +139,7 @@ const LinkArrow = (props: BoxEntityProps) => {
           fill="transparent"
           width={arrowWidth}
           height={arrowWidth}
-          onMouseDown={onArrowDrag}
+          onMouseDown={onMouseDownDrag}
         />
       </svg>
     );
