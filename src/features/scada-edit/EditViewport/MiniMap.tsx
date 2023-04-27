@@ -4,141 +4,59 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import onDragCallback, { MouseButton } from '../../../util/onDragCallback';
 import { viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
 import { EditViewportContext } from './EditViewportContext';
+import useDrag from '@/hooks/useDrag';
+import { drawNodeOnCanvas, mapVector2, toVec2, toXY } from '@/util/util';
+import { Vector2 } from 'three';
+import useRefObjectSync from '@/hooks/useRefObjectSync';
+import { DisplayStyle } from '@/type';
+import useInterval from '@/hooks/useInterval';
+import { fitParent } from '@/style/style';
 
 type Props = { width: number };
 
 const MiniMap = ({ width }: Props) => {
   const { rootSvgRef, rootDivRef } = useContext(EditViewportContext);
-  const miniMapContainerRef = useRef<HTMLDivElement>(null);
-  const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
-  const zoomAreaRef = useRef<HTMLDivElement>(null);
 
-  const bgCanvas = backgroundCanvasRef.current;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const zoomFrameRef = useRef<HTMLDivElement>(null);
 
   const viewport = useRecoilValue(viewportState);
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
 
-  const miniMapContainer = miniMapContainerRef.current;
-
   const viewportRatio = viewport.resolutionY / viewport.resolutionX;
   const viewboxRatio = viewbox.height / viewbox.width;
-
   const height = viewportRatio * width;
 
-  const [display, setDisplay] = useState<'none' | 'block'>('none');
+  const widthRatio = width / viewport.resolutionX;
+  const heightRatio = height / viewport.resolutionY;
+
+  const [display, setDisplay] = useState<DisplayStyle>('none');
   const [zoomBox, setZoomBox] = useState({ left: 0, top: 0, width, height: width * viewboxRatio });
   const zoomBoxRef = useRef({ ...zoomBox });
+  const renderPeriod = 300;
+
+  useRefObjectSync(zoomBoxRef, zoomBox);
 
   useEffect(() => {
-    zoomBoxRef.current.left = zoomBox.left;
-    zoomBoxRef.current.top = zoomBox.top;
-    zoomBoxRef.current.width = zoomBox.width;
-    zoomBoxRef.current.height = zoomBox.height;
-  }, [zoomBox]);
-
-  useEffect(() => {
-    updateZoomArea();
+    updateZoom();
     drawSvg();
+  }, [viewbox, drawSvg, updateZoom]);
 
-    function updateZoomArea() {
-      const isZoomed =
-        viewport.resolutionX !== viewbox.width || viewport.resolutionY !== viewbox.height;
-      setDisplay(isZoomed ? 'block' : 'none');
-      setZoomBox({
-        width: (viewbox.width / viewport.resolutionX) * width,
-        height: (viewbox.height / viewport.resolutionY) * height,
-        left: (viewbox.x / viewport.resolutionX) * width,
-        top: (viewbox.y / viewport.resolutionY) * height,
-      });
-    }
-  }, [viewbox]);
+  useInterval(drawSvg, renderPeriod, [drawSvg]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      drawSvg();
-    }, 300);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  function drawSvg() {
-    const editViewportSvg = rootSvgRef.current;
-    if (!(editViewportSvg && bgCanvas)) return;
-    const originSVg = editViewportSvg.cloneNode(true) as SVGSVGElement;
-    originSVg.setAttribute('viewBox', `0 0 ${viewport.resolutionX} ${viewport.resolutionY}`);
-    const originSvgSerialized = new XMLSerializer().serializeToString(originSVg);
-    const img = new Image();
-    img.src = 'data:image/svg+xml,' + encodeURIComponent(originSvgSerialized);
-    img.onload = () => {
-      const ctx = bgCanvas.getContext('2d');
-      if (!ctx) return;
-      ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-      ctx.drawImage(img, 0, 0, bgCanvas.width, bgCanvas.height);
-    };
-  }
-
-  const onDrag = (() => {
-    const getUpdatedXYOnMousedown = (miniMapContainer: HTMLDivElement, e: React.MouseEvent) => {
-      const { x: offsetX, y: offsetY } = miniMapContainer.getBoundingClientRect();
-      console.log(offsetX, offsetY, e.clientX - offsetX, e.clientY - offsetY);
-
-      const clampedX = _.clamp(e.clientX - offsetX - zoomBox.width / 2, 0, width - zoomBox.width);
-      const clampedY = _.clamp(
-        e.clientY - offsetY - zoomBox.height / 2,
-        0,
-        height - zoomBox.height,
-      );
-      const x = (clampedX / width) * viewport.resolutionX;
-      const y = (clampedY / height) * viewport.resolutionY;
-      return { x, y };
-    };
-
-    const getUpdatedXYOnMousemove = (miniMapContainer: HTMLDivElement, e: React.MouseEvent) => {
-      const { x: miniMapOffsetX, y: miniMapOffsetY } = miniMapContainer.getBoundingClientRect();
-      const relativeContainerX = e.clientX - miniMapOffsetX;
-      const relativeContainerY = e.clientY - miniMapOffsetY;
-      const clampedX = _.clamp(relativeContainerX - zoomBox.width / 2, 0, width - zoomBox.width);
-      const clampedY = _.clamp(relativeContainerY - zoomBox.height / 2, 0, height - zoomBox.height);
-      const x = (clampedX / width) * viewport.resolutionX;
-      const y = (clampedY / height) * viewport.resolutionY;
-      return { x, y };
-    };
-
-    const onMouseDown = (e: React.MouseEvent) => {
-      if (!miniMapContainer) return;
-      const { x, y } = getUpdatedXYOnMousedown(miniMapContainer, e);
-      setViewbox((prev) => ({ ...prev, x, y }));
-      miniMapContainer.style.pointerEvents = 'none';
-    };
-
-    const onMouseMove = (e: React.MouseEvent) => {
-      if (!miniMapContainer) return;
-      const { x, y } = getUpdatedXYOnMousemove(miniMapContainer, e);
-      setViewbox((prev) => ({ ...prev, x, y }));
-    };
-
-    const onMouseUp = () => {
-      if (!miniMapContainer) return;
-      miniMapContainer.style.pointerEvents = 'auto';
-    };
-
-    return onDragCallback({
-      moveTarget: rootDivRef,
-      mouseButton: MouseButton.LEFT,
-      onMouseDown,
-      onMouseMove,
-      onMouseUp,
-    });
-  })();
-
-  if (viewport.resolutionX === 0 || viewbox.width === 0) return <></>;
+  const onMouseDownDrag = useDrag({
+    onMouseDown,
+    onMouseMove,
+    onMouseUp,
+    containerRef: rootDivRef,
+  });
 
   return (
     <div
-      ref={miniMapContainerRef}
-      onMouseDown={onDrag}
-      style={{
+      ref={containerRef}
+      onMouseDown={onMouseDownDrag}
+      css={{
         display,
         position: 'absolute',
         right: 60,
@@ -150,21 +68,73 @@ const MiniMap = ({ width }: Props) => {
         border: '1px solid #ddd',
       }}>
       <div
-        ref={zoomAreaRef}
-        style={{
+        ref={zoomFrameRef}
+        css={{
           background: '#eeeeeeaa',
           border: '2px solid #6666fa',
           position: 'absolute',
           ...zoomBox,
         }}></div>
-      <canvas
-        ref={backgroundCanvasRef}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}></canvas>
+      <canvas ref={canvasRef} css={fitParent}></canvas>
     </div>
   );
+
+  function drawSvg() {
+    const rootSvg = rootSvgRef.current;
+    const canvas = canvasRef.current;
+
+    if (!(rootSvg && canvas)) return;
+
+    const shrinkedRootSvg = rootSvg.cloneNode(true) as SVGSVGElement;
+    shrinkedRootSvg.setAttribute('viewBox', `0 0 ${viewport.resolutionX} ${viewport.resolutionY}`);
+    console.log('viewBox', `0 0 ${viewport.resolutionX} ${viewport.resolutionY}`);
+
+    drawNodeOnCanvas(shrinkedRootSvg, canvas);
+  }
+
+  function updateZoom() {
+    const isZoomed =
+      viewport.resolutionX !== viewbox.width || viewport.resolutionY !== viewbox.height;
+    setDisplay(isZoomed ? 'block' : 'none');
+    setZoomBox({
+      width: viewbox.width * widthRatio,
+      height: viewbox.height * heightRatio,
+      left: viewbox.x * widthRatio,
+      top: viewbox.y * heightRatio,
+    });
+  }
+
+  function calculateNextViewboxXY(container: HTMLDivElement, e: React.MouseEvent) {
+    const offset = toVec2(container.getBoundingClientRect());
+    const nextXY = new Vector2(e.clientX, e.clientY)
+      .sub(offset)
+      .sub(new Vector2(zoomBox.width / 2, zoomBox.height / 2))
+      .clamp(new Vector2(0, 0), new Vector2(width - zoomBox.width, height - zoomBox.height))
+      .divide(new Vector2(width, height))
+      .multiply(new Vector2(viewport.resolutionX, viewport.resolutionY));
+    return toXY(nextXY);
+  }
+
+  function onMouseDown(e: React.MouseEvent) {
+    const container = containerRef.current;
+    if (!container) return;
+    const { x, y } = calculateNextViewboxXY(container, e);
+    setViewbox((prev) => ({ ...prev, x, y }));
+    container.style.pointerEvents = 'none';
+  }
+
+  function onMouseMove(e: React.MouseEvent) {
+    const container = containerRef.current;
+    if (!container) return;
+    const { x, y } = calculateNextViewboxXY(container, e);
+    setViewbox((prev) => ({ ...prev, x, y }));
+  }
+
+  function onMouseUp() {
+    const container = containerRef.current;
+    if (!container) return;
+    container.style.pointerEvents = 'auto';
+  }
 };
 
 export default MiniMap;

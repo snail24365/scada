@@ -23,6 +23,7 @@ type Props = {
 
 const EditViewport = (props: Props) => {
   const { resolutionX, resolutionY } = props;
+  console.log(resolutionX, resolutionY);
 
   const rootDivRef = useRef<HTMLDivElement>(null);
   const rootSvgRef = useRef<SVGSVGElement>(null);

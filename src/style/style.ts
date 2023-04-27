@@ -15,3 +15,8 @@ export const flexHorizontalCenter: CSSObject = {
   display: 'flex',
   alignItems: 'center',
 };
+
+export const fitParent: CSSObject = {
+  width: '100%',
+  height: '100%',
+};

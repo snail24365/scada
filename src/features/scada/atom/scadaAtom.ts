@@ -13,18 +13,18 @@ export const viewboxState = atom({
   default: {
     x: 0,
     y: 0,
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
 });
 
 export const viewportState = atom({
   key: 'viewport',
   default: {
-    resolutionX: 0,
-    resolutionY: 0,
-    width: 0,
-    height: 0,
+    resolutionX: 1,
+    resolutionY: 1,
+    width: 1,
+    height: 1,
   },
 });
 
@@ -43,8 +43,6 @@ export const getXYFunc = selector({
     const viewport = get(viewportState);
     const { x: offsetX, y: offsetY } = get(editViewportOffset);
     return (e: React.MouseEvent<Element, MouseEvent>) => {
-      // TODO : manage offset, offsetY as recoil value;
-      //container.getBoundingClientRect(); need to introduce new atom
       const { clientX, clientY } = e;
       const x = clientX - offsetX;
       const y = clientY - offsetY;

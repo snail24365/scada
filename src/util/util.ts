@@ -34,7 +34,17 @@ export const objectMap = <T>(obj: Record<string, T>, func: (x: T) => T) => {
   for (const key in obj) {
     ret[key] = func(obj[key]);
   }
-  console.log(ret);
-
   return ret;
+};
+
+export const drawNodeOnCanvas = (svg: Node, canvas: HTMLCanvasElement) => {
+  const originSvgSerialized = new XMLSerializer().serializeToString(svg);
+  const img = new Image();
+  img.src = 'data:image/svg+xml,' + encodeURIComponent(originSvgSerialized);
+  img.onload = () => {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  };
 };

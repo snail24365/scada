@@ -1,3 +1,5 @@
+import { Vector2 } from 'three';
+
 export type XY = {
   x: number;
   y: number;
@@ -29,3 +31,5 @@ export type UUID = string;
 export type ScadaMode = 'monitor' | 'edit';
 
 export type Optional<T> = T | undefined;
+
+export type DisplayStyle = 'none' | 'block' | 'flex' | 'grid' | 'inline' | 'inline-block';
