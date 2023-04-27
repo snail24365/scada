@@ -1,3 +1,4 @@
+import { XY } from '@/type';
 import { Vector2 } from 'three';
 
 export const throwIfDev = (message: string) => {
@@ -47,4 +48,13 @@ export const drawNodeOnCanvas = (svg: Node, canvas: HTMLCanvasElement) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   };
+};
+
+export const AABBTest = (box1: { min: XY; max: XY }, box2: { min: XY; max: XY }) => {
+  return (
+    box1.max.x > box2.min.x &&
+    box2.max.x > box1.min.x &&
+    box1.max.y > box2.min.y &&
+    box2.max.y > box1.min.y
+  );
 };
