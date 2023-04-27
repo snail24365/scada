@@ -1,3 +1,4 @@
+import { primaryBlue } from '@/assets/color';
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
@@ -133,8 +134,8 @@ const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
       cx={cx}
       cy={cy}
       r={r}
-      fill="blue"
-      stroke="silver"
+      fill={primaryBlue}
+      stroke={'#eee'}
       strokeWidth={2}
     />
   );

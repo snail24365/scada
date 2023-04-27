@@ -1,3 +1,4 @@
+import { primaryBlue } from '@/assets/color';
 import { BoxEntityProps } from '@/type';
 import React, { useContext } from 'react';
 import { WithBoxEditContext } from './WithBoxEditContext';
@@ -5,7 +6,8 @@ import { WithBoxEditContext } from './WithBoxEditContext';
 const Frame = ({ width, height, x, y, uuid }: BoxEntityProps) => {
   const { isBoxEditing: isEditing } = useContext(WithBoxEditContext);
   const strokeDasharray = isEditing ? '0 0' : '4 4';
-  const stroke = isEditing ? 'red' : 'blue';
+  const stroke = isEditing ? primaryBlue : '#888';
+  const strokeWidth = isEditing ? 3 : 1;
   return (
     <rect
       strokeDasharray={strokeDasharray}
@@ -15,7 +17,7 @@ const Frame = ({ width, height, x, y, uuid }: BoxEntityProps) => {
       height={height}
       fill="transparent"
       stroke={stroke}
-      strokeWidth={1}
+      strokeWidth={strokeWidth}
     />
   );
 };

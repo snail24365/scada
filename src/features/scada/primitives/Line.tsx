@@ -15,7 +15,7 @@ const Line = ({ points }: LineProps) => {
   for (let i = 1; i < points.length; i++) {
     d += ` L${points[i].x},${points[i].y}`;
   }
-  return <path d={d} stroke="red" fill="transparent" />;
+  return <path d={d} stroke="#eee" fill="transparent" />;
 };
 
 export default Line;
