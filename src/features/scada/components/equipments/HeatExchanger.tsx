@@ -1,16 +1,16 @@
 import { ReactComponent as HeatExchangerSvg } from '@/assets/heatExchanger.svg';
-import { BBox, BoxEntityProps } from '@/types/type';
+import { BBox, BoxEntityProps, Size } from '@/types/type';
 import { useEffect, useState } from 'react';
 import { Vector2 } from 'three';
 
-type Props = {
-  speed: number;
-} & BoxEntityProps;
+type Props = React.SVGProps<SVGSVGElement> & {
+  speed?: number;
+} & Size;
 
-const HeatExchanger = ({ width, height, x, y, speed }: Props) => {
-  speed = speed ?? 1;
-  const cx = x + width / 2;
-  const cy = y + height / 2;
+const HeatExchanger = (props: Props) => {
+  const { width, height, speed = 1 } = props;
+  const cx = width / 2;
+  const cy = height / 2;
   const r = Math.min(width, height) / 5;
   const s = r / 2;
 
@@ -30,11 +30,11 @@ const HeatExchanger = ({ width, height, x, y, speed }: Props) => {
   }
 
   return (
-    <g>
-      <HeatExchangerSvg width={width} height={height} x={x} y={y}></HeatExchangerSvg>
+    <svg {...props}>
+      <HeatExchangerSvg width={width} height={height}></HeatExchangerSvg>
       <circle cx={cx} cy={cy} r={r} fill={'grey'} stroke="silver" strokeWidth={5} />
       <path d={d} fill="gold" />
-    </g>
+    </svg>
   );
 };
 

@@ -6,6 +6,7 @@ type WithBoxEditContextType = {
   setShowArrow: StateSetter<boolean>;
   isBoxEditing: boolean;
   setIsBoxEditing: StateSetter<boolean>;
+  isSelected: boolean;
 };
 
 const initialContext = {
@@ -13,6 +14,7 @@ const initialContext = {
   setShowArrow: () => undefined,
   isBoxEditing: false,
   setIsBoxEditing: () => undefined,
+  isSelected: false
 };
 
 export const WithBoxEditContext = createContext<WithBoxEditContextType>(initialContext);

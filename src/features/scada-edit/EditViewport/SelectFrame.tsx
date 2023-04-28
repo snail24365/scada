@@ -1,23 +1,24 @@
-import { isEditingState, scadaEditUtil } from "@/features/scada/atom/scadaAtom";
-import useDrag from "@/hooks/useDrag";
-import useRefObjectSync from "@/hooks/useRefObjectSync";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { UUID } from "@/types/type";
-import { AABBTest, toVec2, toXY } from "@/util/util";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Vector2 } from "three";
-import { selectItems, unselectAll } from "../scadaEditSlice";
-import { selectEditBoxes, selectEditLines } from "./editSceneSlice";
-import { EditViewportContext } from "./EditViewportContext";
-import { EditSectionContext } from "../EditSectionContext";
+import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
+import useDrag from '@/hooks/useDrag';
+import useRefObjectSync from '@/hooks/useRefObjectSync';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { UUID } from '@/types/type';
+import { AABBTest, toVec2, toXY } from '@/util/util';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { Vector2 } from 'three';
+import { selectItems, unselectAll } from '../scadaEditSlice';
+import { selectEditBoxes, selectEditLines } from './editSceneSlice';
+import { EditViewportContext } from './EditViewportContext';
+import { EditSectionContext } from '../EditSectionContext';
+import { primaryBlue, primaryGrey } from '@/assets/color';
 
 const SelectFrame = () => {
   const [selectionRect, setSelectionRect] = useState({
     x: -1,
     y: -1,
     width: 0,
-    height: 0,
+    height: 0
   });
   const selectonRectRef = useRef({ ...selectionRect });
   useRefObjectSync(selectonRectRef, selectionRect);
@@ -32,7 +33,7 @@ const SelectFrame = () => {
 
   let downXY = new Vector2();
   const onMouseDownDrag = useDrag({
-    containerRef: rootSvgRef,
+    moveElementRef: rootSvgRef,
     onMouseDown: (e) => {
       const rootSvg = rootSvgRef.current;
       if (!rootSvg) return;
@@ -60,8 +61,8 @@ const SelectFrame = () => {
         min: { x: selectionRect.x, y: selectionRect.y },
         max: {
           x: selectionRect.x + selectionRect.width,
-          y: selectionRect.y + selectionRect.height,
-        },
+          y: selectionRect.y + selectionRect.height
+        }
       };
 
       lines.forEach((line) => {
@@ -84,7 +85,7 @@ const SelectFrame = () => {
       entities.forEach((entity) => {
         const entityBBox = {
           min: { x: entity.x, y: entity.y },
-          max: { x: entity.x + entity.width, y: entity.y + entity.height },
+          max: { x: entity.x + entity.width, y: entity.y + entity.height }
         };
 
         if (AABBTest(entityBBox, seelctionBBox)) {
@@ -96,27 +97,19 @@ const SelectFrame = () => {
       dispatch(unselectAll());
       dispatch(selectItems({ uuids: selectedUUIDs }));
       selectedUUIDs = [];
-    },
+    }
   });
 
   useEffect(() => {
     const rootSvg = rootSvgRef.current;
     if (!rootSvg) return;
-    rootSvg.addEventListener("mousedown", onMouseDownDrag as any);
+    rootSvg.addEventListener('mousedown', onMouseDownDrag as any);
     return () => {
-      rootSvg.removeEventListener("mousedown", onMouseDownDrag as any);
+      rootSvg.removeEventListener('mousedown', onMouseDownDrag as any);
     };
   }, [rootSvgRef, dispatch, lines, entities, selectonRectRef, getXY]);
 
-  return (
-    <rect
-      opacity={0.3}
-      fill="#8833ff"
-      stroke={"blue"}
-      strokeWidth={3}
-      {...selectionRect}
-    />
-  );
+  return <rect opacity={0.5} fill={primaryBlue} stroke={primaryGrey} strokeWidth={1} {...selectionRect} />;
 };
 
 export default SelectFrame;

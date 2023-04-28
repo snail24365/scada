@@ -1,15 +1,15 @@
-import { isEditingState, scadaEditUtil } from "@/features/scada/atom/scadaAtom";
-import useDrag from "@/hooks/useDrag";
-import { useAppDispatch } from "@/store/hooks";
-import { BBox, UUID, XY } from "@/types/type";
-import _ from "lodash";
-import { useContext } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { exclusiveSelect } from "../../scadaEditSlice";
-import { updateLinePoint } from "../editSceneSlice";
-import { EditViewportContext } from "../EditViewportContext";
-import { filterReconciledPoints } from "../util";
-import { EditSectionContext } from "../../EditSectionContext";
+import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
+import useDrag from '@/hooks/useDrag';
+import { useAppDispatch } from '@/store/hooks';
+import { BBox, UUID, XY } from '@/types/type';
+import _ from 'lodash';
+import { useContext } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { exclusiveSelect } from '../../scadaEditSlice';
+import { updateLinePoint } from '../editSceneSlice';
+import { EditViewportContext } from '../EditViewportContext';
+import { filterReconciledPoints } from '../util';
+import { EditSectionContext } from '../../EditSectionContext';
 
 type Props = {
   points: XY[];
@@ -42,32 +42,24 @@ const LineMoveWrapper = ({ points, uuid, x, y, width, height }: Props) => {
       const translatedPoints = downPoints.map((point) => {
         return {
           x: clamp(point.x + deltaX),
-          y: clamp(point.y + deltaY),
+          y: clamp(point.y + deltaY)
         };
       });
       dispatch(
         updateLinePoint({
           uuid,
-          points: filterReconciledPoints(translatedPoints),
+          points: filterReconciledPoints(translatedPoints)
         })
       );
     },
     onMouseUp: () => {
       setIsEditing(false);
     },
-    containerRef,
+    moveElementRef: containerRef
   });
 
   return (
-    <rect
-      onMouseDown={onMouseDownDrag}
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      fill="transparent"
-      cursor={"move"}
-    />
+    <rect onMouseDown={onMouseDownDrag} x={x} y={y} width={width} height={height} fill="transparent" cursor={'move'} />
   );
 };
 

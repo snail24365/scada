@@ -8,13 +8,11 @@ import withLineEdit from './withLineEdit/withLineEdit';
 
 const EditableLine = withLineEdit(Line);
 
-const editableComponentMap = objectMap(scadaComponentsMap, (Component) => 
-  withBoxEdit(Component as any)
-);
+const editableComponentMap = objectMap(scadaComponentsMap, (Component) => withBoxEdit(Component as any));
 
-type Props = {};
+type EditSceneProp = {};
 
-const EditScene = (props: Props) => {
+const EditScene = ({}: EditSceneProp) => {
   const lines = useAppSelector(selectEditLines);
   const components = useAppSelector(selectEditBoxes);
   return (
@@ -22,10 +20,10 @@ const EditScene = (props: Props) => {
       {lines.map((line) => {
         return <EditableLine key={line.uuid} points={line.points} type="line" uuid={line.uuid} />;
       })}
-      {components.map((entity) => {
-        const Component = editableComponentMap[entity.type] as React.ComponentType;
-        if (!Component) throwIfDev('No component found for type: ' + entity.type);
-        return <Component key={entity.uuid} {...entity} />;
+      {components.map((props) => {
+        const Component = editableComponentMap[props.type] as React.ComponentType;
+        if (!Component) throwIfDev('No component found for type: ' + props.type);
+        return <Component key={props.uuid} {...props} />;
       })}
     </>
   );

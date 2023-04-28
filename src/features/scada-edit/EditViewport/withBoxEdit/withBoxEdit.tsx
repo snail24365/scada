@@ -10,26 +10,25 @@ import { WithBoxEditContext } from './WithBoxEditContext';
 function withBoxEdit<T extends BoxEntityProps>(WrappedComponent: React.ComponentType<T>) {
   const WithEdit: React.FC<T> = (props) => {
     const [showArrow, setShowArrow] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isBoxEditing, setIsBoxEditing] = useState(false);
 
-    const isSelected =
-      useAppSelector((state) => state.editViewport.selectionLookup[props.uuid]) ?? false;
+    const isSelected = useAppSelector((state) => state.editViewport.selectionLookup[props.uuid]) ?? false;
 
     const componentProp = { ...props } as T;
     return (
-      <WithBoxEditContext.Provider
-        value={{ showArrow, setShowArrow, isBoxEditing: isEditing, setIsBoxEditing: setIsEditing }}>
+      <WithBoxEditContext.Provider value={{ showArrow, setShowArrow, isBoxEditing, setIsBoxEditing, isSelected }}>
         <g
           onMouseEnter={() => {
             setShowArrow(true);
           }}
           onMouseLeave={() => {
             setShowArrow(false);
-          }}>
+          }}
+        >
           <WrappedComponent {...componentProp} />
-          <LinkArrow {...props} />
           {isSelected && (
             <>
+              <LinkArrow {...props} />
               <Frame {...props} />
               <ScalePoints {...props} />
             </>

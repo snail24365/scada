@@ -1,26 +1,22 @@
-import {
-  editViewportOffset,
-  viewboxState,
-  viewportState,
-} from "@/features/scada/atom/scadaAtom";
-import useDrag, { MouseButton } from "@/hooks/useDrag";
-import { useWindowSize } from "@/hooks/useWindowSize";
-import { useAppDispatch } from "@/store/hooks";
-import { throwIfDev, toVec2, toXY } from "@/util/util";
-import _ from "lodash";
-import { useContext, useEffect, useRef } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { Vector2 } from "three";
-import { selectedEditMenuIndexState } from "../atom/scadaEditSectionAtom";
-import { unselectAll } from "../scadaEditSlice";
-import EditScene from "./EditScene";
-import { EditViewportContext } from "./EditViewportContext";
-import Grid from "./Grid";
-import MiniMap from "./MiniMap";
-import SelectFrame from "./SelectFrame";
-import ToolButtonGroup from "./ToolButtonGroup";
-import { useEditViewportKeyControl } from "./useEditViewportKeyControl";
-import { EditSectionContext } from "../EditSectionContext";
+import { editViewportOffset, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import useDrag, { MouseButton } from '@/hooks/useDrag';
+import { useWindowSize } from '@/hooks/useWindowSize';
+import { useAppDispatch } from '@/store/hooks';
+import { throwIfDev, toVec2, toXY } from '@/util/util';
+import _ from 'lodash';
+import { useContext, useEffect, useMemo, useRef } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
+import { unselectAll } from '../scadaEditSlice';
+import EditScene from './EditScene';
+import { EditViewportContext } from './EditViewportContext';
+import Grid from './Grid';
+import MiniMap from './MiniMap';
+import SelectFrame from './SelectFrame';
+import ToolButtonGroup from './ToolButtonGroup';
+import { useEditViewportKeyControl } from './useEditViewportKeyControl';
+import { EditSectionContext } from '../EditSectionContext';
+import EquipmentPanel from '../EquipmentPanel';
 
 type Props = {
   resolutionX: number;
@@ -38,15 +34,16 @@ const EditViewport = (props: Props) => {
   const setSelectedMenuIndex = useSetRecoilState(selectedEditMenuIndexState);
   const windowSize = useWindowSize();
 
+  const grid = useMemo(() => <Grid />, []);
+
   function setViewportSize() {
     const rootDiv = rootDivRef.current;
     if (!rootDiv) {
-      throwIfDev("rootDiv or container is null");
+      throwIfDev('rootDiv or container is null');
       return;
     }
 
-    const { width: containerWidth, height: containerHeight } =
-      rootDiv.getBoundingClientRect();
+    const { width: containerWidth, height: containerHeight } = rootDiv.getBoundingClientRect();
     const resolutionRatio = resolutionX / resolutionY;
     const stretchedWidth = resolutionRatio * containerHeight;
     const stretchedHeight = containerWidth / resolutionRatio;
@@ -74,7 +71,7 @@ const EditViewport = (props: Props) => {
 
   const miniMapWidth = 200;
   const editViewportContextValue = {
-    viewboxRef,
+    viewboxRef
   };
 
   useEffect(() => {
@@ -84,25 +81,25 @@ const EditViewport = (props: Props) => {
   useEffect(() => {
     const container = rootSvgRef.current;
     if (!container) {
-      throwIfDev("container is null");
+      throwIfDev('container is null');
       return;
     }
     setViewbox({
       x: 0,
       y: 0,
       width: viewport.resolutionX,
-      height: viewport.resolutionY,
+      height: viewport.resolutionY
     });
     setEditViewportOffset(toXY(container.getBoundingClientRect()));
   }, [viewport]);
 
-  const zoom = (type: "in" | "out", amount: number = 1) => {
+  const zoom = (type: 'in' | 'out', amount: number = 1) => {
     const zoomLimitRatio = 4;
     const widthLowerBound = resolutionX / zoomLimitRatio;
     const heightLowerBound = resolutionY / zoomLimitRatio;
     const initialViewportRatio = resolutionY / resolutionX;
 
-    const inOutSign = type === "in" ? -1 : 1;
+    const inOutSign = type === 'in' ? -1 : 1;
     const zoomSpeed = 10 * amount;
     const xDelta = zoomSpeed * inOutSign;
     const yDelta = xDelta * initialViewportRatio;
@@ -115,17 +112,18 @@ const EditViewport = (props: Props) => {
       let newY = Math.max(prev.y - yDelta, 0);
 
       if (newX + newWidth > viewport.resolutionX) {
-        newX = prev.x - 2 * xDelta;
+        newX = Math.max(prev.x - 2 * xDelta, 0);
       }
 
       if (newY + newHeight > viewport.resolutionY) {
-        newY = prev.y - 2 * yDelta;
+        newY = Math.max(prev.y - 2 * yDelta, 0);
       }
 
-      const isWidthValid =
-        newWidth >= widthLowerBound && newWidth <= viewport.resolutionX;
-      const isHeightValid =
-        newHeight >= heightLowerBound && newHeight <= viewport.resolutionY;
+      newWidth = Math.min(newWidth, viewport.resolutionX);
+      newHeight = Math.min(newHeight, viewport.resolutionY);
+
+      const isWidthValid = newWidth > widthLowerBound;
+      const isHeightValid = newHeight > heightLowerBound;
       const isValid = isWidthValid && isHeightValid;
       if (!isValid) return prev;
 
@@ -134,7 +132,7 @@ const EditViewport = (props: Props) => {
   };
 
   const onWheelDrag = useDrag({
-    containerRef: rootSvgRef,
+    moveElementRef: rootSvgRef,
     onMouseMove: (e) => {
       const viewbox = viewboxRef.current;
       const speed = 2;
@@ -144,7 +142,7 @@ const EditViewport = (props: Props) => {
       newY = _.clamp(newY, 0, viewport.resolutionY - viewbox.height);
       setViewbox((prev) => ({ ...prev, x: newX, y: newY }));
     },
-    mouseButton: MouseButton.MIDDLE,
+    mouseButton: MouseButton.MIDDLE
   });
 
   const zoomMagnification = 10;
@@ -168,24 +166,21 @@ const EditViewport = (props: Props) => {
 
   return (
     <EditViewportContext.Provider value={editViewportContextValue}>
-      <div
-        style={{ position: "relative", minHeight: 0, height: "100%" }}
-        ref={rootDivRef}
-      >
+      <div style={{ position: 'relative', minHeight: 0, height: '100%' }} ref={rootDivRef}>
         <div
           tabIndex={0}
           css={{
-            position: "relative",
-            width: "100%",
-            height: "100%",
-            zIndex: 200,
-            border: "1px solid black",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            "&:focus": {
-              outline: "none",
-            },
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            zIndex: 10,
+            border: '1px solid black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            '&:focus': {
+              outline: 'none'
+            }
           }}
           onKeyDown={controls.onKeyDown}
           onMouseDown={onMouseDown}
@@ -193,19 +188,17 @@ const EditViewport = (props: Props) => {
           <svg
             ref={rootSvgRef}
             onWheel={(e) => {
-              Math.sign(e.deltaY) < 0 ? zoom("in") : zoom("out");
+              Math.sign(e.deltaY) < 0 ? zoom('in') : zoom('out');
             }}
-            viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${
-              viewbox.height ?? 0
-            }`}
+            viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
             width={viewport.width}
             height={viewport.height}
             css={{
-              zIndex: 100,
-              backgroundColor: "transparent",
+              zIndex: 15,
+              backgroundColor: 'transparent'
             }}
           >
-            <Grid />
+            {grid}
             <EditScene />
             <SelectFrame />
           </svg>
@@ -213,23 +206,24 @@ const EditViewport = (props: Props) => {
         <MiniMap width={miniMapWidth} />
         <div
           style={{
-            position: "absolute",
+            position: 'absolute',
             right: 60,
             top: 10,
             width: 50,
             height: 50,
-            zIndex: 250,
+            zIndex: 20
           }}
         >
           <ToolButtonGroup
             onZoomIn={() => {
-              zoom("in", zoomMagnification);
+              zoom('in', zoomMagnification);
             }}
             onZoomOut={() => {
-              zoom("out", zoomMagnification);
+              zoom('out', zoomMagnification);
             }}
           />
         </div>
+        <EquipmentPanel />
       </div>
     </EditViewportContext.Provider>
   );

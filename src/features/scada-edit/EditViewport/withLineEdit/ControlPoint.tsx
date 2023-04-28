@@ -1,16 +1,16 @@
-import { primaryBlue } from "@/assets/color";
-import { isEditingState, scadaEditUtil } from "@/features/scada/atom/scadaAtom";
-import useDrag from "@/hooks/useDrag";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { UUID, XY } from "@/types/type";
-import _ from "lodash";
-import { useContext } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { exclusiveSelect } from "../../scadaEditSlice";
-import { isSelectedSelector, updateLinePoint } from "../editSceneSlice";
-import { EditViewportContext } from "../EditViewportContext";
-import { filterReconciledPoints } from "../util";
-import { EditSectionContext } from "../../EditSectionContext";
+import { primaryBlue } from '@/assets/color';
+import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
+import useDrag from '@/hooks/useDrag';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { UUID, XY } from '@/types/type';
+import _ from 'lodash';
+import { useContext } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { exclusiveSelect } from '../../scadaEditSlice';
+import { isSelectedSelector, updateLinePoint } from '../editSceneSlice';
+import { EditViewportContext } from '../EditViewportContext';
+import { filterReconciledPoints } from '../util';
+import { EditSectionContext } from '../../EditSectionContext';
 
 type Props = {
   uuid: UUID;
@@ -22,16 +22,8 @@ type Props = {
   isHorizontal: boolean;
 };
 
-const ControlPoint = ({
-  uuid,
-  index,
-  points,
-  cx,
-  cy,
-  r,
-  isHorizontal,
-}: Props) => {
-  const cursor = isHorizontal ? "row-resize" : "col-resize";
+const ControlPoint = ({ uuid, index, points, cx, cy, r, isHorizontal }: Props) => {
+  const cursor = isHorizontal ? 'row-resize' : 'col-resize';
   const dispatch = useAppDispatch();
   const isSelected = useAppSelector(isSelectedSelector(uuid));
 
@@ -58,7 +50,7 @@ const ControlPoint = ({
       const updateAlongAxis = (point: { x: number; y: number }) => {
         const { x: mouseX, y: mouseY } = getXY(e);
         const updateValue = isHorizontal ? clamp(mouseY) : clamp(mouseX);
-        const updateAxis = isHorizontal ? "y" : "x";
+        const updateAxis = isHorizontal ? 'y' : 'x';
         point[updateAxis] = updateValue;
       };
 
@@ -68,19 +60,19 @@ const ControlPoint = ({
       dispatch(
         updateLinePoint({
           uuid,
-          points: filterReconciledPoints(points),
+          points: filterReconciledPoints(points)
         })
       );
     },
     onMouseUp: () => {
       setIsEditing(false);
     },
-    containerRef,
+    moveElementRef: containerRef
   });
 
   return (
     <circle
-      display={isSelected ? "block" : "none"}
+      display={isSelected ? 'block' : 'none'}
       cx={cx}
       cy={cy}
       r={r}

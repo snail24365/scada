@@ -12,13 +12,7 @@ type Props = {
   onClick?: React.MouseEventHandler;
 };
 
-const MenuButton = ({
-  icon: Icon,
-  text,
-  children,
-  isOpen,
-  onClick,
-}: React.PropsWithChildren<Props>) => {
+const MenuButton = ({ icon: Icon, text, children, isOpen, onClick }: React.PropsWithChildren<Props>) => {
   isOpen = isOpen ?? false;
   onClick = onClick ?? (() => {});
   return (
@@ -34,16 +28,18 @@ const MenuButton = ({
           position: 'absolute',
           top: '100%',
           left: '0',
-          zIndex: 1000,
-        }}>
+          zIndex: 40
+        }}
+      >
         <Paper
           sx={{
             m: 1,
             backgroundColor: darkBlue,
             padding: '20px',
-            borderRadius: 4,
+            borderRadius: 4
           }}
-          elevation={4}>
+          elevation={4}
+        >
           {children}
         </Paper>
       </Collapse>

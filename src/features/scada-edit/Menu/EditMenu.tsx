@@ -3,9 +3,9 @@ import React from 'react';
 import { useRecoilState, useSetRecoilState as useRecoilValue } from 'recoil';
 import { selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
 import ButtonGroup from './ButtonGroup/ButtonGroup';
-import EquipmentButton from './EquipmentButton';
-import ShapeMenuButton from './ShapeMenuButton';
-import TextMenuButton from './TextMenuButton';
+import TextMenuButton from './MenuButton/TextMenuButton';
+import ShapeMenuButton from './MenuButton/ShapeMenuButton';
+import EquipmentButton from './MenuButton/EquipmentButton';
 
 type Props = {};
 
@@ -21,8 +21,9 @@ const EditMenu = (props: Props) => {
         padding: 8,
         alignItems: 'center',
         paddingLeft: 30,
-        backgroundColor: darkBlue2,
-      }}>
+        backgroundColor: darkBlue2
+      }}
+    >
       <ButtonGroup>
         <TextMenuButton />
         <ShapeMenuButton />

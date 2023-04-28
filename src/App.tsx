@@ -1,10 +1,9 @@
-import './App.css';
-import EditViewport from '@/features/scada-edit/EditViewport/EditViewport';
-import ScadaPage from './pages/ScadaPage';
+import "./App.css";
+import ScadaPage from "./pages/ScadaPage";
 
 function App() {
   return (
-    <div className="App" style={{ height: '100%' }}>
+    <div className="App" style={{ height: "100%" }}>
       <ScadaPage />
     </div>
   );

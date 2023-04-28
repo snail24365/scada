@@ -1,74 +1,72 @@
-import { MouseEventHandler, RefObject, useRef, useState } from "react";
-import useRefObjectSync from "./useRefObjectSync";
+import { MouseEventHandler, RefObject, useRef, useState } from 'react';
+import useRefObjectSync from './useRefObjectSync';
 
 export enum MouseButton {
   LEFT = 0,
   MIDDLE = 1,
   RIGHT = 2,
   BACK = 3,
-  FORWARD = 4,
+  FORWARD = 4
 }
 
 type UseDragProps = {
   onMouseMove?: (e: React.MouseEvent) => void | boolean;
   onMouseUp?: (e: React.MouseEvent) => void | boolean;
   onMouseDown?: (e: React.MouseEvent) => void | boolean;
-  containerRef: RefObject<Element>;
+  moveElementRef: RefObject<Element>;
   upElementRef?: RefObject<Element>;
   mouseButton?: MouseButton;
 };
 
-const useDrag = ({
-  mouseButton,
-  upElementRef,
-  containerRef,
-  onMouseMove,
-  onMouseUp,
-  onMouseDown,
-}: UseDragProps) => {
+const useDrag = ({ mouseButton, upElementRef, moveElementRef, onMouseMove, onMouseUp, onMouseDown }: UseDragProps) => {
   mouseButton = mouseButton ?? MouseButton.LEFT;
-  upElementRef = upElementRef ?? containerRef;
+  upElementRef = upElementRef ?? moveElementRef;
 
   const [dragState, setDragState] = useState({
     isMousePressed: false,
-    isDragging: false,
+    isDragging: false
   });
   const dragStateRef = useRef(dragState);
   useRefObjectSync(dragStateRef, dragState);
 
+  const leaveElementRef = moveElementRef;
+  const onDragMouseLeave = (e: React.MouseEvent) => {};
+
   const onDragMouseMove = (e: React.MouseEvent) => {
-    console.log("move");
     if (!dragStateRef.current.isMousePressed) return;
     if (onMouseMove?.(e) ?? false) return;
     setDragState((prev) => ({ ...prev, isDragging: true }));
   };
 
   const onDragMouseUp = (e: React.MouseEvent) => {
+    const upElement = upElementRef?.current;
+    const leaveElement = leaveElementRef.current;
+
     if (e.button !== mouseButton) return;
     if (onMouseUp?.(e) ?? false) return;
-    setDragState({ isMousePressed: false, isDragging: false });
-    const container = containerRef.current;
+    if (!(upElement && leaveElement)) return;
+    dragStateRef.current.isDragging = false;
+    dragStateRef.current.isMousePressed = false;
 
-    // TODO : remove any type cast
-    const upElement = upElementRef?.current;
-    if (upElement) {
-      upElement.removeEventListener("mouseup", onDragMouseUp as any);
-    }
-    container?.removeEventListener("mousemove", onDragMouseMove as any);
+    const moveElement = moveElementRef.current;
+    upElement.removeEventListener('mouseup', onDragMouseUp as any);
+    moveElement?.removeEventListener('mousemove', onDragMouseMove as any);
+    leaveElement.removeEventListener('mouseleave', onDragMouseLeave as any);
   };
 
   const onDragMouseDown = (e: React.MouseEvent) => {
+    const upElement = upElementRef?.current;
+    const leaveElement = leaveElementRef.current;
+
     if (e.button !== mouseButton) return;
     if (onMouseDown?.(e) ?? false) return;
-    setDragState({ isMousePressed: true, isDragging: false });
-    const container = containerRef.current;
+    if (!(upElement && leaveElement)) return;
 
-    // TODO : remove any type cast
-    const upElement = upElementRef?.current;
-    if (upElement) {
-      upElement.addEventListener("mouseup", onDragMouseUp as any);
-    }
-    container?.addEventListener("mousemove", onDragMouseMove as any);
+    setDragState({ isMousePressed: true, isDragging: false });
+    const moveElement = moveElementRef.current;
+    upElement.addEventListener('mouseup', onDragMouseUp as any);
+    moveElement?.addEventListener('mousemove', onDragMouseMove as any);
+    leaveElement.addEventListener('mouseleave', onDragMouseLeave as any);
   };
 
   return onDragMouseDown;
