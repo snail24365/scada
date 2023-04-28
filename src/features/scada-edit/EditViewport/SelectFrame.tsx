@@ -1,3 +1,4 @@
+import { primaryBlue, primaryGrey } from '@/assets/color';
 import { isEditingState, scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import useRefObjectSync from '@/hooks/useRefObjectSync';
@@ -7,11 +8,9 @@ import { AABBTest, toVec2, toXY } from '@/util/util';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
+import { EditSectionContext } from '../EditSectionContext';
 import { selectItems, unselectAll } from '../scadaEditSlice';
 import { selectEditBoxes, selectEditLines } from './editSceneSlice';
-import { EditViewportContext } from './EditViewportContext';
-import { EditSectionContext } from '../EditSectionContext';
-import { primaryBlue, primaryGrey } from '@/assets/color';
 
 const SelectFrame = () => {
   const [selectionRect, setSelectionRect] = useState({
@@ -31,14 +30,18 @@ const SelectFrame = () => {
   const lines = useAppSelector(selectEditLines);
   const entities = useAppSelector(selectEditBoxes);
 
+  const bodyRef = useRef(document.body);
+
   let downXY = new Vector2();
   const onMouseDownDrag = useDrag({
-    moveElementRef: rootSvgRef,
+    moveElementRef: bodyRef,
     onMouseDown: (e) => {
       const rootSvg = rootSvgRef.current;
+
       if (!rootSvg) return;
-      const isBlankSpaceClicked = e.target === rootSvg;
-      if (!isBlankSpaceClicked) return true;
+
+      const otherEntityClicked = e.target !== rootSvg;
+      if (otherEntityClicked) return true;
 
       downXY = getXY(e);
     },
