@@ -1,4 +1,4 @@
-import { ScadaMode, XY } from '@/types/type';
+import { ScadaMode, Viewbox, XY } from '@/types/type';
 import { RefObject } from 'react';
 import { atom, selector } from 'recoil';
 import { Vector2 } from 'three';
@@ -122,4 +122,59 @@ export const reducedScaleState = selector({
 export const isEquipmentPanelOpenState = atom({
   key: 'isEquipmentPanelOpen',
   default: false
+});
+
+export const zoomRatioState = selector({
+  key: 'zoomRatio',
+  get: ({ get }) => {
+    const viewport = get(viewportState);
+    const viewbox = get(viewboxState);
+    return viewport.resolutionX / viewbox.width;
+  }
+});
+
+export const viewboxZoomActionState = selector({
+  key: 'zoom',
+  get: ({ get }) => {
+    const { resolutionX, resolutionY } = get(viewportState);
+    const viewport = get(viewportState);
+    const zoom = (type: 'in' | 'out', amount: number = 1) => {
+      const zoomLimitRatio = 4;
+      const widthLowerBound = resolutionX / zoomLimitRatio;
+      const heightLowerBound = resolutionY / zoomLimitRatio;
+      const initialViewportRatio = resolutionY / resolutionX;
+
+      const inOutSign = type === 'in' ? -1 : 1;
+      const zoomSpeed = 10 * amount;
+      const xDelta = zoomSpeed * inOutSign;
+      const yDelta = xDelta * initialViewportRatio;
+
+      return (prev: Viewbox) => {
+        let newWidth = prev.width + 2 * xDelta;
+        let newHeight = prev.height + 2 * yDelta;
+
+        let newX = Math.max(prev.x - xDelta, 0);
+        let newY = Math.max(prev.y - yDelta, 0);
+
+        if (newX + newWidth > viewport.resolutionX) {
+          newX = Math.max(prev.x - 2 * xDelta, 0);
+        }
+
+        if (newY + newHeight > viewport.resolutionY) {
+          newY = Math.max(prev.y - 2 * yDelta, 0);
+        }
+
+        newWidth = Math.min(newWidth, viewport.resolutionX);
+        newHeight = Math.min(newHeight, viewport.resolutionY);
+
+        const isWidthValid = newWidth > widthLowerBound;
+        const isHeightValid = newHeight > heightLowerBound;
+        const isValid = isWidthValid && isHeightValid;
+        if (!isValid) return prev;
+
+        return { width: newWidth, height: newHeight, x: newX, y: newY };
+      };
+    };
+    return zoom;
+  }
 });

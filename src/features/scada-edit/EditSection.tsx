@@ -4,7 +4,7 @@ import EquipmentPanel from './EquipmentPanel';
 import { EditSectionContext } from './EditSectionContext';
 import { useSetRecoilState } from 'recoil';
 import { isEquipmentPanelOpenState } from '../scada/atom/scadaAtom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {};
 

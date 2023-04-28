@@ -1,4 +1,7 @@
-import { createContext } from "react";
+import { StateSetter } from '@/types/type';
+import { createContext } from 'react';
+
+type ZoomFunctionType = (type: 'in' | 'out', amount: number) => void;
 
 type EditSectionContextType = {
   rootSvgRef: React.RefObject<SVGSVGElement>;
@@ -7,9 +10,7 @@ type EditSectionContextType = {
 
 const initialEditSectionContext = {
   rootSvgRef: { current: null },
-  rootDivRef: { current: null },
+  rootDivRef: { current: null }
 };
 
-export const EditSectionContext = createContext<EditSectionContextType>(
-  initialEditSectionContext
-);
+export const EditSectionContext = createContext<EditSectionContextType>(initialEditSectionContext);

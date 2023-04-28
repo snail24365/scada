@@ -1,15 +1,31 @@
 import { darkBlue2 } from '@/assets/color';
-import React from 'react';
-import { useRecoilState, useSetRecoilState as useRecoilValue } from 'recoil';
-import { selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
+import { viewboxState, viewboxZoomActionState, zoomRatioState } from '@/features/scada/atom/scadaAtom';
+import { flexVerticalCenter } from '@/style/style';
+import { IconButton } from '@mui/material';
+import { useContext } from 'react';
+import { BiZoomIn, BiZoomOut } from 'react-icons/bi';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { EditSectionContext } from '../EditSectionContext';
 import ButtonGroup from './ButtonGroup/ButtonGroup';
-import TextMenuButton from './MenuButton/TextMenuButton';
-import ShapeMenuButton from './MenuButton/ShapeMenuButton';
 import EquipmentButton from './MenuButton/EquipmentButton';
-
+import ShapeMenuButton from './MenuButton/ShapeMenuButton';
+import TextMenuButton from './MenuButton/TextMenuButton';
 type Props = {};
 
 const EditMenu = (props: Props) => {
+  const zoomRatio = useRecoilValue(zoomRatioState);
+  const setViewbox = useSetRecoilState(viewboxState);
+  const viewboxZoomAction = useRecoilValue(viewboxZoomActionState);
+  const zoomAmount = 3;
+
+  const zoomIn = () => {
+    setViewbox(viewboxZoomAction('in', zoomAmount));
+  };
+
+  const zoomOut = () => {
+    setViewbox(viewboxZoomAction('out', zoomAmount));
+  };
+
   return (
     <div
       css={{
@@ -29,6 +45,15 @@ const EditMenu = (props: Props) => {
         <ShapeMenuButton />
       </ButtonGroup>
       <EquipmentButton />
+      <div css={[flexVerticalCenter, { marginLeft: 20 }]}>
+        <span css={{ color: '#fff', marginRight: 10 }}>{`Zoom: ${(zoomRatio * 100).toFixed(0)}%`}</span>
+        <IconButton onClick={zoomIn}>
+          <BiZoomIn color="#fff" />
+        </IconButton>
+        <IconButton onClick={zoomOut}>
+          <BiZoomOut color="#fff" />
+        </IconButton>
+      </div>
     </div>
   );
 };

@@ -71,7 +71,7 @@ const MiniMap = ({ width }: Props) => {
         width,
         height,
         zIndex: 30,
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
         border: `1px solid ${primaryGrey}`
       }}
     >

@@ -1,11 +1,18 @@
-import { editViewportOffset, viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import {
+  editViewportOffset,
+  viewboxState,
+  viewboxZoomActionState,
+  viewportState
+} from '@/features/scada/atom/scadaAtom';
 import useDrag, { MouseButton } from '@/hooks/useDrag';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { useAppDispatch } from '@/store/hooks';
-import { throwIfDev, toVec2, toXY } from '@/util/util';
+import { throwIfDev, toXY } from '@/util/util';
 import _ from 'lodash';
 import { useContext, useEffect, useMemo, useRef } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { EditSectionContext } from '../EditSectionContext';
+import EquipmentPanel from '../EquipmentPanel';
 import { selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
 import { unselectAll } from '../scadaEditSlice';
 import EditScene from './EditScene';
@@ -13,10 +20,7 @@ import { EditViewportContext } from './EditViewportContext';
 import Grid from './Grid';
 import MiniMap from './MiniMap';
 import SelectFrame from './SelectFrame';
-import ToolButtonGroup from './ToolButtonGroup';
 import { useEditViewportKeyControl } from './useEditViewportKeyControl';
-import { EditSectionContext } from '../EditSectionContext';
-import EquipmentPanel from '../EquipmentPanel';
 
 type Props = {
   resolutionX: number;
@@ -93,43 +97,7 @@ const EditViewport = (props: Props) => {
     setEditViewportOffset(toXY(container.getBoundingClientRect()));
   }, [viewport]);
 
-  const zoom = (type: 'in' | 'out', amount: number = 1) => {
-    const zoomLimitRatio = 4;
-    const widthLowerBound = resolutionX / zoomLimitRatio;
-    const heightLowerBound = resolutionY / zoomLimitRatio;
-    const initialViewportRatio = resolutionY / resolutionX;
-
-    const inOutSign = type === 'in' ? -1 : 1;
-    const zoomSpeed = 10 * amount;
-    const xDelta = zoomSpeed * inOutSign;
-    const yDelta = xDelta * initialViewportRatio;
-
-    setViewbox((prev) => {
-      let newWidth = prev.width + 2 * xDelta;
-      let newHeight = prev.height + 2 * yDelta;
-
-      let newX = Math.max(prev.x - xDelta, 0);
-      let newY = Math.max(prev.y - yDelta, 0);
-
-      if (newX + newWidth > viewport.resolutionX) {
-        newX = Math.max(prev.x - 2 * xDelta, 0);
-      }
-
-      if (newY + newHeight > viewport.resolutionY) {
-        newY = Math.max(prev.y - 2 * yDelta, 0);
-      }
-
-      newWidth = Math.min(newWidth, viewport.resolutionX);
-      newHeight = Math.min(newHeight, viewport.resolutionY);
-
-      const isWidthValid = newWidth > widthLowerBound;
-      const isHeightValid = newHeight > heightLowerBound;
-      const isValid = isWidthValid && isHeightValid;
-      if (!isValid) return prev;
-
-      return { width: newWidth, height: newHeight, x: newX, y: newY };
-    });
-  };
+  const viewboxZoomAction = useRecoilValue(viewboxZoomActionState);
 
   const onWheelDrag = useDrag({
     moveElementRef: rootSvgRef,
@@ -145,8 +113,6 @@ const EditViewport = (props: Props) => {
     mouseButton: MouseButton.MIDDLE
   });
 
-  const zoomMagnification = 10;
-
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // selection reset
     const container = rootSvgRef.current;
@@ -160,6 +126,13 @@ const EditViewport = (props: Props) => {
 
     // menu collapse reset
     setSelectedMenuIndex(-1);
+  };
+
+  const zoomIn = () => {
+    setViewbox(viewboxZoomAction('in'));
+  };
+  const zoomOut = () => {
+    setViewbox(viewboxZoomAction('out'));
   };
 
   const controls = useEditViewportKeyControl();
@@ -188,7 +161,7 @@ const EditViewport = (props: Props) => {
           <svg
             ref={rootSvgRef}
             onWheel={(e) => {
-              Math.sign(e.deltaY) < 0 ? zoom('in') : zoom('out');
+              Math.sign(e.deltaY) < 0 ? zoomIn() : zoomOut();
             }}
             viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
             width={viewport.width}
@@ -213,16 +186,7 @@ const EditViewport = (props: Props) => {
             height: 50,
             zIndex: 20
           }}
-        >
-          <ToolButtonGroup
-            onZoomIn={() => {
-              zoom('in', zoomMagnification);
-            }}
-            onZoomOut={() => {
-              zoom('out', zoomMagnification);
-            }}
-          />
-        </div>
+        ></div>
         <EquipmentPanel />
       </div>
     </EditViewportContext.Provider>
