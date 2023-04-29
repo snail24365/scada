@@ -3,12 +3,12 @@ import EditModeNav from '@/features/scada-edit/EditModeNav';
 import EditSection from '@/features/scada-edit/EditSection';
 import MonitorModeNav from '@/features/scada-monitor/MonitorModeNav';
 import MonitorSection from '@/features/scada-monitor/MonitorSection';
-import { scadaMode } from '@/features/scada/atom/scadaAtom';
+import { resolutionState, scadaMode } from '@/features/scada/atom/scadaAtom';
 import { AnimatePresence } from 'framer-motion';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { MdTouchApp } from 'react-icons/md';
 import Header from '@/components/Header';
-import React from 'react';
+import React, { useEffect } from 'react';
 type Props = {};
 
 const ScadaPage = (props: Props) => {
@@ -16,6 +16,11 @@ const ScadaPage = (props: Props) => {
   const isMonitorMode = mode === 'monitor';
   const Navbar = isMonitorMode ? MonitorModeNav : EditModeNav;
   const Section = isMonitorMode ? MonitorSection : EditSection;
+  const setResolution = useSetRecoilState(resolutionState);
+
+  useEffect(() => {
+    setResolution({ resolutionX: 1000, resolutionY: 600 });
+  }, []);
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>

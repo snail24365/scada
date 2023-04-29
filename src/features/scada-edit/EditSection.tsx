@@ -9,10 +9,8 @@ type Props = {};
 
 const EditSection = (props: Props) => {
   const setIsEquipmentPanelOpen = useSetRecoilState(isEquipmentPanelOpenState);
-  const setResolution = useSetRecoilState(resolutionState);
 
   useEffect(() => {
-    setResolution({ resolutionX: 1000, resolutionY: 600 });
     setIsEquipmentPanelOpen(false);
   }, []);
 
