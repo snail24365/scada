@@ -1,5 +1,5 @@
 import { ReactComponent as PumpSvg } from '@/assets/pump1.svg';
-import { BBox, BoxEntityProps } from '@/types/type';
+import { BBox, BoxState } from '@/types/type';
 
 type Props = React.SVGProps<SVGElement>;
 

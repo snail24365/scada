@@ -8,29 +8,22 @@ import { AnimatePresence } from 'framer-motion';
 import { useRecoilValue } from 'recoil';
 import { MdTouchApp } from 'react-icons/md';
 import Header from '@/components/Header';
+import React from 'react';
 type Props = {};
 
 const ScadaPage = (props: Props) => {
   const mode = useRecoilValue(scadaMode);
   const isMonitorMode = mode === 'monitor';
-  const navBar = isMonitorMode ? <MonitorModeNav /> : <EditModeNav />;
-  const section = isMonitorMode ? <MonitorSection /> : <EditSection />;
+  const Navbar = isMonitorMode ? MonitorModeNav : EditModeNav;
+  const Section = isMonitorMode ? MonitorSection : EditSection;
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Header />
-      {/* <div
-        style={{
-          height: '50px',
-          backgroundColor: deepDark,
-          color: fontColor1
-        }}
-      >
-        <MdTouchApp />
-        SCADA{' '}
-      </div> */}
       <nav style={{ background: darkBlue, flexDirection: 'row', height: '54px' }}>
-        <AnimatePresence>{navBar}</AnimatePresence>
+        <AnimatePresence>
+          <Navbar />
+        </AnimatePresence>
       </nav>
       <div
         css={{
@@ -51,7 +44,9 @@ const ScadaPage = (props: Props) => {
             flex: 1
           }}
         >
-          {section}
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Section />
+          </React.Suspense>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import {
+  computeViewportSizeState,
   editViewportOffset,
   viewboxState,
   viewboxZoomActionState,
@@ -9,7 +10,7 @@ import { useWindowSize } from '@/hooks/useWindowSize';
 import { useAppDispatch } from '@/store/hooks';
 import { throwIfDev, toXY } from '@/util/util';
 import _ from 'lodash';
-import { useContext, useEffect, useMemo, useRef } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { EditSectionContext } from '../EditSectionContext';
 import EquipmentPanel from '../EquipmentPanel';
@@ -38,38 +39,19 @@ const EditViewport = (props: Props) => {
   const setSelectedMenuIndex = useSetRecoilState(selectedEditMenuIndexState);
   const windowSize = useWindowSize();
 
+  const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
+
+  const computeViewportSize = useRecoilValue(computeViewportSizeState);
+
   const grid = useMemo(() => <Grid />, []);
 
-  function setViewportSize() {
-    const rootDiv = rootDivRef.current;
-    if (!rootDiv) {
-      throwIfDev('rootDiv or container is null');
-      return;
-    }
-
-    const { width: containerWidth, height: containerHeight } = rootDiv.getBoundingClientRect();
-    const resolutionRatio = resolutionX / resolutionY;
-    const stretchedWidth = resolutionRatio * containerHeight;
-    const stretchedHeight = containerWidth / resolutionRatio;
-
-    if (stretchedWidth > containerWidth) {
-      const width = containerWidth;
-      const height = stretchedHeight;
-      setViewport({ resolutionX, resolutionY, width, height });
-    } else {
-      const width = stretchedWidth;
-      const height = containerHeight;
-      setViewport({ resolutionX, resolutionY, width, height });
-    }
-    setViewbox({ width: resolutionX, height: resolutionY, x: 0, y: 0 });
-  }
   useEffect(() => {
-    setViewportSize();
-  }, []);
-
-  useEffect(() => {
-    setViewportSize();
-  }, [windowSize]);
+    const container = rootDivRef.current;
+    if (!container) return;
+    const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
+    const size = computeViewportSize(containerWidth, containerHeight);
+    setViewportSize(size);
+  }, [rootDivRef.current, windowSize]);
 
   const viewboxRef = useRef({ ...viewbox });
 

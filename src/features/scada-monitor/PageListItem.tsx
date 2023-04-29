@@ -1,27 +1,33 @@
 import { darkBlue, deepDark, primaryBlue } from '@/assets/color';
 import { flexCenter } from '@/style/style';
-import { UUID } from '@/types/type';
+import { AlarmLevel, UUID } from '@/types/type';
 import { FaBeer } from 'react-icons/fa';
-import { AlarmLevel } from '../scada/scadaPageSlice';
+import { useRecoilState } from 'recoil';
+import { currentScadaPageIdState } from '../scada/atom/scadaAtom';
 
 const PageListItem = ({ title, alarmLevel, pageId }: { title: string; alarmLevel: AlarmLevel; pageId: UUID }) => {
-  const isSelected = false;
+  const [currentPageId, setCurrentPageId] = useRecoilState(currentScadaPageIdState);
+  const isSelected = currentPageId === pageId;
+
   const backgroundColor = isSelected ? primaryBlue : 'transparent';
+  const hoverColor = isSelected ? primaryBlue : deepDark;
   const alarmColorMap = {
     0: 'transparent',
     1: 'green',
     2: 'gold',
     3: 'red'
   };
+
   return (
     <li
+      onClick={() => setCurrentPageId(pageId)}
       css={{
         display: 'flex',
         borderRadius: 6,
         backgroundColor,
         padding: 18,
         transitionDuration: '0.4s',
-        '&:hover': { cursor: 'pointer', backgroundColor: deepDark }
+        '&:hover': { cursor: 'pointer', backgroundColor: hoverColor }
       }}
     >
       <span css={{ marginRight: 8 }}>

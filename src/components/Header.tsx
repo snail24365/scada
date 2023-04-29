@@ -1,4 +1,4 @@
-import { deepDark, primaryBlue } from '@/assets/color';
+import { deepDark, greyBorder2, primaryBlue } from '@/assets/color';
 import { flexVerticalCenter } from '@/style/style';
 import React from 'react';
 import { MdTouchApp } from 'react-icons/md';
@@ -13,7 +13,8 @@ const Header = (props: Props) => {
         {
           height: '50px',
           backgroundColor: deepDark,
-          paddingLeft: 20
+          paddingLeft: 20,
+          borderBottom: `3px solid ${greyBorder2}`
         }
       ]}
     >

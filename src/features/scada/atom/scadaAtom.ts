@@ -1,5 +1,4 @@
-import { ScadaMode, Viewbox, XY } from '@/types/type';
-import { RefObject } from 'react';
+import { ScadaMode, UUID, Viewbox, XY } from '@/types/type';
 import { atom, selector } from 'recoil';
 import { Vector2 } from 'three';
 
@@ -176,5 +175,34 @@ export const viewboxZoomActionState = selector({
       };
     };
     return zoom;
+  }
+});
+
+export const currentScadaPageIdState = atom<UUID | null>({
+  key: 'currentPageId',
+  default: null
+});
+
+export const computeViewportSizeState = selector({
+  key: 'getViewportSize',
+  get: ({ get }) => {
+    const { resolutionX, resolutionY } = get(viewportState);
+    console.log('resolutionX', resolutionX, 'resolutionY', resolutionY);
+
+    return (containerWidth: number, containerHeight: number) => {
+      const resolutionRatio = resolutionX / resolutionY;
+      const stretchedWidth = resolutionRatio * containerHeight;
+      const stretchedHeight = containerWidth / resolutionRatio;
+
+      if (stretchedWidth > containerWidth) {
+        const width = containerWidth;
+        const height = stretchedHeight;
+        return { width, height };
+      } else {
+        const width = stretchedWidth;
+        const height = containerHeight;
+        return { width, height };
+      }
+    };
   }
 });

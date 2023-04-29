@@ -1,10 +1,9 @@
 import EditMenu from '@/features/scada-edit/Menu/EditMenu';
-import EditViewport from './EditViewport/EditViewport';
-import EquipmentPanel from './EquipmentPanel';
-import { EditSectionContext } from './EditSectionContext';
+import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { isEquipmentPanelOpenState } from '../scada/atom/scadaAtom';
-import { useEffect, useState } from 'react';
+import { EditSectionContext } from './EditSectionContext';
+import EditViewport from './EditViewport/EditViewport';
 
 type Props = {};
 

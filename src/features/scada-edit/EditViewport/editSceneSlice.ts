@@ -1,28 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../../store/store';
-import { BBox, BoxEntityProps, LineEntityProps, UUID, XY } from '../../../types/type';
+import { BBox, BoxState, LineState, ScadaSceneState, UUID, XY } from '../../../types/type';
 
-type LineState = LineEntityProps;
-type BoxState = BoxEntityProps;
-
-interface EditSceneState {
-  lines: LineState[];
-  boxes: BoxState[];
-}
-
-const initialState: EditSceneState = {
+const initialState: ScadaSceneState = {
   lines: [],
-  boxes: [
-    // {
-    //   uuid: '3',
-    //   type: 'Converter',
-    //   x: 0,
-    //   y: 0,
-    //   width: 200,
-    //   height: 200
-    // }
-  ]
+  boxes: []
 };
 
 export const editSceneSlice = createSlice({
@@ -58,13 +41,25 @@ export const editSceneSlice = createSlice({
       const entity = state.boxes.find((entity) => entity.uuid === action.payload.uuid);
       if (!entity) return;
       Object.assign(entity, action.payload);
+    },
+    updateEditScene: (state, action: PayloadAction<ScadaSceneState>) => {
+      state.boxes = action.payload.boxes;
+      state.lines = action.payload.lines;
     }
   }
 });
 
-export const { addLine, addBoxEntity, updateBoxBound, translateBoxEntity, updateLinePoint, deleteEntities } =
-  editSceneSlice.actions;
+export const {
+  addLine,
+  addBoxEntity,
+  updateBoxBound,
+  translateBoxEntity,
+  updateLinePoint,
+  deleteEntities,
+  updateEditScene
+} = editSceneSlice.actions;
 
+export const selectEditScene = (state: RootState) => state.editScene;
 export const selectEditLines = (state: RootState) => state.editScene.lines;
 export const selectEditLine = (uuid: UUID) => {
   return (state: RootState) => state.editScene.lines.find((line) => line.uuid === uuid);

@@ -1,9 +1,9 @@
-import { LineEntityProps } from '@/types/type';
+import { LineState } from '@/types/type';
 import React, { ComponentType } from 'react';
 import EdgeControlPoint from './EdgeControlPoint';
 import InnerControlWrapper from './InnerControlWrapper';
 
-function withLineEdit<T extends LineEntityProps>(WrappedComponent: ComponentType<T>) {
+function withLineEdit<T extends LineState>(WrappedComponent: ComponentType<T>) {
   const WithEdit: React.FC<T> = (props) => {
     const { uuid: lineUUID, points } = props;
     const pointRadius = 4;

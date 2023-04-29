@@ -1,7 +1,7 @@
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
-import { BoxEntityProps } from '@/types/type';
+import { BoxState } from '@/types/type';
 import { useContext, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { exclusiveSelect } from '../../scadaEditSlice';
@@ -12,7 +12,7 @@ import { EditSectionContext } from '../../EditSectionContext';
 import { Vector2 } from 'three';
 import { mapVector2, toXY } from '@/util/util';
 
-const MouseEventHandler = ({ width, height, x, y, uuid }: BoxEntityProps) => {
+const MouseEventHandler = ({ width, height, x, y, uuid }: BoxState) => {
   const ref = useRef<SVGRectElement>(null);
   const [cursor, setCursor] = useState('pointer');
   const { rootSvgRef: containerRef } = useContext(EditSectionContext);

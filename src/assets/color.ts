@@ -16,3 +16,4 @@ export const menuIconColor = '#516572';
 export const deepDark = '#111111';
 
 export const greyBorder = `#1d1f23`;
+export const greyBorder2 = `#1b1f22`;

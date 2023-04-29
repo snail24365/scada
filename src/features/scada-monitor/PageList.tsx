@@ -1,17 +1,28 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { currentScadaPageIdState } from '../scada/atom/scadaAtom';
 import PageListItem from './PageListItem';
-import { useSelector } from 'react-redux';
-import { selectPages } from '../scada/scadaPageSlice';
-import { flexVerticalCenter } from '@/style/style';
+import { scadaPagesState } from './scadaMonitorAtom';
 
 type Props = {};
 
 const PageList = ({}: Props) => {
-  const pages = useSelector(selectPages);
-  const listItems = pages.map((page) => {
-    return <PageListItem {...page} />;
-  });
-  return <ul css={{ display: 'flex', flexDirection: 'column', gap: 15 }}>{listItems}</ul>;
+  const pages = useRecoilValue(scadaPagesState);
+
+  setInitialPageIndexToFristOne();
+
+  const listItems = pages.map((page) => <PageListItem {...page} key={page.pageId} />);
+  return <ul css={{ display: 'flex', flexDirection: 'column', gap: 15, minWidth: 250 }}>{listItems}</ul>;
+
+  function setInitialPageIndexToFristOne() {
+    const setPageId = useSetRecoilState(currentScadaPageIdState);
+    useEffect(() => {
+      if (pages.length > 0) {
+        setPageId(pages[0].pageId);
+      }
+      return () => {};
+    }, []);
+  }
 };
 
 export default PageList;
