@@ -10,6 +10,7 @@ const MonitorModeNav = () => {
   const scadaPageTitle = 'SCADA 1'; // TODO : change to recoil
 
   const setMode = useSetRecoilState(scadaMode);
+
   return (
     <motion.div
       transition={{ duration: 0.6 }}

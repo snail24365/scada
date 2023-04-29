@@ -5,11 +5,10 @@ import { BBox, UUID, XY } from '@/types/type';
 import _ from 'lodash';
 import { useContext } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { EditSectionContext } from '../../EditSectionContext';
 import { exclusiveSelect } from '../../scadaEditSlice';
 import { updateLinePoint } from '../editSceneSlice';
-import { EditViewportContext } from '../EditViewportContext';
 import { filterReconciledPoints } from '../util';
-import { EditSectionContext } from '../../EditSectionContext';
 
 type Props = {
   points: XY[];

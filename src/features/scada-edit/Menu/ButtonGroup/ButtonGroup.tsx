@@ -1,7 +1,6 @@
-import React, { PropsWithChildren, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import { selectedEditMenuIndexState } from '../../atom/scadaEditSectionAtom';
-import { ButtonGroupContext } from './ButtonGroupContext';
 
 type OpenButtonProp = { isOpen?: boolean; onClick?: React.MouseEventHandler };
 
@@ -15,7 +14,7 @@ const ButtonGroup = <T extends OpenButtonProp>(props: { children: React.ReactEle
         if (index === selectedMenuIndex) setSelectedMenuIndex(-1);
         else setSelectedMenuIndex(index);
         child.props.onClick?.(e);
-      },
+      }
     });
   });
   return <>{children}</>;

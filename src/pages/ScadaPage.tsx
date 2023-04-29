@@ -1,14 +1,13 @@
-import { darkBlue, darkBlueGrey1, fontColor1, deepDark } from '@/assets/color';
+import { darkBlue, darkBlueGrey1 } from '@/assets/color';
+import Header from '@/components/Header';
 import EditModeNav from '@/features/scada-edit/EditModeNav';
 import EditSection from '@/features/scada-edit/EditSection';
 import MonitorModeNav from '@/features/scada-monitor/MonitorModeNav';
 import MonitorSection from '@/features/scada-monitor/MonitorSection';
-import { resolutionState, scadaMode } from '@/features/scada/atom/scadaAtom';
+import { scadaMode } from '@/features/scada/atom/scadaAtom';
 import { AnimatePresence } from 'framer-motion';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { MdTouchApp } from 'react-icons/md';
-import Header from '@/components/Header';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useRecoilValue } from 'recoil';
 type Props = {};
 
 const ScadaPage = (props: Props) => {
@@ -16,11 +15,6 @@ const ScadaPage = (props: Props) => {
   const isMonitorMode = mode === 'monitor';
   const Navbar = isMonitorMode ? MonitorModeNav : EditModeNav;
   const Section = isMonitorMode ? MonitorSection : EditSection;
-  const setResolution = useSetRecoilState(resolutionState);
-
-  useEffect(() => {
-    setResolution({ resolutionX: 1000, resolutionY: 600 });
-  }, []);
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>

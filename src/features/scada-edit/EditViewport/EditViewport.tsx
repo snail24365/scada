@@ -23,6 +23,7 @@ import Grid from './Grid';
 import MiniMap from './MiniMap';
 import SelectFrame from './SelectFrame';
 import { useEditViewportKeyControl } from './useEditViewportKeyControl';
+import useResizeListener from '@/hooks/useResizeListener';
 
 const EditViewport = ({}) => {
   const dispatch = useAppDispatch();
@@ -31,7 +32,7 @@ const EditViewport = ({}) => {
   const [viewportSize, setViewportSize] = useRecoilState(viewportSizeState);
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
   const setSelectedMenuIndex = useSetRecoilState(selectedEditMenuIndexState);
-  const windowSize = useWindowSize();
+  // const windowSize = useWindowSize();
   const resolution = useRecoilValue(resolutionState);
   const { resolutionX, resolutionY } = resolution;
 
@@ -39,17 +40,10 @@ const EditViewport = ({}) => {
 
   const grid = useMemo(() => <Grid />, []);
 
-  useEffect(() => {
-    const container = rootDivRef.current;
-    if (!container) return;
-    const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
-    const size = computeViewportSize(containerWidth, containerHeight);
-    setViewportSize(size);
-  }, [rootDivRef.current, windowSize]);
-
   const viewboxRef = useRef({ ...viewbox });
 
   const miniMapWidth = 200;
+
   const editViewportContextValue = {
     viewboxRef
   };
@@ -60,18 +54,25 @@ const EditViewport = ({}) => {
 
   useEffect(() => {
     const container = rootSvgRef.current;
-    if (!container) {
-      throwIfDev('container is null');
-      return;
-    }
+    if (!container) return;
     setViewbox({
       x: 0,
       y: 0,
       width: resolutionX,
       height: resolutionY
     });
-    setEditViewportOffset(toXY(container.getBoundingClientRect()));
-  }, [resolution]);
+  }, []);
+
+  useResizeListener(rootDivRef, ({ x, y, width, height }) => {
+    setViewportSize(computeViewportSize(width, height));
+  });
+
+  useResizeListener(rootDivRef, () => {
+    const rootSvg = rootSvgRef.current;
+    if (!rootSvg) return;
+    const { x, y } = rootSvg.getBoundingClientRect();
+    setEditViewportOffset({ x, y });
+  });
 
   const viewboxZoomAction = useRecoilValue(viewboxZoomActionState);
 

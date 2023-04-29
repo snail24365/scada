@@ -34,9 +34,7 @@ const MonitorViewport = () => {
       ]}
     >
       <svg {...viewportSize} viewBox={`0 0 ${resolutionX} ${resolutionY}`}>
-        <React.Suspense fallback={<div>Loading...</div>}>
-          <MonitorScene />
-        </React.Suspense>
+        <MonitorScene />
       </svg>
     </div>
   );

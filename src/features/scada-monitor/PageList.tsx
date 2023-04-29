@@ -9,12 +9,17 @@ type Props = {};
 const PageList = ({}: Props) => {
   const pages = useRecoilValue(scadaPagesState);
 
-  setInitialPageIndexToFristOne();
+  setFirstPageWhenMounted();
 
-  const listItems = pages.map((page) => <PageListItem {...page} key={page.pageId} />);
-  return <ul css={{ display: 'flex', flexDirection: 'column', gap: 15, minWidth: 250 }}>{listItems}</ul>;
+  return (
+    <ul css={{ display: 'flex', flexDirection: 'column', gap: 15, minWidth: 250 }}>
+      {pages.map((page) => (
+        <PageListItem {...page} key={page.pageId} />
+      ))}
+    </ul>
+  );
 
-  function setInitialPageIndexToFristOne() {
+  function setFirstPageWhenMounted() {
     const setPageId = useSetRecoilState(currentScadaPageIdState);
     useEffect(() => {
       if (pages.length > 0) {

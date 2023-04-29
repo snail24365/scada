@@ -49,3 +49,14 @@ export type ScadaSceneState = {
   lines: LineState[];
   boxes: BoxState[];
 };
+
+export type DomRect = {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+  left: number;
+  top: number;
+  bottom: number;
+  right: number;
+};
