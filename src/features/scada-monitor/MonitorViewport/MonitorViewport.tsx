@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import MonitorScene from './MonitorScene';
 import { darkBlue, darkBlue2, darkBlueGrey1 } from '@/assets/color';
 import { useRecoilValue } from 'recoil';
-import { computeViewportSizeState, viewportState } from '@/features/scada/atom/scadaAtom';
+import { computeViewportSizeState, resolutionState } from '@/features/scada/atom/scadaAtom';
 import { flexCenter } from '@/style/style';
 
 const MonitorViewport = () => {
   const computeViewportSize = useRecoilValue(computeViewportSizeState);
+  const resolution = useRecoilValue(resolutionState);
+  const { resolutionX, resolutionY } = resolution;
 
   const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,7 +33,7 @@ const MonitorViewport = () => {
         flexCenter
       ]}
     >
-      <svg {...viewportSize}>
+      <svg {...viewportSize} viewBox={`0 0 ${resolutionX} ${resolutionY}`}>
         <React.Suspense fallback={<div>Loading...</div>}>
           <MonitorScene />
         </React.Suspense>

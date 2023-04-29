@@ -1,9 +1,10 @@
 import {
   computeViewportSizeState,
   editViewportOffset,
+  resolutionState,
   viewboxState,
   viewboxZoomActionState,
-  viewportState
+  viewportSizeState
 } from '@/features/scada/atom/scadaAtom';
 import useDrag, { MouseButton } from '@/hooks/useDrag';
 import { useWindowSize } from '@/hooks/useWindowSize';
@@ -23,23 +24,16 @@ import MiniMap from './MiniMap';
 import SelectFrame from './SelectFrame';
 import { useEditViewportKeyControl } from './useEditViewportKeyControl';
 
-type Props = {
-  resolutionX: number;
-  resolutionY: number;
-};
-
-const EditViewport = (props: Props) => {
-  const { resolutionX, resolutionY } = props;
-
+const EditViewport = ({}) => {
   const dispatch = useAppDispatch();
   const { rootDivRef, rootSvgRef } = useContext(EditSectionContext);
   const setEditViewportOffset = useSetRecoilState(editViewportOffset);
-  const [viewport, setViewport] = useRecoilState(viewportState);
+  const [viewportSize, setViewportSize] = useRecoilState(viewportSizeState);
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
   const setSelectedMenuIndex = useSetRecoilState(selectedEditMenuIndexState);
   const windowSize = useWindowSize();
-
-  const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
+  const resolution = useRecoilValue(resolutionState);
+  const { resolutionX, resolutionY } = resolution;
 
   const computeViewportSize = useRecoilValue(computeViewportSizeState);
 
@@ -73,11 +67,11 @@ const EditViewport = (props: Props) => {
     setViewbox({
       x: 0,
       y: 0,
-      width: viewport.resolutionX,
-      height: viewport.resolutionY
+      width: resolutionX,
+      height: resolutionY
     });
     setEditViewportOffset(toXY(container.getBoundingClientRect()));
-  }, [viewport]);
+  }, [resolution]);
 
   const viewboxZoomAction = useRecoilValue(viewboxZoomActionState);
 
@@ -88,8 +82,8 @@ const EditViewport = (props: Props) => {
       const speed = 2;
       let newX = viewbox.x + e.movementX * speed;
       let newY = viewbox.y + e.movementY * speed;
-      newX = _.clamp(newX, 0, viewport.resolutionX - viewbox.width);
-      newY = _.clamp(newY, 0, viewport.resolutionY - viewbox.height);
+      newX = _.clamp(newX, 0, resolutionX - viewbox.width);
+      newY = _.clamp(newY, 0, resolutionY - viewbox.height);
       setViewbox((prev) => ({ ...prev, x: newX, y: newY }));
     },
     mouseButton: MouseButton.MIDDLE
@@ -102,7 +96,6 @@ const EditViewport = (props: Props) => {
     if (isEmptySpaceClicked) {
       dispatch(unselectAll());
     }
-
     // wheel move
     onWheelDrag(e);
 
@@ -146,8 +139,8 @@ const EditViewport = (props: Props) => {
               Math.sign(e.deltaY) < 0 ? zoomIn() : zoomOut();
             }}
             viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
-            width={viewport.width}
-            height={viewport.height}
+            width={viewportSize.width}
+            height={viewportSize.height}
             css={{
               zIndex: 15,
               backgroundColor: 'transparent'
@@ -159,16 +152,6 @@ const EditViewport = (props: Props) => {
           </svg>
         </div>
         <MiniMap width={miniMapWidth} />
-        <div
-          style={{
-            position: 'absolute',
-            right: 60,
-            top: 10,
-            width: 50,
-            height: 50,
-            zIndex: 20
-          }}
-        ></div>
         <EquipmentPanel />
       </div>
     </EditViewportContext.Provider>

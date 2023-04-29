@@ -1,4 +1,4 @@
-import { viewboxState, viewportState } from '@/features/scada/atom/scadaAtom';
+import { resolutionState, viewboxState } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import useInterval from '@/hooks/useInterval';
 import useRefObjectSync from '@/hooks/useRefObjectSync';
@@ -9,7 +9,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Vector2 } from 'three';
 import { EditSectionContext } from '../EditSectionContext';
-import { primaryBlue, primaryGrey } from '@/assets/color';
+import { darkBlue, primaryBlue, primaryGrey } from '@/assets/color';
 
 type Props = { width: number };
 
@@ -20,15 +20,16 @@ const MiniMap = ({ width }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const zoomFrameRef = useRef<HTMLDivElement>(null);
 
-  const viewport = useRecoilValue(viewportState);
+  const resolution = useRecoilValue(resolutionState);
+  const { resolutionX, resolutionY } = resolution;
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
 
-  const viewportRatio = viewport.resolutionY / viewport.resolutionX;
+  const viewportRatio = resolutionY / resolutionX;
   const viewboxRatio = viewbox.height / viewbox.width;
   const height = viewportRatio * width;
 
-  const widthRatio = width / viewport.resolutionX;
-  const heightRatio = height / viewport.resolutionY;
+  const widthRatio = width / resolutionX;
+  const heightRatio = height / resolutionY;
 
   const [display, setDisplay] = useState<DisplayStyle>('none');
   const [zoomBox, setZoomBox] = useState({
@@ -44,11 +45,11 @@ const MiniMap = ({ width }: Props) => {
 
   useEffect(() => {
     updateZoom();
-  }, [viewport, viewbox]);
+  }, [resolution, viewbox]);
 
   useEffect(() => {
     drawMinimap();
-  }, [viewbox, viewport]);
+  }, [resolution, viewbox]);
 
   useInterval(drawMinimap, renderPeriod, [drawMinimap]);
 
@@ -71,14 +72,15 @@ const MiniMap = ({ width }: Props) => {
         width,
         height,
         zIndex: 30,
-        backgroundColor: '#fff',
+        backgroundColor: darkBlue,
+        opacity: 0.9,
         border: `1px solid ${primaryGrey}`
       }}
     >
       <div
         ref={zoomFrameRef}
         css={{
-          background: '#eeeeeeaa',
+          background: '#eeeeee33',
           border: `2px solid ${primaryBlue}`,
           position: 'absolute',
           ...zoomBox
@@ -95,12 +97,12 @@ const MiniMap = ({ width }: Props) => {
     if (!(rootSvg && canvas)) return;
 
     const shrinkedRootSvg = rootSvg.cloneNode(true) as SVGSVGElement;
-    shrinkedRootSvg.setAttribute('viewBox', `0 0 ${viewport.resolutionX} ${viewport.resolutionY}`);
+    shrinkedRootSvg.setAttribute('viewBox', `0 0 ${resolutionX} ${resolutionY}`);
     drawNodeOnCanvas(shrinkedRootSvg, canvas);
   }
 
   function updateZoom() {
-    const isZoomed = viewport.resolutionX !== viewbox.width || viewport.resolutionY !== viewbox.height;
+    const isZoomed = resolutionX !== viewbox.width || resolutionY !== viewbox.height;
     setDisplay(isZoomed ? 'block' : 'none');
     setZoomBox({
       width: viewbox.width * widthRatio,
@@ -117,7 +119,7 @@ const MiniMap = ({ width }: Props) => {
       .sub(new Vector2(zoomBox.width / 2, zoomBox.height / 2))
       .clamp(new Vector2(0, 0), new Vector2(width - zoomBox.width, height - zoomBox.height))
       .divide(new Vector2(width, height))
-      .multiply(new Vector2(viewport.resolutionX, viewport.resolutionY));
+      .multiply(new Vector2(resolutionX, resolutionY));
     return toXY(nextXY);
   }
 

@@ -1,4 +1,4 @@
-import { getService } from '@/service/fetch';
+import { getService } from '@/service/api';
 import { selector } from 'recoil';
 import { currentScadaPageIdState } from '../scada/atom/scadaAtom';
 import { MonitorSceneState, ScadaPage } from '@/types/type';

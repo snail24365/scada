@@ -17,11 +17,17 @@ export const viewboxState = atom({
   }
 });
 
-export const viewportState = atom({
-  key: 'viewport',
+export const resolutionState = atom({
+  key: 'resolution',
   default: {
     resolutionX: 1,
-    resolutionY: 1,
+    resolutionY: 1
+  }
+});
+
+export const viewportSizeState = atom({
+  key: 'viewportSize',
+  default: {
     width: 1,
     height: 1
   }
@@ -39,7 +45,7 @@ export const getXYFunc = selector({
   key: 'getXY',
   get: ({ get }) => {
     const viewbox = get(viewboxState);
-    const viewport = get(viewportState);
+    const { width: viewportWidth, height: viewportHeight } = get(viewportSizeState);
     const { x: offsetX, y: offsetY } = get(editViewportOffset);
     return <T extends { clientX: number; clientY: number }>(e: React.MouseEvent<Element, MouseEvent> | T) => {
       let x = 0;
@@ -49,8 +55,8 @@ export const getXYFunc = selector({
       x = clientX - offsetX;
       y = clientY - offsetY;
 
-      const svgXCoordinate = viewbox.x + (x / viewport.width) * viewbox.width;
-      const svgYCoordinate = viewbox.y + (y / viewport.height) * viewbox.height;
+      const svgXCoordinate = viewbox.x + (x / viewportWidth) * viewbox.width;
+      const svgYCoordinate = viewbox.y + (y / viewportHeight) * viewbox.height;
       return new Vector2(svgXCoordinate, svgYCoordinate);
     };
   }
@@ -65,7 +71,8 @@ export const scadaEditUtil = selector({
   key: 'scadaEditUtil',
   get: ({ get }) => {
     return {
-      viewport: get(viewportState),
+      viewportSize: get(viewportSizeState),
+      resolution: get(resolutionState),
       viewbox: get(viewboxState),
       gridUnit: get(gridUnitState),
       clamp: get(clampFunc),
@@ -110,10 +117,11 @@ export const editViewportOffset = atom<XY>({
 export const reducedScaleState = selector({
   key: 'reducedScale',
   get: ({ get }) => {
-    const viewport = get(viewportState);
+    const { width, height } = get(viewportSizeState);
+    const { resolutionX, resolutionY } = get(resolutionState);
     return {
-      x: viewport.resolutionX / viewport.width,
-      y: viewport.resolutionY / viewport.height
+      x: resolutionX / width,
+      y: resolutionY / height
     };
   }
 });
@@ -126,17 +134,16 @@ export const isEquipmentPanelOpenState = atom({
 export const zoomRatioState = selector({
   key: 'zoomRatio',
   get: ({ get }) => {
-    const viewport = get(viewportState);
+    const { resolutionX } = get(resolutionState);
     const viewbox = get(viewboxState);
-    return viewport.resolutionX / viewbox.width;
+    return resolutionX / viewbox.width;
   }
 });
 
 export const viewboxZoomActionState = selector({
   key: 'zoom',
   get: ({ get }) => {
-    const { resolutionX, resolutionY } = get(viewportState);
-    const viewport = get(viewportState);
+    const { resolutionX, resolutionY } = get(resolutionState);
     const zoom = (type: 'in' | 'out', amount: number = 1) => {
       const zoomLimitRatio = 4;
       const widthLowerBound = resolutionX / zoomLimitRatio;
@@ -155,16 +162,16 @@ export const viewboxZoomActionState = selector({
         let newX = Math.max(prev.x - xDelta, 0);
         let newY = Math.max(prev.y - yDelta, 0);
 
-        if (newX + newWidth > viewport.resolutionX) {
+        if (newX + newWidth > resolutionX) {
           newX = Math.max(prev.x - 2 * xDelta, 0);
         }
 
-        if (newY + newHeight > viewport.resolutionY) {
+        if (newY + newHeight > resolutionY) {
           newY = Math.max(prev.y - 2 * yDelta, 0);
         }
 
-        newWidth = Math.min(newWidth, viewport.resolutionX);
-        newHeight = Math.min(newHeight, viewport.resolutionY);
+        newWidth = Math.min(newWidth, resolutionX);
+        newHeight = Math.min(newHeight, resolutionY);
 
         const isWidthValid = newWidth > widthLowerBound;
         const isHeightValid = newHeight > heightLowerBound;
@@ -186,9 +193,7 @@ export const currentScadaPageIdState = atom<UUID | null>({
 export const computeViewportSizeState = selector({
   key: 'getViewportSize',
   get: ({ get }) => {
-    const { resolutionX, resolutionY } = get(viewportState);
-    console.log('resolutionX', resolutionX, 'resolutionY', resolutionY);
-
+    const { resolutionX, resolutionY } = get(resolutionState);
     return (containerWidth: number, containerHeight: number) => {
       const resolutionRatio = resolutionX / resolutionY;
       const stretchedWidth = resolutionRatio * containerHeight;

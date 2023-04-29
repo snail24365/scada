@@ -1,7 +1,7 @@
 import EditMenu from '@/features/scada-edit/Menu/EditMenu';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { isEquipmentPanelOpenState } from '../scada/atom/scadaAtom';
+import { isEquipmentPanelOpenState, resolutionState } from '../scada/atom/scadaAtom';
 import { EditSectionContext } from './EditSectionContext';
 import EditViewport from './EditViewport/EditViewport';
 
@@ -9,7 +9,10 @@ type Props = {};
 
 const EditSection = (props: Props) => {
   const setIsEquipmentPanelOpen = useSetRecoilState(isEquipmentPanelOpenState);
+  const setResolution = useSetRecoilState(resolutionState);
+
   useEffect(() => {
+    setResolution({ resolutionX: 1000, resolutionY: 600 });
     setIsEquipmentPanelOpen(false);
   }, []);
 
@@ -21,7 +24,7 @@ const EditSection = (props: Props) => {
     <EditSectionContext.Provider value={initialContextValue}>
       <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <EditMenu />
-        <EditViewport resolutionX={800} resolutionY={600} />
+        <EditViewport />
       </div>
     </EditSectionContext.Provider>
   );
