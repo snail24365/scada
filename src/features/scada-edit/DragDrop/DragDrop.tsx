@@ -7,10 +7,9 @@ import { Entity, Size } from '@/types/type';
 import React, { useContext, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
+import { EditSectionContext } from '../EditSectionContext';
 import { addBoxEntity } from '../EditViewport/editSceneSlice';
 import EntityDragDropSticker from './DragDropSticker';
-import { EditSectionContext } from '../EditSectionContext';
-import useEventListener from '@/hooks/useEventListener';
 
 type Prop = {
   component: React.ReactElement<Size & Omit<Entity, 'uuid'>>;
@@ -41,28 +40,13 @@ const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: Prop) =>
     });
   };
 
-  // useEventListener({
-  //   listener: () => {
-  //     setStickerSizeState(zeroSize);
-  //   },
-  //   eventType: 'mouseup',
-  //   elementRef: bodyRef
-  // });
-
   const onDragMouseUp = (e: MouseEvent) => {
     if (dropIgnoreElements) {
       const isInIgnored = dropIgnoreElements.some((element) => element.current === e.target);
       if (isInIgnored) {
-        console.log('isInIgnored');
-
         setStickerSizeState(zeroSize);
         return;
       }
-      // for (const element of dropIgnoreElements) {
-      //   if (element.current === e.target) {
-
-      //   }
-      // }
     }
     const clientX = e.clientX + stickerOffsetX;
     const clientY = e.clientY + stickerOffsetY;
@@ -73,7 +57,6 @@ const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: Prop) =>
 
     const width = stickerSize * reducedScale.x;
     const height = stickerSize * (component.props.height / component.props.width) * reducedScale.y;
-    console.log('called here', type, component.props);
 
     dispatch(
       addBoxEntity({
@@ -110,53 +93,6 @@ const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: Prop) =>
       const rootSvg = rootSvgRef.current;
       if (!rootSvg) return;
       rootSvg.removeEventListener('mouseup', onDragMouseUp);
-
-      // const rootSvg = rootSvgRef.current;
-      // if (!rootSvg) return;
-
-      // const { left, top } = rootSvg.getBoundingClientRect();
-
-      // const isOutOfViewport =
-      //   e.clientX < left ||
-      //   e.clientY < top ||
-      //   e.clientX > left + rootSvg.clientWidth ||
-      //   e.clientY > top + rootSvg.clientHeight;
-
-      // if (isOutOfViewport) {
-      //   setStickerSizeState(zeroSize);
-      //   return;
-      // }
-
-      // if (dropIgnoreElements) {
-      //   for (const element of dropIgnoreElements) {
-      //     if (element.current === e.target) {
-      //       setStickerSizeState(zeroSize);
-      //       return;
-      //     }
-      //   }
-      // }
-
-      // const clientX = e.clientX + stickerOffsetX;
-      // const clientY = e.clientY + stickerOffsetY;
-      // const { x, y } = getXY({
-      //   clientX,
-      //   clientY
-      // });
-
-      // const width = stickerSize * reducedScale.x;
-      // const height = stickerSize * (component.props.height / component.props.width) * reducedScale.y;
-
-      // dispatch(
-      //   addBoxEntity({
-      //     ...component.props,
-      //     uuid: uuidv4(),
-      //     type: type,
-      //     width,
-      //     height,
-      //     x,
-      //     y
-      //   })
-      // );
     }
   });
 

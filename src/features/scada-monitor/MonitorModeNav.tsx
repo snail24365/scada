@@ -8,7 +8,6 @@ import { motion } from 'framer-motion';
 
 const MonitorModeNav = () => {
   const scadaPageTitle = 'SCADA 1'; // TODO : change to recoil
-  const ratio = 100; // TODO : change to recoil
 
   const setMode = useSetRecoilState(scadaMode);
   return (
@@ -22,11 +21,10 @@ const MonitorModeNav = () => {
         height: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginRight: 8,
-      }}>
+        marginRight: 8
+      }}
+    >
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div>{`${ratio}`}</div>
-        <div>V</div>
         <div style={{ display: 'flex', flexDirection: 'row' }}></div>
       </div>
       <div>{scadaPageTitle}</div>
@@ -37,9 +35,10 @@ const MonitorModeNav = () => {
           css={{
             backgroundColor: primaryGrey,
             '&:hover': {
-              backgroundColor: primaryGrey,
-            },
-          }}>
+              backgroundColor: primaryGrey
+            }
+          }}
+        >
           <GoPencil />
           <span css={{ marginLeft: 8 }}>SCADA Edit</span>
         </Button>

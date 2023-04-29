@@ -8,11 +8,11 @@ interface ScadaEditState {
 }
 
 const initialState: ScadaEditState = {
-  selectionLookup: {},
+  selectionLookup: {}
 };
 
-export const scadaEditSlice = createSlice({
-  name: 'scadaEditSlice',
+export const scadaEditStateSlice = createSlice({
+  name: 'editStateSlice',
   initialState,
   reducers: {
     select: (state, action: PayloadAction<{ uuid: UUID }>) => {
@@ -48,19 +48,12 @@ export const scadaEditSlice = createSlice({
       const toggled = !state.selectionLookup[action.payload.uuid];
       state.selectionLookup = {};
       state.selectionLookup[action.payload.uuid] = toggled;
-    },
-  },
+    }
+  }
 });
 
-export const {
-  select,
-  unselect,
-  selectItems,
-  unselectItems,
-  exclusiveToggle,
-  exclusiveSelect,
-  unselectAll,
-} = scadaEditSlice.actions;
+export const { select, unselect, selectItems, unselectItems, exclusiveToggle, exclusiveSelect, unselectAll } =
+  scadaEditStateSlice.actions;
 
 export const selectSelectionLookup = (state: RootState) => state.editViewport.selectionLookup;
 export const selectSelectedEntitiesUUID = (state: RootState) => {
@@ -73,4 +66,4 @@ export const selectSelectedEntitiesUUID = (state: RootState) => {
   return selectedUUIDs;
 };
 
-export default scadaEditSlice.reducer;
+export default scadaEditStateSlice.reducer;

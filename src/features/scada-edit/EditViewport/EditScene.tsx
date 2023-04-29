@@ -14,16 +14,16 @@ type EditSceneProp = {};
 
 const EditScene = ({}: EditSceneProp) => {
   const lines = useAppSelector(selectEditLines);
-  const components = useAppSelector(selectEditBoxes);
+  const entities = useAppSelector(selectEditBoxes);
   return (
     <>
       {lines.map((line) => {
         return <EditableLine key={line.uuid} points={line.points} type="line" uuid={line.uuid} />;
       })}
-      {components.map((props) => {
-        const Component = editableComponentMap[props.type] as React.ComponentType;
-        if (!Component) throwIfDev('No component found for type: ' + props.type);
-        return <Component key={props.uuid} {...props} />;
+      {entities.map((entity) => {
+        const Component = editableComponentMap[entity.type] as React.ComponentType;
+        if (!Component) throwIfDev('No component found for type: ' + entity.type);
+        return <Component key={entity.uuid} {...entity} />;
       })}
     </>
   );

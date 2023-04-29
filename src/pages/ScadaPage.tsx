@@ -1,4 +1,4 @@
-import { darkBlue, darkBlueGrey1, fontColor1, pageHeaderColor } from '@/assets/color';
+import { darkBlue, darkBlueGrey1, fontColor1, deepDark } from '@/assets/color';
 import EditModeNav from '@/features/scada-edit/EditModeNav';
 import EditSection from '@/features/scada-edit/EditSection';
 import MonitorModeNav from '@/features/scada-monitor/MonitorModeNav';
@@ -6,7 +6,8 @@ import MonitorSection from '@/features/scada-monitor/MonitorSection';
 import { scadaMode } from '@/features/scada/atom/scadaAtom';
 import { AnimatePresence } from 'framer-motion';
 import { useRecoilValue } from 'recoil';
-
+import { MdTouchApp } from 'react-icons/md';
+import Header from '@/components/Header';
 type Props = {};
 
 const ScadaPage = (props: Props) => {
@@ -17,15 +18,17 @@ const ScadaPage = (props: Props) => {
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div
+      <Header />
+      {/* <div
         style={{
           height: '50px',
-          backgroundColor: pageHeaderColor,
+          backgroundColor: deepDark,
           color: fontColor1
         }}
       >
+        <MdTouchApp />
         SCADA{' '}
-      </div>
+      </div> */}
       <nav style={{ background: darkBlue, flexDirection: 'row', height: '54px' }}>
         <AnimatePresence>{navBar}</AnimatePresence>
       </nav>

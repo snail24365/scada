@@ -13,6 +13,6 @@ export const fontColor1 = '#cdd3d6';
 export const fontColor2 = '#adbcc8';
 
 export const menuIconColor = '#516572';
-export const pageHeaderColor = '#111111';
+export const deepDark = '#111111';
 
 export const greyBorder = `#1d1f23`;
