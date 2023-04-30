@@ -21,7 +21,7 @@ export const editSceneSlice = createSlice({
       state.lines.push({
         ...action.payload,
         uuid,
-        type: 'line'
+        type: 'Line'
       });
     },
     addBoxEntity: (state, action: PayloadAction<BoxState>) => {
@@ -61,8 +61,14 @@ export const {
 
 export const selectEditScene = (state: RootState) => state.editScene;
 export const selectEditLines = (state: RootState) => state.editScene.lines;
-export const selectEditLine = (uuid: UUID) => {
-  return (state: RootState) => state.editScene.lines.find((line) => line.uuid === uuid);
+export const selectEntity = (uuid: UUID) => {
+  return (state: RootState) => {
+    const line = state.editScene.lines.find((line) => line.uuid === uuid);
+    if (line) return line;
+    const entity = state.editScene.boxes.find((entity) => entity.uuid === uuid);
+    if (entity) return entity;
+    return null;
+  };
 };
 export const selectEditBoxes = (state: RootState) => state.editScene.boxes;
 export const isSelectedSelector = (uuid: UUID) => {

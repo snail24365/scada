@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { isEquipmentPanelOpenState, resolutionState } from '../scada/atom/scadaAtom';
 import { EditSectionContext } from './EditSectionContext';
 import EditViewport from './EditViewport/EditViewport';
+import PropertyModal from './PropertyModal/PropertyModal';
 
 type Props = {};
 
@@ -24,6 +25,7 @@ const EditSection = (props: Props) => {
         <EditMenu />
         <EditViewport />
       </div>
+      <PropertyModal />
     </EditSectionContext.Provider>
   );
 };

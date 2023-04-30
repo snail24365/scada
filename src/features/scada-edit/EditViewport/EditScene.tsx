@@ -14,11 +14,12 @@ type EditSceneProp = {};
 
 const EditScene = ({}: EditSceneProp) => {
   const scene = useAppSelector(selectEditScene);
+  console.log('EditScene');
 
   return (
     <>
       {scene.lines.map((line) => {
-        return <EditableLine key={line.uuid} points={line.points} type="line" uuid={line.uuid} />;
+        return <EditableLine key={line.uuid} points={line.points} type="Line" uuid={line.uuid} />;
       })}
       {scene.boxes.map((entity) => {
         const Component = editableComponentMap[entity.type] as React.ComponentType;

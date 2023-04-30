@@ -1,16 +1,16 @@
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import useDrag from '@/hooks/useDrag';
+import useDrag, { MouseButton } from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
 import { BoxState } from '@/types/type';
+import { mapVector2, toXY } from '@/util/util';
 import { useContext, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { Vector2 } from 'three';
+import { EditSectionContext } from '../../EditSectionContext';
+import useContextMenuRightClick from '../../hook/useContextMenuRightClick';
 import { exclusiveSelect } from '../../scadaEditSlice';
 import { translateBoxEntity } from '../editSceneSlice';
-import { EditViewportContext } from '../EditViewportContext';
 import { WithBoxEditContext } from './WithBoxEditContext';
-import { EditSectionContext } from '../../EditSectionContext';
-import { Vector2 } from 'three';
-import { mapVector2, toXY } from '@/util/util';
 
 const MouseEventHandler = ({ width, height, x, y, uuid }: BoxState) => {
   const ref = useRef<SVGRectElement>(null);
@@ -19,7 +19,6 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxState) => {
 
   const { clamp, getXY } = useRecoilValue(scadaEditUtil);
   const { setIsBoxEditing: setIsEditing } = useContext(WithBoxEditContext);
-
   const dispatch = useAppDispatch();
 
   const downXY = new Vector2(x, y);
@@ -52,13 +51,21 @@ const MouseEventHandler = ({ width, height, x, y, uuid }: BoxState) => {
       setCursor('pointer');
       setIsEditing(false);
     },
-    moveElementRef: containerRef
+    moveElementRef: containerRef,
+    mouseButton: MouseButton.LEFT
   });
+
+  const onMouseRightClick = useContextMenuRightClick(uuid);
+
+  const onMouseDown: React.MouseEventHandler = (e) => {
+    onMouseRightClick(e);
+    onMouseDownDrag(e);
+  };
 
   return (
     <rect
       ref={ref}
-      onMouseDown={onMouseDownDrag}
+      onMouseDown={onMouseDown}
       cursor={cursor}
       x={x}
       y={y}

@@ -6,7 +6,7 @@ import { BiZoomIn, BiZoomOut } from 'react-icons/bi';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ButtonGroup from './ButtonGroup/ButtonGroup';
 import EquipmentButton from './MenuButton/EquipmentButton';
-import ShapeMenuButton from './MenuButton/ShapeMenuButton';
+import ShapeMenuButton from './MenuButton/ShapeMenuButton/ShapeMenuButton';
 import TextMenuButton from './MenuButton/TextMenuButton';
 type Props = {};
 

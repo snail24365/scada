@@ -11,14 +11,14 @@ import { EditSectionContext } from '../EditSectionContext';
 import { addBoxEntity } from '../EditViewport/editSceneSlice';
 import EntityDragDropSticker from './DragDropSticker';
 
-type Prop = {
+export type DragDropProp = {
   component: React.ReactElement<Size & Omit<Entity, 'uuid'>>;
   stickerSize: number;
   type: ScadaComponentsType;
   dropIgnoreElements?: React.RefObject<Element>[];
 };
 
-const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: Prop) => {
+const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: DragDropProp) => {
   const bodyRef = useRef<HTMLElement>(document.body);
   const [cursor, setCursor] = useState({ left: 0, top: 0 });
   const [stickerSizeState, setStickerSizeState] = useState({

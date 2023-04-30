@@ -2,16 +2,17 @@ import { darkBlue } from '@/assets/color';
 import { flexCenter } from '@/style/style';
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { isEquipmentPanelOpenState } from '../scada/atom/scadaAtom';
-import Pump1 from '../scada/components/equipments/Pump1';
-import Pump2 from '../scada/components/equipments/Pump2';
-import Panel from './Panel';
-import DragDrop from './DragDrop/DragDrop';
-import Watertank1 from '../scada/components/equipments/Watertank1';
-import Watertank2 from '../scada/components/equipments/Watertank2';
-import HeatExchanger from '../scada/components/equipments/HeatExchanger';
-import Gastank from '../scada/components/equipments/Gastank';
-import Converter from '../scada/components/equipments/Converter';
+import { isEquipmentPanelOpenState } from '../../scada/atom/scadaAtom';
+import Pump1 from '../../scada/components/equipments/Pump1';
+import Pump2 from '../../scada/components/equipments/Pump2';
+import Panel from '../Panel';
+import DragDrop, { DragDropProp } from '../DragDrop/DragDrop';
+import Watertank1 from '../../scada/components/equipments/Watertank1';
+import Watertank2 from '../../scada/components/equipments/Watertank2';
+import HeatExchanger from '../../scada/components/equipments/HeatExchanger';
+import Gastank from '../../scada/components/equipments/Gastank';
+import Converter from '../../scada/components/equipments/Converter';
+import EquipmentSection from './EquipmentSection';
 
 type Props = {};
 
@@ -72,28 +73,6 @@ const EquipmentPanel = (props: Props) => {
     </div>
   );
   return <Panel isOpen={isOpen} panelWidth={panelWidth} setOpen={setOpen} contents={contents} />;
-};
-
-const EquipmentSection = ({ title, children }: React.PropsWithChildren<{ title: string }>) => {
-  return (
-    <div>
-      <div css={{ color: '#fff' }}>{title}</div>
-      <hr />
-      <div
-        css={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gridTemplateRows: 'repeat(auto-fill, 200px)',
-          gap: 15,
-          cursor: 'pointer'
-        }}
-      >
-        {React.Children.map(children, (child, i) => {
-          return <div css={[flexCenter, { backgroundColor: darkBlue, borderRadius: 12, marginTop: 15 }]}>{child}</div>;
-        })}
-      </div>
-    </div>
-  );
 };
 
 export default EquipmentPanel;

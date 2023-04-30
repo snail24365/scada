@@ -11,11 +11,10 @@ import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Vector2 } from 'three';
 import { v4 as uuidV4 } from 'uuid';
+import { EditSectionContext } from '../../EditSectionContext';
 import { addLine, updateLinePoint } from '../editSceneSlice';
-import { EditViewportContext } from '../EditViewportContext';
 import { filterAdjointUnique } from '../util';
 import { WithBoxEditContext } from './WithBoxEditContext';
-import { EditSectionContext } from '../../EditSectionContext';
 
 const LinkArrow = (props: BoxState) => {
   const { width, height, x, y, uuid: boxUUID } = props;

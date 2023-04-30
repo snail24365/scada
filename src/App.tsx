@@ -21,5 +21,10 @@ function initialize() {
 
   useEffect(() => {
     setResolution({ resolutionX: 1000, resolutionY: 600 });
+    const contextMenuListener = (e: MouseEvent): void => e.preventDefault();
+    window.addEventListener('contextmenu', contextMenuListener);
+    return () => {
+      window.removeEventListener('contextmenu', contextMenuListener);
+    };
   }, []);
 }

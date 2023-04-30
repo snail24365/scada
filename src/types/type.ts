@@ -22,7 +22,7 @@ export type Entity = {
 };
 
 export type BoxState = Entity & BBox;
-export type LineState = Entity & Points;
+export type LineState = Entity & Points & { type: 'Line' };
 
 export type UUID = string;
 
@@ -60,3 +60,5 @@ export type DomRect = {
   bottom: number;
   right: number;
 };
+
+export type ChildrenWithProp<T> = React.ReactElement<T> | React.ReactElement<T>[] | undefined;

@@ -1,10 +1,6 @@
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  deleteEntities,
-  selectEditBoxes,
-  selectEditLines,
-} from "./editSceneSlice";
-import { selectSelectedEntitiesUUID } from "../scadaEditSlice";
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { deleteEntities, selectEditBoxes, selectEditLines } from './editSceneSlice';
+import { selectSelectedEntitiesUUID } from '../scadaEditSlice';
 
 export const useEditViewportKeyControl = () => {
   const selectedEntitiesUUIDs = useAppSelector(selectSelectedEntitiesUUID);
@@ -12,9 +8,7 @@ export const useEditViewportKeyControl = () => {
   const dispatch = useAppDispatch();
 
   const onKeyDown: React.KeyboardEventHandler = (e) => {
-    console.log(e.key);
-
-    if (e.key === "Delete" || e.key === "Backspace") {
+    if (e.key === 'Delete' || e.key === 'Backspace') {
       dispatch(deleteEntities(selectedEntitiesUUIDs));
     }
   };
