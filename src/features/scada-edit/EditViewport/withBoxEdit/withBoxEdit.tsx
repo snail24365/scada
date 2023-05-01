@@ -12,7 +12,7 @@ function withBoxEdit<T extends BoxEntity>(WrappedComponent: React.ComponentType<
     const [showArrow, setShowArrow] = useState(false);
     const [isBoxEditing, setIsBoxEditing] = useState(false);
 
-    const isSelected = useAppSelector((state) => state.editViewport.selectionLookup[props.uuid]) ?? false;
+    const isSelected = useAppSelector((state) => state.editSelection.selectionLookup[props.uuid]) ?? false;
 
     const componentProp = { ...props } as T;
     return (

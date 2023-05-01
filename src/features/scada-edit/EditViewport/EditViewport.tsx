@@ -16,7 +16,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { EditSectionContext } from '../EditSectionContext';
 import EquipmentPanel from '../EquipmentPanel/EquipmentPanel';
 import { editContextMenuState, selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
-import { unselectAll } from '../scadaEditSlice';
 import EditScene from './EditScene';
 import { EditViewportContext } from './EditViewportContext';
 import Grid from './Grid';
@@ -26,6 +25,7 @@ import { useEditViewportKeyControl } from './useEditViewportKeyControl';
 import useResizeListener from '@/hooks/useResizeListener';
 import onDragCallback from '@/util/onDragCallback';
 import EditContextMenu from '../EditContextMenu/EditContextMenu';
+import { unselectAll } from '../slice/scadaEditSelectionSlice';
 
 const EditViewport = ({}) => {
   console.log('EditViewport render');

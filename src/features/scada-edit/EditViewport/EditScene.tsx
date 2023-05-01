@@ -2,10 +2,10 @@ import { boxComponentsMap } from '@/features/scada/componentMap';
 import Line from '@/features/scada/components/shapes/Line';
 import { objectMap, throwIfDev } from '@/util/util';
 import { useAppSelector } from '../../../store/hooks';
-import { selectEditScene } from './editSceneSlice';
+import { selectEditScene } from '../slice/scadaEditSceneSlice';
 import withBoxEdit from './withBoxEdit/withBoxEdit';
 import withLineEdit from './withLineEdit/withLineEdit';
-import EditableText from './editableText';
+import EditableText from './EditableText';
 
 const EditableLine = withLineEdit(Line);
 

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../../store/store';
-import { BBox, BoxEntity, LineEntity, ScadaSceneState, UUID, XY } from '../../../types/type';
+import { BBox, LineEntity, ScadaSceneState, UUID, XY } from '../../../types/type';
 
 const initialState: ScadaSceneState = {
   lines: [],
@@ -9,7 +9,7 @@ const initialState: ScadaSceneState = {
   texts: []
 };
 
-export const editSceneSlice = createSlice({
+export const scadaEditSceneSlice = createSlice({
   name: 'editScene',
   initialState,
   reducers: {
@@ -35,9 +35,6 @@ export const editSceneSlice = createSlice({
         type: 'Line'
       });
     },
-    addBoxEntity: (state, action: PayloadAction<BoxEntity>) => {
-      state.boxes.push(action.payload);
-    },
     updateLinePoint: (state, action: PayloadAction<{ uuid: UUID; points: XY[] }>) => {
       const line = state.lines.find((line) => line.uuid === action.payload.uuid);
       if (!line) return;
@@ -55,20 +52,25 @@ export const editSceneSlice = createSlice({
     },
     updateEditScene: (state, action: PayloadAction<ScadaSceneState>) => {
       state = action.payload;
+    },
+    updateText(state, action: PayloadAction<{ uuid: UUID; text: string }>) {
+      const text = state.texts.find((text) => text.uuid === action.payload.uuid);
+      if (!text) return;
+      text.text = action.payload.text;
     }
   }
 });
 
 export const {
   addLine,
-  addBoxEntity,
   updateBBox,
   translateBoxEntity,
   updateLinePoint,
   deleteEntities,
   updateEditScene,
-  addEntity
-} = editSceneSlice.actions;
+  addEntity,
+  updateText
+} = scadaEditSceneSlice.actions;
 
 export const selectEditScene = (state: RootState) => state.editScene;
 export const selectEditLines = (state: RootState) => state.editScene.lines;
@@ -83,7 +85,7 @@ export const selectEntity = (uuid: UUID) => {
 };
 export const selectEditBoxes = (state: RootState) => state.editScene.boxes;
 export const isSelectedSelector = (uuid: UUID) => {
-  return (state: RootState) => state.editViewport.selectionLookup[uuid] ?? false;
+  return (state: RootState) => state.editSelection.selectionLookup[uuid] ?? false;
 };
 
-export default editSceneSlice.reducer;
+export default scadaEditSceneSlice.reducer;

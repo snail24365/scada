@@ -1,26 +1,23 @@
 import { primaryGrey } from '@/assets/color';
+import { postService } from '@/service/api';
+import { useAppSelector } from '@/store/hooks';
 import { Button } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentScadaPageIdState, scadaMode } from '../scada/atom/scadaAtom';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { postService } from '@/service/api';
-import { selectEditScene } from './EditViewport/editSceneSlice';
-import { scadaSceneState } from '../scada-monitor/scadaMonitorAtom';
+import { selectEditScene } from './slice/scadaEditSceneSlice';
 
 const EditModeNav = () => {
   const setMode = useSetRecoilState(scadaMode);
   const editScene = useAppSelector(selectEditScene);
   const currentPageId = useRecoilValue(currentScadaPageIdState);
 
-  const refreshScadaScene = useRecoilRefresher_UNSTABLE(scadaSceneState);
-
   const onDoneButtonClick = async () => {
     if (!currentPageId) return;
     await postService(`/scene/${currentPageId}`, editScene);
-    refreshScadaScene();
     setMode('monitor');
   };
+
   const onCancelButtonClick = async () => {
     setMode('monitor');
   };

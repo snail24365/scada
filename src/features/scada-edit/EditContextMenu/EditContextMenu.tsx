@@ -3,10 +3,10 @@ import { useAppSelector } from '@/store/hooks';
 import ReactDOM from 'react-dom';
 import { useDispatch } from 'react-redux';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { deleteEntities } from '../EditViewport/editSceneSlice';
+import { deleteEntities } from '../slice/scadaEditSceneSlice';
 import { editContextMenuState, propertyModalState } from '../atom/scadaEditSectionAtom';
 import EditContextMenuItem from './EditContextMenuItem';
-import { getSelectedUUIDs } from '../scadaEditSlice';
+import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
 
 type Props = {};
 

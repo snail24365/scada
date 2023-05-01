@@ -5,7 +5,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { BBox, UUID } from '@/types/type';
 import { useContext } from 'react';
 import { useRecoilValue } from 'recoil';
-import { updateBBox } from '../../editSceneSlice';
+import { updateBBox } from '../../../slice/scadaEditSceneSlice';
 import { EditViewportContext } from '../../EditViewportContext';
 import { WithBoxEditContext } from '../WithBoxEditContext';
 import { EditSectionContext } from '@/features/scada-edit/EditSectionContext';

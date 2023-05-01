@@ -8,7 +8,7 @@ import React, { useContext, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 import { EditSectionContext } from '../EditSectionContext';
-import { addBoxEntity, addEntity } from '../EditViewport/editSceneSlice';
+import { addEntity } from '../slice/scadaEditSceneSlice';
 import EntityDragDropSticker from './DragDropSticker';
 
 export type DragDropProp = {

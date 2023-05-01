@@ -4,24 +4,29 @@ import { TextEntity } from '@/types/type';
 import React, { useEffect, useState } from 'react';
 import MouseEventHandler from './withBoxEdit/MouseEventHandler';
 import { useSelector } from 'react-redux';
-import { getSelectedUUIDs } from '../scadaEditSlice';
+import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
+import { useAppDispatch } from '@/store/hooks';
+import { updateText } from '../slice/scadaEditSceneSlice';
 
 export type EditalbeTextProps = TextEntity;
 
 const EditableText = ({ x, y, width, height, text, uuid }: EditalbeTextProps) => {
   const selectedUUIDs = useSelector(getSelectedUUIDs);
+  const dispatch = useAppDispatch();
 
   const [textState, setTextState] = useState(text || '');
 
   const [isEditable, setIsEditable] = useState(false);
 
-  // const isSelected = selectedUUIDs.includes(uuid);
   const isOnlySelected = selectedUUIDs.length === 1 && selectedUUIDs[0] === uuid;
 
   useEffect(() => {
     setIsEditable(false);
   }, [isOnlySelected]);
-  console.log(isEditable);
+
+  useEffect(() => {
+    dispatch(updateText({ uuid, text: textState }));
+  }, [textState]);
 
   const radius = 5;
   return (
@@ -33,7 +38,6 @@ const EditableText = ({ x, y, width, height, text, uuid }: EditalbeTextProps) =>
               css={{
                 width: '100%',
                 height: '100%',
-                textAlign: 'center',
                 color: '#fff !important',
                 backgroundColor: 'transparent',
                 border: 'none',

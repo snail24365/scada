@@ -9,8 +9,8 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
 import { EditSectionContext } from '../EditSectionContext';
-import { selectItems, unselectAll } from '../scadaEditSlice';
-import { selectEditBoxes, selectEditLines } from './editSceneSlice';
+import { selectItems, unselectAll } from '../slice/scadaEditSelectionSlice';
+import { selectEditBoxes, selectEditLines } from '../slice/scadaEditSceneSlice';
 
 const SelectFrame = () => {
   const [selectionRect, setSelectionRect] = useState({

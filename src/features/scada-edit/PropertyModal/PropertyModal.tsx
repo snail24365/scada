@@ -5,9 +5,9 @@ import { fadeInOut } from '@/style/style';
 import { Paper } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
-import { selectEntity } from '../EditViewport/editSceneSlice';
+import { selectEntity } from '../slice/scadaEditSceneSlice';
 import { propertyModalState } from '../atom/scadaEditSectionAtom';
-import { getSelectedUUIDs } from '../scadaEditSlice';
+import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
 
 type Props = {};
 

@@ -6,7 +6,7 @@ import { XY } from '@/types/type';
 import _ from 'lodash';
 import { useContext, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { isSelectedSelector, updateLinePoint } from '../editSceneSlice';
+import { isSelectedSelector, updateLinePoint } from '../../slice/scadaEditSceneSlice';
 import { EditViewportContext } from '../EditViewportContext';
 import { filterReconciledPoints } from '../util';
 import { EditSectionContext } from '../../EditSectionContext';

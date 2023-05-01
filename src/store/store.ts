@@ -1,7 +1,8 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import editSceneReducer from '@/features/scada-edit/EditViewport/editSceneSlice';
-import scadaEditStateReducer from '@/features/scada-edit/scadaEditSlice';
+import editSceneReducer from '@/features/scada-edit/slice/scadaEditSceneSlice';
+import editSelectionReducer from '@/features/scada-edit/slice/scadaEditSelectionSlice';
+import monitorSceneReducer from '@/features/scada-monitor/slice/scadaMonitorSceneSlice';
 
 const middlewares: Middleware<any, any>[] = [];
 if (process.env.NODE_ENV === `development`) {
@@ -11,7 +12,8 @@ if (process.env.NODE_ENV === `development`) {
 const store = configureStore({
   reducer: {
     editScene: editSceneReducer,
-    editViewport: scadaEditStateReducer
+    editSelection: editSelectionReducer,
+    monitorScene: monitorSceneReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares)
 });

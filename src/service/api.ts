@@ -1,5 +1,30 @@
 import Cookies from 'js-cookie';
-window.Cookies = Cookies;
+
+/**
+ * local storage strategy
+ */
+
+const localStorageStrategy = {
+  get: (url: string) => {
+    const localStorageString = localStorage.getItem(url);
+
+    if (url.includes('pages') && !localStorageString) {
+      return [
+        {
+          pageId: 'demo-page',
+          title: 'Manufacturing room, Floor 1',
+          alarmLevel: 3
+        }
+      ];
+    }
+    if (!localStorageString) return null;
+    return JSON.parse(localStorageString);
+  },
+  post: (url: string, data: any) => {
+    return localStorage.setItem(url, JSON.stringify(data));
+  }
+};
+
 /**
  * cookie strategy
  *
@@ -88,7 +113,7 @@ const serverStrategy = {
   }
 };
 
-const strategy = cookieStrategy;
+const strategy = localStorageStrategy;
 
 export const getService = async (url: string) => {
   return { data: strategy.get(url) };

@@ -5,20 +5,21 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { scadaMode } from '../scada/atom/scadaAtom';
 import { GoPencil } from 'react-icons/go';
 import { motion } from 'framer-motion';
-import { updateEditScene } from '../scada-edit/EditViewport/editSceneSlice';
-import { useAppDispatch } from '@/store/hooks';
+import { updateEditScene } from '../scada-edit/slice/scadaEditSceneSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { scadaSceneState } from './scadaMonitorAtom';
+import scadaMonitorSceneSlice, { selectMonitorScene } from './slice/scadaMonitorSceneSlice';
 
 const MonitorModeNav = () => {
   const scadaPageTitle = 'SCADA 1'; // TODO : change to recoil
   const dispatch = useAppDispatch();
-  // const scene = useRecoilValue(scadaSceneState);
-  // const setMode = useSetRecoilState(scadaMode);
+  const scene = useAppSelector(selectMonitorScene);
+  const setMode = useSetRecoilState(scadaMode);
 
-  // const onScadaEditClick = () => {
-  //   dispatch(updateEditScene(scene));
-  //   setMode('edit');
-  // };
+  const onScadaEditClick = () => {
+    dispatch(updateEditScene(scene));
+    setMode('edit');
+  };
 
   return (
     <motion.div
@@ -40,7 +41,7 @@ const MonitorModeNav = () => {
       <div>{scadaPageTitle}</div>
       <div>
         <Button
-          // onClick={onScadaEditClick}
+          onClick={onScadaEditClick}
           variant="contained"
           css={{
             backgroundColor: primaryGrey,

@@ -12,7 +12,7 @@ import { useRecoilValue } from 'recoil';
 import { Vector2 } from 'three';
 import { v4 as uuidV4 } from 'uuid';
 import { EditSectionContext } from '../../EditSectionContext';
-import { addLine, updateLinePoint } from '../editSceneSlice';
+import { addLine, updateLinePoint } from '../../slice/scadaEditSceneSlice';
 import { filterAdjointUnique } from '../util';
 import { WithBoxEditContext } from './WithBoxEditContext';
 

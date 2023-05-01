@@ -7,8 +7,8 @@ import _ from 'lodash';
 import { useContext } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { EditSectionContext } from '../../EditSectionContext';
-import { exclusiveSelect } from '../../scadaEditSlice';
-import { isSelectedSelector, updateLinePoint } from '../editSceneSlice';
+import { exclusiveSelect } from '../../slice/scadaEditSelectionSlice';
+import { isSelectedSelector, updateLinePoint } from '../../slice/scadaEditSceneSlice';
 import { filterReconciledPoints } from '../util';
 
 type Props = {

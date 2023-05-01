@@ -1,3 +1,5 @@
+import { BoxComponents, boxComponentsMap } from '@/features/scada/componentMap';
+
 export type XY = {
   x: number;
   y: number;
@@ -31,9 +33,9 @@ export type TextComponent = BBox & { type: 'Text'; text: string } & {
   textAlign?: 'left' | 'center' | 'right';
 };
 
-export type BoxEntity = Entity & BoxComponent;
-export type LineEntity = Entity & LineComponent;
-export type TextEntity = Entity & TextComponent;
+export type BoxEntity = Entity & BoxComponent & { type: keyof typeof boxComponentsMap };
+export type LineEntity = Entity & LineComponent & { type: 'Line' };
+export type TextEntity = Entity & TextComponent & { type: 'Text' };
 
 export type UUID = string;
 

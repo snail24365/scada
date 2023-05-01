@@ -8,9 +8,9 @@ import { useRecoilValue } from 'recoil';
 import { Vector2 } from 'three';
 import { EditSectionContext } from '../../EditSectionContext';
 import useContextMenuRightClick from '../../hook/useContextMenuRightClick';
-import { exclusiveSelect } from '../../scadaEditSlice';
-import { translateBoxEntity } from '../editSceneSlice';
+import { translateBoxEntity } from '../../slice/scadaEditSceneSlice';
 import { WithBoxEditContext } from './WithBoxEditContext';
+import { exclusiveSelect } from '../../slice/scadaEditSelectionSlice';
 
 type MouseEventHandlerProps = Omit<BoxEntity, 'type'> & {
   onDoubleClick?: React.MouseEventHandler;

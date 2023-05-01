@@ -1,17 +1,16 @@
+import { RootState } from '@/store/store';
+import { UUID } from '@/types/type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../store/store';
-import { UUID } from '../../types/type';
 
-// Define a type for the slice state
-interface ScadaEditState {
+type ScadaEditSection = {
   selectionLookup: Record<UUID, boolean | undefined>;
-}
+};
 
-const initialState: ScadaEditState = {
+const initialState: ScadaEditSection = {
   selectionLookup: {}
 };
 
-export const scadaEditStateSlice = createSlice({
+export const scadaEditSelectionSlice = createSlice({
   name: 'editStateSlice',
   initialState,
   reducers: {
@@ -31,16 +30,16 @@ export const scadaEditStateSlice = createSlice({
   }
 });
 
-export const { selectItems, exclusiveSelect, unselectAll } = scadaEditStateSlice.actions;
+export const { selectItems, exclusiveSelect, unselectAll } = scadaEditSelectionSlice.actions;
 
 export const getSelectedUUIDs = (state: RootState) => {
   const selectedUUIDs = [];
-  for (let key in state.editViewport.selectionLookup) {
-    if (state.editViewport.selectionLookup[key]) {
+  for (let key in state.editSelection.selectionLookup) {
+    if (state.editSelection.selectionLookup[key]) {
       selectedUUIDs.push(key);
     }
   }
   return selectedUUIDs;
 };
 
-export default scadaEditStateSlice.reducer;
+export default scadaEditSelectionSlice.reducer;

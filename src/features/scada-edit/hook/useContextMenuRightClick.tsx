@@ -1,7 +1,7 @@
 import { MouseButton } from '@/hooks/useDrag';
 import { useAppSelector } from '@/store/hooks';
 import React from 'react';
-import { exclusiveSelect, getSelectedUUIDs } from '../scadaEditSlice';
+import { exclusiveSelect, getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
 import { useDispatch } from 'react-redux';
 import { UUID } from '@/types/type';
 import { useSetRecoilState } from 'recoil';
