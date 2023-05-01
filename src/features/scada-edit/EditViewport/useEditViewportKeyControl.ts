@@ -8,7 +8,7 @@ export const useEditViewportKeyControl = () => {
   const dispatch = useAppDispatch();
 
   const onKeyDown: React.KeyboardEventHandler = (e) => {
-    if (e.key === 'Delete' || e.key === 'Backspace') {
+    if (e.key === 'Delete') {
       dispatch(deleteEntities(selectedEntitiesUUIDs));
     }
   };
