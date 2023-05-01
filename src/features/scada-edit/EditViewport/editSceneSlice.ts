@@ -1,22 +1,33 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../../store/store';
-import { BBox, BoxState, LineState, ScadaSceneState, UUID, XY } from '../../../types/type';
+import { BBox, BoxEntity, LineEntity, ScadaSceneState, UUID, XY } from '../../../types/type';
 
 const initialState: ScadaSceneState = {
   lines: [],
-  boxes: []
+  boxes: [],
+  texts: []
 };
 
 export const editSceneSlice = createSlice({
   name: 'editScene',
   initialState,
   reducers: {
+    addEntity: (state, action: PayloadAction<any>) => {
+      // TODO : replace type any with Components type
+      if (action.payload.type === 'Line') {
+        state.lines.push(action.payload);
+      } else if (action.payload.type === 'Text') {
+        state.texts.push(action.payload);
+      } else {
+        state.boxes.push(action.payload);
+      }
+    },
     deleteEntities: (state, action: PayloadAction<UUID[]>) => {
       state.boxes = state.boxes.filter((entity) => !action.payload.includes(entity.uuid));
       state.lines = state.lines.filter((line) => !action.payload.includes(line.uuid));
     },
-    addLine: (state, action: PayloadAction<Omit<LineState, 'type'>>) => {
+    addLine: (state, action: PayloadAction<Omit<LineEntity, 'type'>>) => {
       const uuid = action.payload.uuid ?? uuidv4();
       state.lines.push({
         ...action.payload,
@@ -24,7 +35,7 @@ export const editSceneSlice = createSlice({
         type: 'Line'
       });
     },
-    addBoxEntity: (state, action: PayloadAction<BoxState>) => {
+    addBoxEntity: (state, action: PayloadAction<BoxEntity>) => {
       state.boxes.push(action.payload);
     },
     updateLinePoint: (state, action: PayloadAction<{ uuid: UUID; points: XY[] }>) => {
@@ -32,19 +43,18 @@ export const editSceneSlice = createSlice({
       if (!line) return;
       Object.assign(line, action.payload);
     },
-    updateBoxBound: (state, action: PayloadAction<{ uuid: UUID } & BBox>) => {
-      const entity = state.boxes.find((entity) => entity.uuid === action.payload.uuid);
+    updateBBox: (state, action: PayloadAction<{ uuid: UUID } & BBox>) => {
+      const entity = [...state.boxes, ...state.texts].find((entity) => entity.uuid === action.payload.uuid);
       if (!entity) return;
       Object.assign(entity, action.payload);
     },
     translateBoxEntity: (state, action: PayloadAction<{ uuid: UUID } & XY>) => {
-      const entity = state.boxes.find((entity) => entity.uuid === action.payload.uuid);
+      const entity = [...state.boxes, ...state.texts].find((entity) => entity.uuid === action.payload.uuid);
       if (!entity) return;
       Object.assign(entity, action.payload);
     },
     updateEditScene: (state, action: PayloadAction<ScadaSceneState>) => {
-      state.boxes = action.payload.boxes;
-      state.lines = action.payload.lines;
+      state = action.payload;
     }
   }
 });
@@ -52,11 +62,12 @@ export const editSceneSlice = createSlice({
 export const {
   addLine,
   addBoxEntity,
-  updateBoxBound,
+  updateBBox,
   translateBoxEntity,
   updateLinePoint,
   deleteEntities,
-  updateEditScene
+  updateEditScene,
+  addEntity
 } = editSceneSlice.actions;
 
 export const selectEditScene = (state: RootState) => state.editScene;

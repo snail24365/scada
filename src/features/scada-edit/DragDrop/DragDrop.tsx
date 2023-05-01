@@ -1,5 +1,5 @@
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import { ScadaComponentsType } from '@/features/scada/componentMap';
+import { ScadaComponents } from '@/features/scada/componentMap';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
 import { flexCenter } from '@/style/style';
@@ -8,13 +8,13 @@ import React, { useContext, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 import { EditSectionContext } from '../EditSectionContext';
-import { addBoxEntity } from '../EditViewport/editSceneSlice';
+import { addBoxEntity, addEntity } from '../EditViewport/editSceneSlice';
 import EntityDragDropSticker from './DragDropSticker';
 
 export type DragDropProp = {
   component: React.ReactElement<Size & Omit<Entity, 'uuid'>>;
   stickerSize: number;
-  type: ScadaComponentsType;
+  type: ScadaComponents;
   dropIgnoreElements?: React.RefObject<Element>[];
 };
 
@@ -59,7 +59,7 @@ const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: DragDrop
     const height = stickerSize * (component.props.height / component.props.width) * reducedScale.y;
 
     dispatch(
-      addBoxEntity({
+      addEntity({
         ...component.props,
         uuid: uuidv4(),
         type: type,

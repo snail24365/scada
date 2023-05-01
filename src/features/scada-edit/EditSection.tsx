@@ -1,7 +1,7 @@
 import EditMenu from '@/features/scada-edit/Menu/EditMenu';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { isEquipmentPanelOpenState, resolutionState } from '../scada/atom/scadaAtom';
+import { isEquipmentPanelOpenState } from '../scada/atom/scadaAtom';
 import { EditSectionContext } from './EditSectionContext';
 import EditViewport from './EditViewport/EditViewport';
 import PropertyModal from './PropertyModal/PropertyModal';

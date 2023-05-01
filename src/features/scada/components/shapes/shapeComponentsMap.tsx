@@ -5,7 +5,7 @@ import Line from './Line';
 import Rectangle from './Rectangle';
 import Triangle from './Triangle';
 
-export const shapesMap = {
+export const shapeComponentsMap = {
   Circle: Circle,
   Line: Line,
   Rectangle: Rectangle,
@@ -14,6 +14,6 @@ export const shapesMap = {
   Triangle: Triangle
 };
 
-export type shapesType = keyof typeof shapesMap;
+export type shapeComponents = keyof typeof shapeComponentsMap;
 
-export default shapesMap;
+export default shapeComponentsMap;

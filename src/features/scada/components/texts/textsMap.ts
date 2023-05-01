@@ -1,7 +1,7 @@
-import BasicText from './BasicText';
+import Text from './Text';
 
 export const textsMap = {
-  BasicText: BasicText
+  Text: Text
 };
 
 export type textsType = keyof typeof textsMap;

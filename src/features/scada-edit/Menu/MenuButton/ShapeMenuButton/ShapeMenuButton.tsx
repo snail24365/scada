@@ -3,7 +3,7 @@ import { flexCenter } from '@/style/style';
 import React from 'react';
 import { FaRegSquare } from 'react-icons/fa';
 import Rectangle from '@/features/scada/components/shapes/Rectangle';
-import shapesMap from '@/features/scada/components/shapes/shapesMap';
+import shapeComponentsMap from '@/features/scada/components/shapes/shapeComponentsMap';
 import Ellipse from '@/features/scada/components/shapes/Ellipse';
 import Diamond from '@/features/scada/components/shapes/Diamond';
 import MenuButton from '../MenuButton';

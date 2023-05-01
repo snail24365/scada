@@ -5,7 +5,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { BBox, UUID } from '@/types/type';
 import { useContext } from 'react';
 import { useRecoilValue } from 'recoil';
-import { updateBoxBound } from '../../editSceneSlice';
+import { updateBBox } from '../../editSceneSlice';
 import { EditViewportContext } from '../../EditViewportContext';
 import { WithBoxEditContext } from '../WithBoxEditContext';
 import { EditSectionContext } from '@/features/scada-edit/EditSectionContext';
@@ -70,6 +70,7 @@ const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
       const container = rootSvgRef.current;
       if (!container) return;
       const { x: pivotX, y: pivotY } = getXY(e);
+      console.log('move');
 
       type key = `${number},${number}`;
       const corners: Record<key, { x: number; y: number }> = {
@@ -119,7 +120,7 @@ const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
       maxCorner.y = clamp(maxCorner.y);
 
       dispatch(
-        updateBoxBound({
+        updateBBox({
           uuid: entityUUID,
           x: minCorner.x,
           y: minCorner.y,

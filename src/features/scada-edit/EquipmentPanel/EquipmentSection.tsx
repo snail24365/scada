@@ -3,9 +3,9 @@ import { flexCenter } from '@/style/style';
 import { DragDropProp } from '../DragDrop/DragDrop';
 import { darkBlue } from '@/assets/color';
 import { ChildrenWithProp } from '@/types/type';
-import equipmentsMap from '@/features/scada/components/equipments/equipmentsMap';
+import equipmentComponentsMap from '@/features/scada/components/equipments/equipmentsMap';
 
-type EquipmentDragDrops = ChildrenWithProp<DragDropProp & { type: keyof typeof equipmentsMap }>;
+type EquipmentDragDrops = ChildrenWithProp<DragDropProp & { type: keyof typeof equipmentComponentsMap }>;
 
 const EquipmentSection = ({ title, children }: { title: string; children: EquipmentDragDrops }) => {
   return (

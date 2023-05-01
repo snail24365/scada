@@ -21,8 +21,19 @@ export type Entity = {
   type: string;
 };
 
-export type BoxState = Entity & BBox;
-export type LineState = Entity & Points & { type: 'Line' };
+export type BoxComponent = BBox;
+export type LineComponent = Points & { type: 'Line' };
+export type TextComponent = BBox & { type: 'Text'; text: string } & {
+  fontSize?: number;
+  fontFamily?: string;
+  fontWeight?: number;
+  color?: string;
+  textAlign?: 'left' | 'center' | 'right';
+};
+
+export type BoxEntity = Entity & BoxComponent;
+export type LineEntity = Entity & LineComponent;
+export type TextEntity = Entity & TextComponent;
 
 export type UUID = string;
 
@@ -41,13 +52,15 @@ export type ScadaPage = {
 };
 
 export type MonitorSceneState = {
-  lines: LineState[];
-  boxes: BoxState[];
+  lines: LineEntity[];
+  boxes: BoxEntity[];
+  texts: TextEntity[];
 };
 
 export type ScadaSceneState = {
-  lines: LineState[];
-  boxes: BoxState[];
+  lines: LineEntity[];
+  boxes: BoxEntity[];
+  texts: TextEntity[];
 };
 
 export type DomRect = {

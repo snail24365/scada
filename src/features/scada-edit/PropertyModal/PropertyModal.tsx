@@ -7,26 +7,31 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import { selectEntity } from '../EditViewport/editSceneSlice';
 import { propertyModalState } from '../atom/scadaEditSectionAtom';
-import { selectSelectedEntitiesUUID } from '../scadaEditSlice';
+import { getSelectedUUIDs } from '../scadaEditSlice';
 
 type Props = {};
 
 const PropertyModal = ({}: Props) => {
   const [propertyModal, setProperyModal] = useRecoilState(propertyModalState);
 
-  const selectedUUIDs = useAppSelector(selectSelectedEntitiesUUID);
+  const selectedUUIDs = useAppSelector(getSelectedUUIDs);
   const entity = useAppSelector(selectEntity(selectedUUIDs[0]));
 
   const { isOpen } = propertyModal;
 
-  if (selectedUUIDs.length > 1) throw new Error('Only one entity can be selected');
-  if (selectedUUIDs.length === 0) return null;
-  console.log(selectedUUIDs, entity);
+  if (selectedUUIDs.length !== 1) return null;
 
-  if (!entity) throw new Error('Entity not found');
-
+  if (!entity) {
+    // throw new Error('Entity not found');
+    console.log(console.log(entity, selectedUUIDs));
+    return null;
+  }
   const component = scadaComponentsMap[entity.type as keyof typeof scadaComponentsMap];
-  if (!component) throw new Error('Component not found');
+  if (!component) {
+    console.log(console.log(entity.type));
+    return null;
+  }
+  // throw new Error('Component not found');
 
   return (
     <AnimatePresence>

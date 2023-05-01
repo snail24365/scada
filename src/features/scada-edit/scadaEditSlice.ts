@@ -15,18 +15,6 @@ export const scadaEditStateSlice = createSlice({
   name: 'editStateSlice',
   initialState,
   reducers: {
-    select: (state, action: PayloadAction<{ uuid: UUID }>) => {
-      state.selectionLookup[action.payload.uuid] = true;
-    },
-    unselect: (state, action: PayloadAction<{ uuid: UUID }>) => {
-      state.selectionLookup[action.payload.uuid] = false;
-    },
-    unselectItems: (state, action: PayloadAction<{ uuids: UUID[] }>) => {
-      state.selectionLookup = {};
-      action.payload.uuids.forEach((uuid) => {
-        state.selectionLookup[uuid] = false;
-      });
-    },
     selectItems: (state, action: PayloadAction<{ uuids: UUID[] }>) => {
       state.selectionLookup = {};
       action.payload.uuids.forEach((uuid) => {
@@ -39,24 +27,13 @@ export const scadaEditStateSlice = createSlice({
     exclusiveSelect: (state, action: PayloadAction<{ uuid: UUID }>) => {
       state.selectionLookup = {};
       state.selectionLookup[action.payload.uuid] = true;
-    },
-    exclusiveUnselect: (state, action: PayloadAction<{ uuid: UUID }>) => {
-      state.selectionLookup = {};
-      state.selectionLookup[action.payload.uuid] = false;
-    },
-    exclusiveToggle: (state, action: PayloadAction<{ uuid: UUID }>) => {
-      const toggled = !state.selectionLookup[action.payload.uuid];
-      state.selectionLookup = {};
-      state.selectionLookup[action.payload.uuid] = toggled;
     }
   }
 });
 
-export const { select, unselect, selectItems, unselectItems, exclusiveToggle, exclusiveSelect, unselectAll } =
-  scadaEditStateSlice.actions;
+export const { selectItems, exclusiveSelect, unselectAll } = scadaEditStateSlice.actions;
 
-export const selectSelectionLookup = (state: RootState) => state.editViewport.selectionLookup;
-export const selectSelectedEntitiesUUID = (state: RootState) => {
+export const getSelectedUUIDs = (state: RootState) => {
   const selectedUUIDs = [];
   for (let key in state.editViewport.selectionLookup) {
     if (state.editViewport.selectionLookup[key]) {

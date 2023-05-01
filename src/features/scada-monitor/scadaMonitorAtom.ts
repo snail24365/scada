@@ -15,7 +15,7 @@ export const scadaSceneState = selector<MonitorSceneState>({
   key: 'scadaScene',
   get: async ({ get }) => {
     const currentScadaPageId = get(currentScadaPageIdState);
-    if (!currentScadaPageId) return { lines: [], boxes: [] };
+    if (!currentScadaPageId) return { lines: [], boxes: [], texts: [] };
 
     const response = await getService(`/scene/${get(currentScadaPageIdState)}`);
     return response.data as MonitorSceneState;

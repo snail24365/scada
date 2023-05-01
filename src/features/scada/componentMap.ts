@@ -1,11 +1,19 @@
-import equipmentsMap from './components/equipments/equipmentsMap';
-import shapesMap from './components/shapes/shapesMap';
-import textsMap from './components/texts/textsMap';
+import equipmentComponentsMap from './components/equipments/equipmentsMap';
+import shapeComponentsMap from './components/shapes/shapeComponentsMap';
+import textComponentsMap from './components/texts/textComponentsMap';
 
-export const scadaComponentsMap = {
-  ...equipmentsMap,
-  ...shapesMap,
-  ...textsMap
+export const boxComponentsMap = {
+  ...equipmentComponentsMap,
+  ...shapeComponentsMap
 };
 
-export type ScadaComponentsType = keyof typeof scadaComponentsMap;
+export const scadaComponentsMap = {
+  ...equipmentComponentsMap,
+  ...shapeComponentsMap,
+  ...textComponentsMap
+};
+
+export type ScadaComponentsMap = typeof scadaComponentsMap;
+
+export type BoxComponents = keyof typeof boxComponentsMap;
+export type ScadaComponents = keyof typeof scadaComponentsMap;

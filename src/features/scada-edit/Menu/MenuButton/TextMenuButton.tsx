@@ -4,7 +4,7 @@ import { ButtonGroupContext } from '../ButtonGroup/ButtonGroupContext';
 import MenuButton from './MenuButton';
 import { flexCenter } from '@/style/style';
 import DragDrop from '../../DragDrop/DragDrop';
-import BasicText from '@/features/scada/components/texts/BasicText';
+import Text from '@/features/scada/components/texts/Text';
 
 type Props = { isOpen?: boolean; onClick?: React.MouseEventHandler };
 
@@ -37,26 +37,10 @@ const TextMenuButton = ({ isOpen, onClick }: Props) => {
         ]}
       >
         <DragDrop
-          type="BasicText"
-          component={<BasicText x={320} y={200} width={200} height={200} text="asdff@@#" />}
+          type="Text"
+          component={<Text x={320} y={200} width={75} height={75} text="Text" type="Text" />}
           stickerSize={stickerSize}
         />
-        <svg width="70" height="70" viewBox="0 0 620 140">
-          <text x="30" y="90" fill="#fff" fontSize="230" fontFamily="Sans serif">
-            Text
-          </text>
-        </svg>
-        <svg width="70" height="70" viewBox="0 0 620 140">
-          <text x="30" y="90" fill="#fff" fontSize="230" textDecoration="underline">
-            Text
-          </text>
-        </svg>
-        <svg width="70" height="70" viewBox="0 0 620 140">
-          <rect x={0} y={-140} width={620} height={300} stroke={'#fff'} fill={'transparent'} />
-          <text x="30" y="90" fill="#fff" fontSize="230">
-            Text
-          </text>
-        </svg>
       </div>
     </MenuButton>
   );

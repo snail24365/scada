@@ -1,5 +1,5 @@
 import { ReactComponent as Watertank } from '@/assets/watertank2.svg';
-import { BoxState } from '@/types/type';
+import { BoxEntity } from '@/types/type';
 
 type Props = React.SVGProps<SVGElement>;
 

@@ -1,15 +1,24 @@
 import { fontColor2, primaryGrey } from '@/assets/color';
 import { Button as BlueprintButton } from '@blueprintjs/core';
 import { Button } from '@mui/material';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { scadaMode } from '../scada/atom/scadaAtom';
 import { GoPencil } from 'react-icons/go';
 import { motion } from 'framer-motion';
+import { updateEditScene } from '../scada-edit/EditViewport/editSceneSlice';
+import { useAppDispatch } from '@/store/hooks';
+import { scadaSceneState } from './scadaMonitorAtom';
 
 const MonitorModeNav = () => {
   const scadaPageTitle = 'SCADA 1'; // TODO : change to recoil
+  const dispatch = useAppDispatch();
+  // const scene = useRecoilValue(scadaSceneState);
+  // const setMode = useSetRecoilState(scadaMode);
 
-  const setMode = useSetRecoilState(scadaMode);
+  // const onScadaEditClick = () => {
+  //   dispatch(updateEditScene(scene));
+  //   setMode('edit');
+  // };
 
   return (
     <motion.div
@@ -31,7 +40,7 @@ const MonitorModeNav = () => {
       <div>{scadaPageTitle}</div>
       <div>
         <Button
-          onClick={() => setMode('edit')}
+          // onClick={onScadaEditClick}
           variant="contained"
           css={{
             backgroundColor: primaryGrey,

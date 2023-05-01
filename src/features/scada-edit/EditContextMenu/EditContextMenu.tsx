@@ -2,11 +2,11 @@ import { darkBlue2 } from '@/assets/color';
 import { useAppSelector } from '@/store/hooks';
 import ReactDOM from 'react-dom';
 import { useDispatch } from 'react-redux';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { deleteEntities } from '../EditViewport/editSceneSlice';
 import { editContextMenuState, propertyModalState } from '../atom/scadaEditSectionAtom';
-import { selectSelectedEntitiesUUID } from '../scadaEditSlice';
 import EditContextMenuItem from './EditContextMenuItem';
+import { getSelectedUUIDs } from '../scadaEditSlice';
 
 type Props = {};
 
@@ -16,9 +16,8 @@ const EditContextMenu = ({}: Props) => {
 
   const { left, top, isOpen } = editContextMenu;
   const dispatch = useDispatch();
-  const selectedUUIDs = useAppSelector(selectSelectedEntitiesUUID);
+  const selectedUUIDs = useAppSelector(getSelectedUUIDs);
   const isSingleItem = selectedUUIDs.length === 1;
-  console.log(selectedUUIDs.length);
 
   const deleteSelected = () => {
     dispatch(deleteEntities(selectedUUIDs));

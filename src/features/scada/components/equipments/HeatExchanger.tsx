@@ -1,5 +1,5 @@
 import { ReactComponent as HeatExchangerSvg } from '@/assets/heatExchanger.svg';
-import { BBox, BoxState, Size } from '@/types/type';
+import { BBox, BoxEntity, Size } from '@/types/type';
 import { useEffect, useState } from 'react';
 import { Vector2 } from 'three';
 

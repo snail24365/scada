@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { deleteEntities, selectEditBoxes, selectEditLines } from './editSceneSlice';
-import { selectSelectedEntitiesUUID } from '../scadaEditSlice';
+import { getSelectedUUIDs } from '../scadaEditSlice';
 
 export const useEditViewportKeyControl = () => {
-  const selectedEntitiesUUIDs = useAppSelector(selectSelectedEntitiesUUID);
+  const selectedEntitiesUUIDs = useAppSelector(getSelectedUUIDs);
 
   const dispatch = useAppDispatch();
 

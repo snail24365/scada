@@ -6,12 +6,7 @@ import Pump2 from './Pump2';
 import Watertank1 from './Watertank1';
 import Watertank2 from './Watertank2';
 
-export const equipmentsMap = {
-  // Converter: {
-  //   component : Converter,
-  //   editableProperty: ["width", "height"]
-
-  // },
+export const equipmentComponentsMap = {
   Converter: Converter,
   Gastank: Gastank,
   HeatExchanger: HeatExchanger,
@@ -21,6 +16,6 @@ export const equipmentsMap = {
   Watertank2: Watertank2
 };
 
-export type EquipmentsType = keyof typeof equipmentsMap;
+export type EquipmentsType = keyof typeof equipmentComponentsMap;
 
-export default equipmentsMap;
+export default equipmentComponentsMap;

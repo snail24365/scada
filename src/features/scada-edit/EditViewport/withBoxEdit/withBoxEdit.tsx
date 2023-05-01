@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/store/hooks';
-import { BoxState } from '@/types/type';
+import { BoxEntity } from '@/types/type';
 import React, { useState } from 'react';
 import Frame from './Frame';
 import LinkArrow from './LinkArrow';
@@ -7,7 +7,7 @@ import MouseEventHandler from './MouseEventHandler';
 import ScalePoints from './ScalePoints/ScalePoints';
 import { WithBoxEditContext } from './WithBoxEditContext';
 
-function withBoxEdit<T extends BoxState>(WrappedComponent: React.ComponentType<T>) {
+function withBoxEdit<T extends BoxEntity>(WrappedComponent: React.ComponentType<T>) {
   const WithEdit: React.FC<T> = (props) => {
     const [showArrow, setShowArrow] = useState(false);
     const [isBoxEditing, setIsBoxEditing] = useState(false);
