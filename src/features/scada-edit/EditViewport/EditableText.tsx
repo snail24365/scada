@@ -18,11 +18,11 @@ const EditableText = ({ x, y, width, height, text, uuid }: EditalbeTextProps) =>
 
   const [isEditable, setIsEditable] = useState(false);
 
-  const isOnlySelected = selectedUUIDs.length === 1 && selectedUUIDs[0] === uuid;
+  const isSelcected = selectedUUIDs.includes(uuid);
 
   useEffect(() => {
     setIsEditable(false);
-  }, [isOnlySelected]);
+  }, [isSelcected]);
 
   useEffect(() => {
     dispatch(updateText({ uuid, text: textState }));
@@ -64,7 +64,7 @@ const EditableText = ({ x, y, width, height, text, uuid }: EditalbeTextProps) =>
           }}
         />
       )}
-      {isOnlySelected && <ScalePoints radius={radius} x={x} y={y} width={width} height={height} uuid={uuid} />}
+      {isSelcected && <ScalePoints radius={radius} x={x} y={y} width={width} height={height} uuid={uuid} />}
     </>
   );
 };

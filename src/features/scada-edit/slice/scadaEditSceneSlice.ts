@@ -26,6 +26,7 @@ export const scadaEditSceneSlice = createSlice({
     deleteEntities: (state, action: PayloadAction<UUID[]>) => {
       state.boxes = state.boxes.filter((entity) => !action.payload.includes(entity.uuid));
       state.lines = state.lines.filter((line) => !action.payload.includes(line.uuid));
+      state.texts = state.texts.filter((text) => !action.payload.includes(text.uuid));
     },
     addLine: (state, action: PayloadAction<Omit<LineEntity, 'type'>>) => {
       const uuid = action.payload.uuid ?? uuidv4();
@@ -83,7 +84,7 @@ export const selectEntity = (uuid: UUID) => {
     return null;
   };
 };
-export const selectEditBoxes = (state: RootState) => state.editScene.boxes;
+export const selectEditBBoxEntity = (state: RootState) => [...state.editScene.boxes, ...state.editScene.texts];
 export const isSelectedSelector = (uuid: UUID) => {
   return (state: RootState) => state.editSelection.selectionLookup[uuid] ?? false;
 };

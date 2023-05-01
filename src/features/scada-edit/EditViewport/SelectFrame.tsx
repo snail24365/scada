@@ -10,7 +10,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
 import { EditSectionContext } from '../EditSectionContext';
 import { selectItems, unselectAll } from '../slice/scadaEditSelectionSlice';
-import { selectEditBoxes, selectEditLines } from '../slice/scadaEditSceneSlice';
+import { selectEditBBoxEntity, selectEditLines } from '../slice/scadaEditSceneSlice';
 
 const SelectFrame = () => {
   const [selectionRect, setSelectionRect] = useState({
@@ -28,7 +28,7 @@ const SelectFrame = () => {
   const dispatch = useAppDispatch();
 
   const lines = useAppSelector(selectEditLines);
-  const entities = useAppSelector(selectEditBoxes);
+  const bboxEntities = useAppSelector(selectEditBBoxEntity);
 
   const bodyRef = useRef(document.body);
 
@@ -85,7 +85,7 @@ const SelectFrame = () => {
         });
       });
 
-      entities.forEach((entity) => {
+      bboxEntities.forEach((entity) => {
         const entityBBox = {
           min: { x: entity.x, y: entity.y },
           max: { x: entity.x + entity.width, y: entity.y + entity.height }
@@ -110,7 +110,7 @@ const SelectFrame = () => {
     return () => {
       rootSvg.removeEventListener('mousedown', onMouseDownDrag as any);
     };
-  }, [rootSvgRef, dispatch, lines, entities, selectonRectRef, getXY]);
+  }, [rootSvgRef, dispatch, lines, bboxEntities, selectonRectRef, getXY]);
 
   return <rect opacity={0.5} fill={primaryBlue} stroke={primaryGrey} strokeWidth={1} {...selectionRect} />;
 };

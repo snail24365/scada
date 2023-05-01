@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { deleteEntities, selectEditBoxes, selectEditLines } from '../slice/scadaEditSceneSlice';
+import { deleteEntities } from '../slice/scadaEditSceneSlice';
 import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
 
 export const useEditViewportKeyControl = () => {
