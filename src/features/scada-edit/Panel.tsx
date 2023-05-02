@@ -1,4 +1,5 @@
 import { darkBlue2, primaryBlue, primaryGrey } from '@/assets/color';
+import { scrollbar } from '@/style/style';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 
@@ -31,24 +32,17 @@ const Panel = (props: Props) => {
           }}
         >
           <div
-            css={{
-              borderRadius: 10,
-              padding: '15px 25px',
-              backgroundColor,
-              height: '100%',
-              overflowY: 'auto',
-              overflowX: 'hidden',
-              '&::-webkit-scrollbar': {
-                width: 10,
-                backgroundColor: darkBlue2,
-                borderRadius: 8
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: primaryGrey,
-                borderRadius: 8,
-                margin: 2
+            css={[
+              scrollbar,
+              {
+                borderRadius: 10,
+                padding: '15px 25px',
+                backgroundColor,
+                height: '100%',
+                overflowY: 'auto',
+                overflowX: 'hidden'
               }
-            }}
+            ]}
           >
             {props.contents}
           </div>

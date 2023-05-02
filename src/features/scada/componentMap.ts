@@ -1,4 +1,4 @@
-import equipmentComponentsMap from './components/equipments/equipmentsMap';
+import equipmentComponentsMap from './components/equipments/equipmentComponentsMap';
 import shapeComponentsMap from './components/shapes/shapeComponentsMap';
 import textComponentsMap from './components/texts/textComponentsMap';
 

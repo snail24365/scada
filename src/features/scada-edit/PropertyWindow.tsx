@@ -1,19 +1,20 @@
-import { darkBlue } from '@/assets/color';
+import { darkBlue, fontColor1 } from '@/assets/color';
 import { useAppSelector } from '@/store/hooks';
-import { Paper } from '@mui/material';
+import { Paper, TextField } from '@mui/material';
 import React, { useMemo } from 'react';
 import { getSelectedUUIDs } from './slice/scadaEditSelectionSlice';
 import { selectEntity } from './slice/scadaEditSceneSlice';
-import { flexCenter } from '@/style/style';
+import { flexCenter, scrollbar } from '@/style/style';
 import { AnimatePresence, motion } from 'framer-motion';
 import { scadaComponentsMap } from '../scada/componentMap';
+import _ from 'lodash';
 
 type Props = {};
 
 const PropertyWindow = (props: Props) => {
   const selectedUUIDs = useAppSelector(getSelectedUUIDs);
   const entity = useAppSelector(selectEntity(selectedUUIDs[0] ?? ''));
-  const width = 'max(400px, 20vw)';
+  const windowWidth = 'max(400px, 20vw)';
 
   const EmptyWindow = () => (
     <motion.div
@@ -38,6 +39,35 @@ const PropertyWindow = (props: Props) => {
     if (!entity) return null;
     const type = entity.type;
     const info = scadaComponentsMap[entity.type as keyof typeof scadaComponentsMap];
+    const schema = info.propertySchema;
+
+    let aaa = [];
+
+    for (let propertyName in schema) {
+      const propertyType = schema[propertyName as keyof typeof schema].type;
+      if (propertyType === 'number') {
+        aaa.push(
+          <div css={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span css={{ fontSize: 18 }}>{_.startCase(propertyName)}</span>
+            <TextField
+              type="number"
+              InputLabelProps={{
+                shrink: true
+              }}
+              sx={{
+                border: `1px solid ${fontColor1}`,
+                borderRadius: 2,
+                '& .MuiInputBase-input': {
+                  color: fontColor1
+                }
+              }}
+            />
+          </div>
+        );
+      } else if (propertyType === 'string') {
+      } else if (propertyType === 'boolean') {
+      }
+    }
 
     return (
       <motion.div
@@ -45,7 +75,19 @@ const PropertyWindow = (props: Props) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-      ></motion.div>
+        css={[
+          {
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gridTemplateRows: 'repeat(auto-fill, 100px)',
+            height: '100%',
+            maxHeight: '100%',
+            gap: 16
+          }
+        ]}
+      >
+        {aaa}
+      </motion.div>
     );
   };
 
@@ -57,7 +99,19 @@ const PropertyWindow = (props: Props) => {
 
   return (
     <Paper elevation={3}>
-      <div css={{ width, height: '100%', backgroundColor: darkBlue, padding: 16 }}>
+      <div
+        css={[
+          scrollbar,
+          {
+            overflow: 'scroll',
+            overflowX: 'hidden',
+            width: windowWidth,
+            height: '100%',
+            backgroundColor: darkBlue,
+            padding: 24
+          }
+        ]}
+      >
         <AnimatePresence>{contents}</AnimatePresence>
       </div>
     </Paper>

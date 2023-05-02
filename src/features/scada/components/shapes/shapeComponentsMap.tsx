@@ -1,4 +1,4 @@
-import { bboxPropertySchema } from '../equipments/equipmentsMap';
+import { bboxPropertySchema } from '../equipments/equipmentComponentsMap';
 import Circle from './Circle';
 import Diamond from './Diamond';
 import Ellipse from './Ellipse';
@@ -24,6 +24,16 @@ export const shapeComponentsMap = {
         type: 'string',
         validation: (value: string) => value.match(/^#[0-9a-f]{6}$/i) !== null,
         default: '#eee'
+      },
+      strokeWidth: {
+        type: 'number',
+        validation: (value: number) => value >= 0,
+        default: 2
+      },
+      storkeDasharray: {
+        type: 'string',
+        validation: (value: string) => value.match(/^(\d+)(\s*,\s*\d+)*$/) !== null,
+        default: ''
       }
     }
   },

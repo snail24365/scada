@@ -17,9 +17,9 @@ const ScadaPage = (props: Props) => {
   const Section = isMonitorMode ? MonitorSection : EditSection;
 
   return (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
       <Header />
-      <nav style={{ background: darkBlue, flexDirection: 'row', height: '54px' }}>
+      <nav style={{ background: darkBlue, height: '54px', flexShrink: 0 }}>
         <AnimatePresence>
           <Navbar />
         </AnimatePresence>
@@ -27,7 +27,8 @@ const ScadaPage = (props: Props) => {
       <div
         css={{
           width: '100%',
-          flex: '1 1 auto',
+          flex: 1,
+          flexShrink: 1,
           position: 'relative',
           display: 'flex',
           minHeight: 0,

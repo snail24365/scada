@@ -3,7 +3,7 @@ import { flexCenter } from '@/style/style';
 import { DragDropProp } from '../DragDrop/DragDrop';
 import { darkBlue } from '@/assets/color';
 import { ChildrenWithProp } from '@/types/type';
-import equipmentComponentsMap from '@/features/scada/components/equipments/equipmentsMap';
+import equipmentComponentsMap from '@/features/scada/components/equipments/equipmentComponentsMap';
 
 type EquipmentDragDrops = ChildrenWithProp<DragDropProp & { type: keyof typeof equipmentComponentsMap }>;
 

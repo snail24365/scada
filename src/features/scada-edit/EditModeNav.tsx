@@ -11,6 +11,7 @@ const EditModeNav = () => {
   const setMode = useSetRecoilState(scadaMode);
   const editScene = useAppSelector(selectEditScene);
   const currentPageId = useRecoilValue(currentScadaPageIdState);
+  console.log(currentPageId);
 
   const onDoneButtonClick = async () => {
     if (!currentPageId) return;

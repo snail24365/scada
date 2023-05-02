@@ -30,8 +30,8 @@ export const manhattanDistance = (a: Vector2, b: Vector2) => {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 };
 
-export const objectMap = <T>(obj: Record<string, T>, func: <U extends T>(x: U) => any) => {
-  const ret: Record<string, T> = {};
+export const objectMap = <T, S>(obj: Record<string, T>, func: <U extends T>(x: U) => S) => {
+  const ret: Record<string, S> = {};
   for (const key in obj) {
     ret[key] = func(obj[key]);
   }
@@ -51,10 +51,5 @@ export const drawNodeOnCanvas = (svg: Node, canvas: HTMLCanvasElement) => {
 };
 
 export const AABBTest = (box1: { min: XY; max: XY }, box2: { min: XY; max: XY }) => {
-  return (
-    box1.max.x > box2.min.x &&
-    box2.max.x > box1.min.x &&
-    box1.max.y > box2.min.y &&
-    box2.max.y > box1.min.y
-  );
+  return box1.max.x > box2.min.x && box2.max.x > box1.min.x && box1.max.y > box2.min.y && box2.max.y > box1.min.y;
 };

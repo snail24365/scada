@@ -50,27 +50,27 @@ const textPropertySchema = {
     default: 'Arial'
   },
   fontWeight: {
-    type: 'string',
+    type: 'category',
     cateory: ['normal', 'bold', 'bolder', 'lighter', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
     default: 'normal'
   },
   fontStyle: {
-    type: 'string',
+    type: 'category',
     cateory: ['normal', 'italic', 'oblique'],
     default: 'normal'
   },
   textDecoration: {
-    type: 'string',
+    type: 'category',
     cateory: ['none', 'underline', 'overline', 'line-through', 'blink'],
     default: 'none'
   },
   textAlign: {
-    type: 'string',
+    type: 'category',
     cateory: ['left', 'right', 'center', 'justify'],
     default: 'left'
   },
   textBaseline: {
-    type: 'string',
+    type: 'category',
     cateory: ['top', 'hanging', 'middle', 'alphabetic', 'ideographic', 'bottom'],
     default: 'top'
   },

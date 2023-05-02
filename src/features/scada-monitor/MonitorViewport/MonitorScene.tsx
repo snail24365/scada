@@ -9,6 +9,7 @@ type Props = {};
 
 const MonitorScene = (props: Props) => {
   const scene = useAppSelector(selectMonitorScene);
+  console.log(scene);
 
   return (
     <>
