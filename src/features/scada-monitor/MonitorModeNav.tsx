@@ -1,14 +1,12 @@
-import { fontColor2, primaryGrey } from '@/assets/color';
-import { Button as BlueprintButton } from '@blueprintjs/core';
-import { Button } from '@mui/material';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { scadaMode } from '../scada/atom/scadaAtom';
-import { GoPencil } from 'react-icons/go';
-import { motion } from 'framer-motion';
-import { updateEditScene } from '../scada-edit/slice/scadaEditSceneSlice';
+import { primaryGrey } from '@/assets/color';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { scadaSceneState } from './scadaMonitorAtom';
-import scadaMonitorSceneSlice, { selectMonitorScene } from './slice/scadaMonitorSceneSlice';
+import { flexVerticalCenter } from '@/style/style';
+import { Button } from '@mui/material';
+import { motion } from 'framer-motion';
+import { GoPencil } from 'react-icons/go';
+import { useSetRecoilState } from 'recoil';
+import { scadaMode } from '../scada/atom/scadaAtom';
+import { selectMonitorScene } from './slice/scadaMonitorSceneSlice';
 
 const MonitorModeNav = () => {
   const scadaPageTitle = 'SCADA 1'; // TODO : change to recoil
@@ -17,7 +15,6 @@ const MonitorModeNav = () => {
   const setMode = useSetRecoilState(scadaMode);
 
   const onScadaEditClick = () => {
-    dispatch(updateEditScene(scene));
     setMode('edit');
   };
 
@@ -27,13 +24,14 @@ const MonitorModeNav = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      style={{
-        display: 'flex',
-        height: '100%',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginRight: 8
-      }}
+      css={[
+        flexVerticalCenter,
+        {
+          height: '100%',
+          justifyContent: 'space-between',
+          marginRight: 8
+        }
+      ]}
     >
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ display: 'flex', flexDirection: 'row' }}></div>

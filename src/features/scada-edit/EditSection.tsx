@@ -1,5 +1,5 @@
 import EditMenu from '@/features/scada-edit/Menu/EditMenu';
-import { getService } from '@/service/api';
+import { restSerivce } from '@/service/api';
 import { useAppDispatch } from '@/store/hooks';
 import { flexHorizontalCenter } from '@/style/style';
 import { ScadaSceneState } from '@/types/type';
@@ -16,15 +16,15 @@ import PropertyWindow from './PropertyWindow';
 type Props = {};
 
 const EditSection = (props: Props) => {
-  const currentPageId = useRecoilValue(currentScadaPageIdState);
+  // const currentPageId = useRecoilValue(currentScadaPageIdState);
   const setIsEquipmentPanelOpen = useSetRecoilState(isEquipmentPanelOpenState);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   useEffect(() => {
-    (async () => {
-      const scene = (await getService(`/scene/${currentPageId}`)).data;
-      dispatch(updateEditScene(scene as ScadaSceneState));
-    })();
+    // (async () => {
+    //   const scene = (await restSerivce({ method: 'get', url: `/scene/${currentPageId}` })).data;
+    //   dispatch(updateEditScene(scene as ScadaSceneState));
+    // })();
     setIsEquipmentPanelOpen(false);
   }, []);
 

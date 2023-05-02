@@ -1,15 +1,25 @@
 import { boxComponentsMap } from '@/features/scada/componentMap';
 import Line from '@/features/scada/components/shapes/Line';
 import Text from '@/features/scada/components/texts/Text';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { throwIfDev } from '@/util/util';
-import { selectMonitorScene } from '../slice/scadaMonitorSceneSlice';
+import { useEffect } from 'react';
+import { fetchScadaMonitorScene, selectMonitorScene } from '../slice/scadaMonitorSceneSlice';
+import { selectCurrentPageId } from '../slice/scadaPageSlice';
 
 type Props = {};
 
 const MonitorScene = (props: Props) => {
   const scene = useAppSelector(selectMonitorScene);
-  console.log(scene);
+  const dispatch = useAppDispatch();
+  const currentScadaPageId = useAppSelector(selectCurrentPageId);
+
+  useEffect(() => {
+    (async () => {
+      if (!currentScadaPageId) return;
+      await dispatch(fetchScadaMonitorScene(currentScadaPageId));
+    })();
+  }, [currentScadaPageId]);
 
   return (
     <>

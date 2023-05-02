@@ -1,21 +1,35 @@
 import { boxComponentsMap } from '@/features/scada/componentMap';
 import Line from '@/features/scada/components/shapes/Line';
 import { objectMap, throwIfDev } from '@/util/util';
-import { useAppSelector } from '../../../store/hooks';
-import { selectEditScene } from '../slice/scadaEditSceneSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { fetchScadaEditScene, selectEditScene } from '../slice/scadaEditSceneSlice';
 import withBoxEdit from './withBoxEdit/withBoxEdit';
 import withLineEdit from './withLineEdit/withLineEdit';
 import EditableText from './EditableText';
+import { selectCurrentPageId } from '@/features/scada-monitor/slice/scadaPageSlice';
+import { useEffect } from 'react';
 
 const EditableLine = withLineEdit(Line);
 
 const editableBoxComponentMap = objectMap(boxComponentsMap, (info) => withBoxEdit(info.component as any));
-console.log(editableBoxComponentMap);
 
 type EditSceneProp = {};
 
 const EditScene = ({}: EditSceneProp) => {
   const scene = useAppSelector(selectEditScene);
+  const dispatch = useAppDispatch();
+  const currentScadaPageId = useAppSelector(selectCurrentPageId);
+
+  useEffect(() => {
+    (async () => {
+      console.log(currentScadaPageId);
+
+      if (!currentScadaPageId) return;
+      await dispatch(fetchScadaEditScene(currentScadaPageId));
+    })();
+  }, [currentScadaPageId]);
+
+  // const scene = useAppSelector(selectEditScene);
 
   return (
     <>
@@ -24,8 +38,6 @@ const EditScene = ({}: EditSceneProp) => {
       })}
       {scene.boxes.map((entity) => {
         const Component = editableBoxComponentMap[entity.type] as React.ComponentType;
-        console.log(Component);
-
         if (!Component) throwIfDev('No component found for type: ' + entity.type);
         return <Component key={entity.uuid} {...entity} />;
       })}

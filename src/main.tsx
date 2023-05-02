@@ -8,6 +8,11 @@ import App from './App';
 import './index.css';
 import store from './store/store';
 
+import 'normalize.css/normalize.css';
+import '@blueprintjs/core/lib/css/blueprint.css';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
+<link href="path/to/node_modules/normalize.css/normalize.css" rel="stylesheet" />;
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <RecoilRoot>
     <Provider store={store}>

@@ -1,126 +1,96 @@
-import Cookies from 'js-cookie';
+import { ScadaPage } from '@/types/type';
+import axios from 'axios';
+
+/**
+ * Rest service list
+ *
+ * get /scene?page-id=[pageID]
+ * post /scene?page-id=[pageID] - data(dump)
+ *
+ * get /pages : get all pages
+ * post /pages : add new pages - data(push)
+ * delete /pages/page-id : delete pages
+ * update /pages/page-id : update pages - data(update)
+ *
+ */
 
 /**
  * local storage strategy
+ *
+ * @warning hardcoded, just for demo, mocking the rest api
  */
+const localStorageStrategy = async (args: RestServiceParam) => {
+  const { method, url, data } = args;
 
-const localStorageStrategy = {
-  get: (url: string) => {
+  if (method === 'get' && url.includes('scene')) {
     const resultString = localStorage.getItem(url);
-
-    if (url.includes('pages') && !resultString) {
-      return [
-        {
-          pageId: 'demo-page',
-          title: 'Manufacturing room, Floor 1',
-          alarmLevel: 3
-        }
-      ];
-    }
-    console.log(url, resultString);
+    console.log('resultString', resultString, url);
 
     if (!resultString) return null;
     return JSON.parse(resultString);
-  },
-  post: (url: string, data: any) => {
-    return localStorage.setItem(url, JSON.stringify(data));
   }
+
+  if (method === 'post' && url.includes('scene')) {
+    localStorage.setItem(url, JSON.stringify(data));
+    return data;
+  }
+
+  if (method === 'get' && url.includes('pages')) {
+    const resultString = localStorage.getItem('pages');
+    if (!resultString) return [];
+    return JSON.parse(resultString);
+  }
+
+  if (method === 'post' && url.includes('pages')) {
+    const resultString = localStorage.getItem('pages');
+    const toSave = resultString ? JSON.parse(resultString) : [];
+    toSave.push(data);
+    localStorage.setItem('pages', JSON.stringify(toSave));
+    return toSave;
+  }
+
+  if (method === 'delete' && url.includes('pages')) {
+    const resultString = localStorage.getItem('pages');
+    if (!resultString) return [];
+    let result = JSON.parse(resultString);
+    const id = url.replace('/scada/pages/', '');
+    const index = result.findIndex((item: ScadaPage) => item.pageId === id);
+    result.splice(index, 1);
+
+    localStorage.setItem('pages', JSON.stringify(result));
+    return result;
+  }
+
+  if (method === 'post' && url.includes('pages')) {
+    localStorage.setItem('pages', JSON.stringify(data));
+    return data;
+  }
+
+  //TODO update
+  return null;
 };
 
 /**
- * cookie strategy
+ * axios strategy
  *
- * @description
- * 1. get: fetch data from cookie
- * 2. post: post data to cookie
- *
- * @warning
- * This is only for demo purpose. In real world, we should use server strategy.
- * But since I don't have a server, I use cookie to simulate the server.
- * It's hard coded intentionally.
  */
-const cookieStrategy = {
-  get: (url: string) => {
-    if (!url.startsWith('/')) {
-      url = '/' + url;
-    }
-    const cookieString = Cookies.get(url);
-    console.log(`get cookie, url: ${url}, data: ${cookieString}`);
-
-    if (url.includes('pages') && !cookieString) {
-      return [
-        {
-          pageId: 'demo-page',
-          title: 'Manufacturing room, Floor 1',
-          alarmLevel: 3
-        }
-      ];
-    }
-
-    if (url.includes('demo-page') && !cookieString) {
-      return {
-        lines: [
-          {
-            uuid: 'line1',
-            type: 'Line',
-            points: [
-              { x: 100, y: 100 },
-              { x: 100, y: 400 }
-            ]
-          }
-        ],
-        boxes: [
-          {
-            uuid: 'box1',
-            type: 'Watertank1',
-            x: 100,
-            y: 100,
-            width: 100,
-            height: 100
-          }
-        ]
-      };
-    }
-    return JSON.parse(cookieString || '');
-  },
-  post: (url: string, data: any) => {
-    if (!url.startsWith('/')) {
-      url = '/' + url;
-    }
-    console.log(`set cookie, url: ${url}, data: ${JSON.stringify(data)}`);
-
-    return Cookies.set(url, JSON.stringify(data));
-  }
+const axiosStrategy = async (args: RestServiceParam) => {
+  return axios({
+    ...args
+  })
+    .then((res) => res.data)
+    .then((data) => JSON.parse(data));
 };
 
-/**
- * server strategy
- *
- * @description
- * 1. get: fetch data from server
- * 2. post: post data to server
- *
- * @warning
- * this is not used yet, since in this stage I don't have a server. But I will keep this for future use.
- */
-const serverStrategy = {
-  get: async (url: string) => {
-    return fetch(url).then((res) => res.json());
-  },
-  post: async (url: string, data: any) => {
-    return fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data)
-    }).then((res) => res.json());
-  }
+type RestServiceParam = {
+  method: string;
+  url: string;
+  headers?: any;
+  data?: any;
 };
 
-const strategy = localStorageStrategy;
+let strategy = localStorageStrategy;
 
-export const getService = async (url: string) => {
-  return { data: strategy.get(url) };
-};
-
-export const postService = async (url: string, data: any) => {
-  return { data: strategy.post(url, data) };
+export const restSerivce = async (args: RestServiceParam) => {
+  return strategy(args);
 };

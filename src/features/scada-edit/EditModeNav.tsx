@@ -1,22 +1,26 @@
 import { primaryGrey } from '@/assets/color';
-import { postService } from '@/service/api';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentScadaPageIdState, scadaMode } from '../scada/atom/scadaAtom';
-import { selectEditScene } from './slice/scadaEditSceneSlice';
+import { saveScadaScene, selectEditScene } from './slice/scadaEditSceneSlice';
+import { restSerivce } from '@/service/api';
+import { selectCurrentPageId } from '../scada-monitor/slice/scadaPageSlice';
 
 const EditModeNav = () => {
   const setMode = useSetRecoilState(scadaMode);
   const editScene = useAppSelector(selectEditScene);
-  const currentPageId = useRecoilValue(currentScadaPageIdState);
-  console.log(currentPageId);
+  const currentPageId = useAppSelector(selectCurrentPageId);
+  const dispath = useAppDispatch();
 
   const onDoneButtonClick = async () => {
-    if (!currentPageId) return;
-    await postService(`/scene/${currentPageId}`, editScene);
-    setMode('monitor');
+    (async () => {
+      if (!currentPageId) return;
+      //TODO : error handling when request failed
+      dispath(saveScadaScene({ pageId: currentPageId, scadaScene: editScene }));
+      setMode('monitor');
+    })();
   };
 
   const onCancelButtonClick = async () => {

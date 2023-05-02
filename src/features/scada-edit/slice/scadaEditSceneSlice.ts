@@ -1,7 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../../store/store';
 import { BBox, LineEntity, ScadaSceneState, UUID, XY } from '../../../types/type';
+import { restSerivce } from '@/service/api';
+import { fetchScadaMonitorScene } from '@/features/scada-monitor/slice/scadaMonitorSceneSlice';
 
 const initialState: ScadaSceneState = {
   lines: [],
@@ -52,13 +54,27 @@ export const scadaEditSceneSlice = createSlice({
       Object.assign(entity, action.payload);
     },
     updateEditScene: (state, action: PayloadAction<ScadaSceneState>) => {
-      state = action.payload;
+      Object.assign(state, action.payload);
     },
     updateText(state, action: PayloadAction<{ uuid: UUID; text: string }>) {
       const text = state.texts.find((text) => text.uuid === action.payload.uuid);
       if (!text) return;
       text.text = action.payload.text;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchScadaEditScene.fulfilled, (state, action) => {
+      Object.assign(state, action.payload);
+    });
+    builder.addCase(fetchScadaMonitorScene.fulfilled, (state, action) => {
+      if (action.payload === null) {
+        state.lines = [];
+        state.boxes = [];
+        state.texts = [];
+        return;
+      }
+      Object.assign(state, action.payload);
+    });
   }
 });
 
@@ -79,18 +95,24 @@ export const selectEntity = (uuid: UUID) => {
   return (state: RootState) => {
     const { lines, boxes, texts } = state.editScene;
     return [...lines, ...boxes, ...texts].find((entity) => entity.uuid === uuid);
-    // const line = state.editScene.lines.find((line) => line.uuid === uuid);
-    // if (line) return line;
-    // const entity = state.editScene.boxes.find((entity) => entity.uuid === uuid);
-    // if (entity) return entity;
-    // const text = state.editScene.texts.find((text) => text.uuid === uuid);
-    // if (text) return text;
-    return null;
   };
 };
 export const selectEditBBoxEntity = (state: RootState) => [...state.editScene.boxes, ...state.editScene.texts];
 export const isSelectedSelector = (uuid: UUID) => {
   return (state: RootState) => state.editSelection.selectionLookup[uuid] ?? false;
 };
+
+export const fetchScadaEditScene = createAsyncThunk('scada/scene/fetchScadaEditScene', async (pageId: UUID) => {
+  const response = await restSerivce({ method: 'get', url: `/scene?page-id=${pageId}` });
+  return response as ScadaSceneState;
+});
+
+export const saveScadaScene = createAsyncThunk(
+  'scada/scene/saveScadaScene',
+  async ({ pageId, scadaScene }: { pageId: UUID; scadaScene: ScadaSceneState }) => {
+    const response = await restSerivce({ method: 'post', url: `/scene?page-id=${pageId}`, data: scadaScene });
+    return response as ScadaSceneState;
+  }
+);
 
 export default scadaEditSceneSlice.reducer;

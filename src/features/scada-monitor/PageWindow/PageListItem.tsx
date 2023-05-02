@@ -1,12 +1,14 @@
-import { darkBlue, deepDark, primaryBlue } from '@/assets/color';
+import { deepDark, primaryBlue } from '@/assets/color';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { flexCenter } from '@/style/style';
 import { AlarmLevel, UUID } from '@/types/type';
 import { FaBeer } from 'react-icons/fa';
-import { useRecoilState } from 'recoil';
-import { currentScadaPageIdState } from '../scada/atom/scadaAtom';
+import { selectCurrentPageId, selectScadaPages, updateCurrentPage } from '../slice/scadaPageSlice';
 
 const PageListItem = ({ title, alarmLevel, pageId }: { title: string; alarmLevel: AlarmLevel; pageId: UUID }) => {
-  const [currentPageId, setCurrentPageId] = useRecoilState(currentScadaPageIdState);
+  const currentPageId = useAppSelector(selectCurrentPageId);
+  const dispatch = useAppDispatch();
+
   const isSelected = currentPageId === pageId;
 
   const backgroundColor = isSelected ? primaryBlue : 'transparent';
@@ -20,13 +22,13 @@ const PageListItem = ({ title, alarmLevel, pageId }: { title: string; alarmLevel
 
   return (
     <li
-      onClick={() => setCurrentPageId(pageId)}
+      onClick={() => dispatch(updateCurrentPage(pageId))}
       css={{
         display: 'flex',
         borderRadius: 6,
         backgroundColor,
         padding: 18,
-        transitionDuration: '0.4s',
+        transitionDuration: '0.2s',
         '&:hover': { cursor: 'pointer', backgroundColor: hoverColor }
       }}
     >

@@ -1,3 +1,4 @@
+import { darkBlueGrey1 } from '@/assets/color';
 import {
   computeViewportSizeState,
   editViewportOffset,
@@ -6,28 +7,25 @@ import {
   viewboxZoomActionState,
   viewportSizeState
 } from '@/features/scada/atom/scadaAtom';
-import useDrag, { MouseButton } from '@/hooks/useDrag';
-import { useWindowSize } from '@/hooks/useWindowSize';
+import { MouseButton } from '@/hooks/useDrag';
+import useResizeListener from '@/hooks/useResizeListener';
 import { useAppDispatch } from '@/store/hooks';
-import { throwIfDev, toXY } from '@/util/util';
+import onDragCallback from '@/util/onDragCallback';
+import { Paper } from '@mui/material';
 import _ from 'lodash';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import EditContextMenu from '../EditContextMenu/EditContextMenu';
 import { EditSectionContext } from '../EditSectionContext';
 import EquipmentPanel from '../EquipmentPanel/EquipmentPanel';
 import { editContextMenuState, selectedEditMenuIndexState } from '../atom/scadaEditSectionAtom';
+import { unselectAll } from '../slice/scadaEditSelectionSlice';
 import EditScene from './EditScene';
 import { EditViewportContext } from './EditViewportContext';
 import Grid from './Grid';
 import MiniMap from './MiniMap';
 import SelectFrame from './SelectFrame';
 import { useEditViewportKeyControl } from './useEditViewportKeyControl';
-import useResizeListener from '@/hooks/useResizeListener';
-import onDragCallback from '@/util/onDragCallback';
-import EditContextMenu from '../EditContextMenu/EditContextMenu';
-import { unselectAll } from '../slice/scadaEditSelectionSlice';
-import { Paper } from '@mui/material';
-import { darkBlue, darkBlue2, darkBlueGrey1 } from '@/assets/color';
 
 const EditViewport = ({}) => {
   const dispatch = useAppDispatch();
