@@ -18,10 +18,7 @@ type Props = {};
 
 const EquipmentPanel = (props: Props) => {
   const [isOpen, setOpen] = useRecoilState(isEquipmentPanelOpenState);
-  const panelWidth = 500;
-
   const thumbnailSize = 100;
-
   const stickerSize = 150;
   const contents = (
     <div css={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
@@ -72,7 +69,7 @@ const EquipmentPanel = (props: Props) => {
       </EquipmentSection>
     </div>
   );
-  return <Panel isOpen={isOpen} panelWidth={panelWidth} setOpen={setOpen} contents={contents} />;
+  return <Panel width={'max(min(400px, 20vw), 320px)'} isOpen={isOpen} setOpen={setOpen} contents={contents} />;
 };
 
 export default EquipmentPanel;

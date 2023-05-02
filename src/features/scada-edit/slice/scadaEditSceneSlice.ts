@@ -77,10 +77,14 @@ export const selectEditScene = (state: RootState) => state.editScene;
 export const selectEditLines = (state: RootState) => state.editScene.lines;
 export const selectEntity = (uuid: UUID) => {
   return (state: RootState) => {
-    const line = state.editScene.lines.find((line) => line.uuid === uuid);
-    if (line) return line;
-    const entity = state.editScene.boxes.find((entity) => entity.uuid === uuid);
-    if (entity) return entity;
+    const { lines, boxes, texts } = state.editScene;
+    return [...lines, ...boxes, ...texts].find((entity) => entity.uuid === uuid);
+    // const line = state.editScene.lines.find((line) => line.uuid === uuid);
+    // if (line) return line;
+    // const entity = state.editScene.boxes.find((entity) => entity.uuid === uuid);
+    // if (entity) return entity;
+    // const text = state.editScene.texts.find((text) => text.uuid === uuid);
+    // if (text) return text;
     return null;
   };
 };

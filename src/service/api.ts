@@ -6,9 +6,9 @@ import Cookies from 'js-cookie';
 
 const localStorageStrategy = {
   get: (url: string) => {
-    const localStorageString = localStorage.getItem(url);
+    const resultString = localStorage.getItem(url);
 
-    if (url.includes('pages') && !localStorageString) {
+    if (url.includes('pages') && !resultString) {
       return [
         {
           pageId: 'demo-page',
@@ -17,8 +17,10 @@ const localStorageStrategy = {
         }
       ];
     }
-    if (!localStorageString) return null;
-    return JSON.parse(localStorageString);
+    console.log(url, resultString);
+
+    if (!resultString) return null;
+    return JSON.parse(resultString);
   },
   post: (url: string, data: any) => {
     return localStorage.setItem(url, JSON.stringify(data));

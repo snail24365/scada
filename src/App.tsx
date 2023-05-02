@@ -8,7 +8,7 @@ function App() {
   initialize();
 
   return (
-    <div className="App" style={{ height: '100%' }}>
+    <div className="App" style={{ height: '100%', minWidth: 1600, overflow: 'hidden' }}>
       <ScadaPage />
     </div>
   );

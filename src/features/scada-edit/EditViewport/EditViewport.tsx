@@ -26,10 +26,10 @@ import useResizeListener from '@/hooks/useResizeListener';
 import onDragCallback from '@/util/onDragCallback';
 import EditContextMenu from '../EditContextMenu/EditContextMenu';
 import { unselectAll } from '../slice/scadaEditSelectionSlice';
+import { Paper } from '@mui/material';
+import { darkBlue, darkBlue2, darkBlueGrey1 } from '@/assets/color';
 
 const EditViewport = ({}) => {
-  console.log('EditViewport render');
-
   const dispatch = useAppDispatch();
   const { rootDivRef, rootSvgRef } = useContext(EditSectionContext);
   const setEditViewportOffset = useSetRecoilState(editViewportOffset);
@@ -138,46 +138,47 @@ const EditViewport = ({}) => {
 
   return (
     <EditViewportContext.Provider value={editViewportContextValue}>
-      <div style={{ position: 'relative', minHeight: 0, height: '100%' }} ref={rootDivRef}>
-        <div
-          tabIndex={0}
-          css={{
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-            zIndex: 10,
-            border: '1px solid black',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            '&:focus': {
-              outline: 'none'
-            }
-          }}
-          onKeyDown={controls.onKeyDown}
-          onMouseDown={onMouseDown}
-        >
-          <svg
-            ref={rootSvgRef}
-            onWheel={(e) => {
-              Math.sign(e.deltaY) < 0 ? zoomIn() : zoomOut();
-            }}
-            viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
-            width={viewportSize.width}
-            height={viewportSize.height}
+      <div style={{ position: 'relative', minHeight: 0, height: '100%', flex: 1, minWidth: 1200 }} ref={rootDivRef}>
+        <Paper elevation={3} sx={{ backgroundColor: darkBlueGrey1, width: '100%', height: '100%' }}>
+          <div
+            tabIndex={0}
             css={{
-              zIndex: 15,
-              backgroundColor: 'transparent'
+              position: 'relative',
+              width: '100%',
+              height: '100%',
+              zIndex: 10,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              '&:focus': {
+                outline: 'none'
+              }
             }}
+            onKeyDown={controls.onKeyDown}
+            onMouseDown={onMouseDown}
           >
-            {grid}
-            {editScene}
-            <SelectFrame />
-          </svg>
-        </div>
-        <MiniMap width={miniMapWidth} />
-        <EquipmentPanel />
-        <EditContextMenu />
+            <svg
+              ref={rootSvgRef}
+              onWheel={(e) => {
+                Math.sign(e.deltaY) < 0 ? zoomIn() : zoomOut();
+              }}
+              viewBox={`${viewbox.x} ${viewbox.y} ${viewbox.width ?? 0} ${viewbox.height ?? 0}`}
+              width={viewportSize.width}
+              height={viewportSize.height}
+              css={{
+                zIndex: 15,
+                backgroundColor: 'transparent'
+              }}
+            >
+              {grid}
+              {editScene}
+              <SelectFrame />
+            </svg>
+          </div>
+          <MiniMap width={miniMapWidth} />
+          <EquipmentPanel />
+          <EditContextMenu />
+        </Paper>
       </div>
     </EditViewportContext.Provider>
   );

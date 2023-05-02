@@ -32,13 +32,14 @@ const EditableText = ({ x, y, width, height, text, uuid }: EditalbeTextProps) =>
   return (
     <>
       <svg x={x} y={y} width={width} height={height} pointerEvents={'none'}>
-        <foreignObject width="100%" height="100%" css={{ border: '1px dashed silver' }}>
+        <foreignObject width="100%" height="100%" css={{ border: '1px solid #444' }}>
           <div css={[flexCenter, { pointerEvents: 'all', width, height }]}>
             <textarea
+              placeholder="Type here..."
               css={{
                 width: '100%',
                 height: '100%',
-                color: '#fff !important',
+                color: '#fff',
                 backgroundColor: 'transparent',
                 border: 'none',
                 resize: 'none',

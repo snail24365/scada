@@ -13,7 +13,7 @@ export const flexVerticalCenter: CSSObject = {
 
 export const flexHorizontalCenter: CSSObject = {
   display: 'flex',
-  alignItems: 'center'
+  justifyContent: 'center'
 };
 
 export const fitParent: CSSObject = {

@@ -4,14 +4,14 @@ import React from 'react';
 
 type Props = {
   isOpen: boolean;
-  panelWidth?: number;
+  width?: number | string;
   setOpen?: (isOpen: boolean) => void;
   contents?: React.ReactNode;
   backgroundColor?: string;
 };
 
 const Panel = (props: Props) => {
-  const panelWidth = props.panelWidth ?? 400;
+  const panelWidth = props.width ?? 400;
   const backgroundColor = props.backgroundColor ?? darkBlue2;
   return (
     <AnimatePresence>

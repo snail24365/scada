@@ -4,13 +4,14 @@ import { useAppDispatch } from '@/store/hooks';
 import { BoxEntity } from '@/types/type';
 import { mapVector2, toXY } from '@/util/util';
 import { useContext, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
 import { EditSectionContext } from '../../EditSectionContext';
 import useContextMenuRightClick from '../../hook/useContextMenuRightClick';
 import { translateBoxEntity } from '../../slice/scadaEditSceneSlice';
 import { WithBoxEditContext } from './WithBoxEditContext';
 import { exclusiveSelect } from '../../slice/scadaEditSelectionSlice';
+import { editContextMenuState } from '../../atom/scadaEditSectionAtom';
 
 type MouseEventHandlerProps = Omit<BoxEntity, 'type'> & {
   onDoubleClick?: React.MouseEventHandler;
@@ -20,6 +21,7 @@ const MouseEventHandler = ({ width, height, x, y, uuid, onDoubleClick }: MouseEv
   const ref = useRef<SVGRectElement>(null);
   const [cursor, setCursor] = useState('pointer');
   const { rootSvgRef: containerRef } = useContext(EditSectionContext);
+  const setEditContextMenu = useSetRecoilState(editContextMenuState);
 
   const { clamp, getXY } = useRecoilValue(scadaEditUtil);
   const { setIsBoxEditing: setIsEditing } = useContext(WithBoxEditContext);
@@ -35,6 +37,10 @@ const MouseEventHandler = ({ width, height, x, y, uuid, onDoubleClick }: MouseEv
       downPoint = getXY(e);
       dispatch(exclusiveSelect({ uuid }));
       setIsEditing(true);
+      setEditContextMenu((prev) => ({
+        ...prev,
+        isOpen: false
+      }));
     },
     onMouseMove: (e) => {
       const container = containerRef.current;

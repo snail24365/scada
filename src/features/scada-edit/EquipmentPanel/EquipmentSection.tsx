@@ -16,7 +16,7 @@ const EquipmentSection = ({ title, children }: { title: string; children: Equipm
         css={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gridTemplateRows: 'repeat(auto-fill, 200px)',
+          gridTemplateRows: 'repeat(auto-fill, 130px)',
           gap: 15,
           cursor: 'pointer'
         }}

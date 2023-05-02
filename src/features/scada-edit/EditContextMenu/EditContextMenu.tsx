@@ -12,20 +12,20 @@ type Props = {};
 
 const EditContextMenu = ({}: Props) => {
   const editContextMenu = useRecoilValue(editContextMenuState);
-  const setProperyModal = useSetRecoilState(propertyModalState);
+  // const setProperyModal = useSetRecoilState(propertyModalState);
 
   const { left, top, isOpen } = editContextMenu;
   const dispatch = useDispatch();
   const selectedUUIDs = useAppSelector(getSelectedUUIDs);
-  const isSingleItem = selectedUUIDs.length === 1;
+  // const isSingleItem = selectedUUIDs.length === 1;
 
   const deleteSelected = () => {
     dispatch(deleteEntities(selectedUUIDs));
   };
 
-  const openPropertyModal = () => {
-    setProperyModal({ isOpen: true });
-  };
+  // const openPropertyModal = () => {
+  //   setProperyModal({ isOpen: true });
+  // };
   const contextMenu = isOpen ? (
     <ul
       css={{
@@ -39,7 +39,7 @@ const EditContextMenu = ({}: Props) => {
         backgroundColor: darkBlue2
       }}
     >
-      {isSingleItem && <EditContextMenuItem onClick={openPropertyModal} contents="Property Edit" />}
+      {/* {isSingleItem && <EditContextMenuItem onClick={openPropertyModal} contents="Property Edit" />} */}
       <EditContextMenuItem onClick={deleteSelected} contents="Delete" />
     </ul>
   ) : (

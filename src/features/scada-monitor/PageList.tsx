@@ -7,9 +7,8 @@ import { scadaPagesState } from './scadaMonitorAtom';
 type Props = {};
 
 const PageList = ({}: Props) => {
-  const pages = useRecoilValue(scadaPagesState);
-
   setFirstPageWhenMounted();
+  const pages = useRecoilValue(scadaPagesState);
 
   return (
     <ul css={{ display: 'flex', flexDirection: 'column', gap: 15, minWidth: 250 }}>
@@ -25,7 +24,6 @@ const PageList = ({}: Props) => {
       if (pages.length > 0) {
         setPageId(pages[0].pageId);
       }
-      return () => {};
     }, []);
   }
 };
