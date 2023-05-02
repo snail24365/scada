@@ -1,4 +1,4 @@
-import { ScadaComponents, boxComponentsMap, scadaComponentsMap } from '@/features/scada/componentMap';
+import { boxComponentsMap } from '@/features/scada/componentMap';
 import Line from '@/features/scada/components/shapes/Line';
 import Text from '@/features/scada/components/texts/Text';
 import { useAppSelector } from '@/store/hooks';
@@ -16,7 +16,7 @@ const MonitorScene = (props: Props) => {
         return <Line key={line.uuid} points={line.points} />;
       })}
       {scene.boxes.map((entity) => {
-        const Component = boxComponentsMap[entity.type] as React.ComponentType;
+        const Component = boxComponentsMap[entity.type].component as React.ComponentType;
         if (!Component) throwIfDev('No component found for type: ' + entity.type);
         return <Component key={entity.uuid} {...entity} />;
       })}

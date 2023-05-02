@@ -22,7 +22,7 @@ const EditScene = ({}: EditSceneProp) => {
         return <EditableLine key={line.uuid} points={line.points} type="Line" uuid={line.uuid} />;
       })}
       {scene.boxes.map((entity) => {
-        const Component = editableBoxComponentMap[entity.type] as React.ComponentType;
+        const Component = editableBoxComponentMap[entity.type].component as React.ComponentType;
         if (!Component) throwIfDev('No component found for type: ' + entity.type);
         return <Component key={entity.uuid} {...entity} />;
       })}

@@ -26,11 +26,11 @@ const PropertyModal = ({}: Props) => {
     console.log(console.log(entity, selectedUUIDs));
     return null;
   }
-  const component = scadaComponentsMap[entity.type as keyof typeof scadaComponentsMap];
-  if (!component) {
-    console.log(console.log(entity.type));
-    return null;
-  }
+  // const component = scadaComponentsMap[entity.type as keyof typeof scadaComponentsMap];
+  // if (!component) {
+  //   console.log(console.log(entity.type));
+  //   return null;
+  // }
   // throw new Error('Component not found');
 
   return (

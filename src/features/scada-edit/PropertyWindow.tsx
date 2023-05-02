@@ -6,6 +6,7 @@ import { getSelectedUUIDs } from './slice/scadaEditSelectionSlice';
 import { selectEntity } from './slice/scadaEditSceneSlice';
 import { flexCenter } from '@/style/style';
 import { AnimatePresence, motion } from 'framer-motion';
+import { scadaComponentsMap } from '../scada/componentMap';
 
 type Props = {};
 
@@ -34,15 +35,17 @@ const PropertyWindow = (props: Props) => {
   );
 
   const PropertyEditWindow = () => {
+    if (!entity) return null;
+    const type = entity.type;
+    const info = scadaComponentsMap[entity.type as keyof typeof scadaComponentsMap];
+
     return (
       <motion.div
         transition={{ duration: 0.2, delay: 0.2 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-      >
-        sadsad
-      </motion.div>
+      ></motion.div>
     );
   };
 

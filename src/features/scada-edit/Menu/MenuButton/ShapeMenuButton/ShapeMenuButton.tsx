@@ -1,15 +1,14 @@
+import { darkBlue } from '@/assets/color';
 import Circle from '@/features/scada/components/shapes/Circle';
+import Diamond from '@/features/scada/components/shapes/Diamond';
+import Ellipse from '@/features/scada/components/shapes/Ellipse';
+import Rectangle from '@/features/scada/components/shapes/Rectangle';
+import Triangle from '@/features/scada/components/shapes/Triangle';
 import { flexCenter } from '@/style/style';
 import React from 'react';
 import { FaRegSquare } from 'react-icons/fa';
-import Rectangle from '@/features/scada/components/shapes/Rectangle';
-import shapeComponentsMap from '@/features/scada/components/shapes/shapeComponentsMap';
-import Ellipse from '@/features/scada/components/shapes/Ellipse';
-import Diamond from '@/features/scada/components/shapes/Diamond';
-import MenuButton from '../MenuButton';
 import DragDrop from '../../../DragDrop/DragDrop';
-import Triangle from '@/features/scada/components/shapes/Triangle';
-import { darkBlue } from '@/assets/color';
+import MenuButton from '../MenuButton';
 
 type Props = { isOpen?: boolean; onClick?: React.MouseEventHandler };
 
