@@ -11,7 +11,7 @@ import EditViewport from './EditViewport/EditViewport';
 import { updateEditScene } from './slice/scadaEditSceneSlice';
 import { darkBlue } from '@/assets/color';
 import { Paper } from '@mui/material';
-import PropertyWindow from './PropertyWindow';
+import PropertyWindow from './PropertyWindow/PropertyWindow';
 
 type Props = {};
 

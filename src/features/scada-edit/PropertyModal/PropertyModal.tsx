@@ -1,12 +1,11 @@
 import { darkBlue2 } from '@/assets/color';
-import { scadaComponentsMap } from '@/features/scada/componentMap';
 import { useAppSelector } from '@/store/hooks';
 import { fadeInOut } from '@/style/style';
 import { Paper } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
-import { selectEntity } from '../slice/scadaEditSceneSlice';
 import { propertyModalState } from '../atom/scadaEditSectionAtom';
+import { selectEntity } from '../slice/scadaEditSceneSlice';
 import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
 
 type Props = {};

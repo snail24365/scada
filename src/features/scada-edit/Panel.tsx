@@ -12,14 +12,17 @@ type Props = {
 };
 
 const Panel = (props: Props) => {
-  const panelWidth = props.width ?? 400;
+  // const panelWidth = props.width ?? 400;
+  const panelWidth = 400;
+  console.log(panelWidth);
+
   const backgroundColor = props.backgroundColor ?? darkBlue2;
   return (
     <AnimatePresence>
       {props.isOpen && (
         <motion.div
           initial={{ opacity: 0, right: -panelWidth }}
-          animate={{ opacity: 1, right: 0 }}
+          animate={{ opacity: 1, right: 10 }}
           exit={{ opacity: 0, right: -panelWidth }}
           css={{
             position: 'absolute',
