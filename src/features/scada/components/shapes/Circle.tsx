@@ -1,9 +1,9 @@
-import { XY } from '@/types/type';
-import React from 'react';
+import { ShapeProperty } from '@/types/schema';
+import { BBox } from '@/types/type';
 
-export type CircleProps = React.SVGProps<SVGCircleElement>;
+type Props = ShapeProperty & BBox;
 
-const Circle = (props: CircleProps & { width: number; height: number } & XY & { strokeWidth?: number }) => {
+const Circle = (props: Props) => {
   const { width, height, fill, x, y } = props;
   const strokeWidth = props.strokeWidth ?? 0;
   const cx = width / 2;

@@ -1,4 +1,5 @@
 import { BoxComponents, boxComponentsMap } from '@/features/scada/componentMap';
+import { BoxProperty, LineProperty, TextProperty } from './schema';
 
 export type XY = {
   x: number;
@@ -23,19 +24,19 @@ export type Entity = {
   type: string;
 };
 
-export type BoxComponent = BBox;
-export type LineComponent = Points & { type: 'Line' };
-export type TextComponent = BBox & { type: 'Text'; text: string } & {
-  fontSize?: number;
-  fontFamily?: string;
-  fontWeight?: number;
-  color?: string;
-  textAlign?: 'left' | 'center' | 'right';
-};
+// export type BoxComponent = BBox;
+// export type LineComponent = Points & { type: 'Line' };
+// export type TextComponent = BBox & { type: 'Text'; text: string } & {
+//   fontSize?: number;
+//   fontFamily?: string;
+//   fontWeight?: number;
+//   color?: string;
+//   textAlign?: 'left' | 'center' | 'right';
+// };
 
-export type BoxEntity = Entity & BoxComponent & { type: keyof typeof boxComponentsMap };
-export type LineEntity = Entity & LineComponent & { type: 'Line' };
-export type TextEntity = Entity & TextComponent & { type: 'Text' };
+export type BoxEntity = Entity & BoxProperty & { type: keyof typeof boxComponentsMap };
+export type LineEntity = Entity & LineProperty & { type: 'Line' };
+export type TextEntity = Entity & TextProperty & { type: 'Text' };
 
 export type UUID = string;
 
@@ -77,3 +78,15 @@ export type DomRect = {
 };
 
 export type ChildrenWithProp<T> = React.ReactElement<T> | React.ReactElement<T>[] | undefined;
+
+export type PropertySchema = {
+  type: 'number' | 'text' | 'boolean' | 'color' | 'category';
+  category?: string[];
+  default?: number | string | boolean;
+  validation?: (value: number | string | boolean) => boolean;
+  contraints?: {
+    min?: number;
+    max?: number;
+    step?: number;
+  };
+};

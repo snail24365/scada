@@ -21,16 +21,8 @@ const PropertyModal = ({}: Props) => {
   if (selectedUUIDs.length !== 1) return null;
 
   if (!entity) {
-    // throw new Error('Entity not found');
-    console.log(console.log(entity, selectedUUIDs));
     return null;
   }
-  // const component = scadaComponentsMap[entity.type as keyof typeof scadaComponentsMap];
-  // if (!component) {
-  //   console.log(console.log(entity.type));
-  //   return null;
-  // }
-  // throw new Error('Component not found');
 
   return (
     <AnimatePresence>

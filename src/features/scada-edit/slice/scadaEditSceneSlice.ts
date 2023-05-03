@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../../store/store';
-import { BBox, LineEntity, ScadaSceneState, UUID, XY } from '../../../types/type';
+import { BBox, BoxEntity, LineEntity, ScadaSceneState, TextEntity, UUID, XY } from '../../../types/type';
 import { restSerivce } from '@/service/api';
 import { fetchScadaMonitorScene } from '@/features/scada-monitor/slice/scadaMonitorSceneSlice';
 
@@ -15,6 +15,13 @@ export const scadaEditSceneSlice = createSlice({
   name: 'editScene',
   initialState,
   reducers: {
+    updateEntity: (state, action: PayloadAction<{ uuid: UUID; newState: any }>) => {
+      const entity = [...state.lines, ...state.boxes, ...state.texts].find(
+        (entity) => entity.uuid === action.payload.uuid
+      );
+      // TODO : replace type any with Components type
+      Object.assign(entity as any, action.payload.newState);
+    },
     addEntity: (state, action: PayloadAction<any>) => {
       // TODO : replace type any with Components type
       if (action.payload.type === 'Line') {
@@ -86,7 +93,8 @@ export const {
   deleteEntities,
   updateEditScene,
   addEntity,
-  updateText
+  updateText,
+  updateEntity
 } = scadaEditSceneSlice.actions;
 
 export const selectEditScene = (state: RootState) => state.editScene;

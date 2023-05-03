@@ -1,7 +1,8 @@
 import { ReactComponent as PumpSvg } from '@/assets/pump1.svg';
-import { BBox, BoxEntity } from '@/types/type';
+import { BoxProperty } from '@/types/schema';
+import { BBox } from '@/types/type';
 
-type Props = React.SVGProps<SVGElement>;
+type Props = BoxProperty & BBox;
 
 const Pump1 = ({ width, height, x, y }: Props) => {
   return <PumpSvg width={width} height={height} x={x} y={y}></PumpSvg>;

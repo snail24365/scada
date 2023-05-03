@@ -1,9 +1,9 @@
+import { ShapeProperty } from '@/types/schema';
 import { BBox } from '@/types/type';
-import React from 'react';
 
-type EllipseProps = React.SVGProps<SVGEllipseElement> & BBox & { strokeWidth?: number };
+type Props = ShapeProperty & BBox;
 
-const Ellipse = (props: EllipseProps) => {
+const Ellipse = (props: Props) => {
   const { width, height } = props;
   const cx = width / 2;
   const cy = height / 2;

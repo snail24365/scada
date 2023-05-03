@@ -1,9 +1,10 @@
+import { ShapeProperty } from '@/types/schema';
 import { BBox } from '@/types/type';
 import React from 'react';
 
-export type DiamondProps = React.SVGProps<SVGRectElement> & { strokeWidth?: number } & BBox;
+type Props = ShapeProperty & BBox;
 
-const Diamond = (props: DiamondProps) => {
+const Diamond = (props: Props) => {
   const { width, height } = props;
   const strokeWidth = props.strokeWidth ?? 0;
   const p1 = { x: width / 2, y: 0 };

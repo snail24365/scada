@@ -1,7 +1,8 @@
-import { BBox, TextComponent } from '@/types/type';
+import { TextProperty } from '@/types/schema';
+import { BBox } from '@/types/type';
 import React, { useState } from 'react';
 
-export type TextProps = TextComponent;
+export type TextProps = TextProperty & BBox;
 
 const Text = ({ x, y, width, height, text }: TextProps) => {
   text = text || '';

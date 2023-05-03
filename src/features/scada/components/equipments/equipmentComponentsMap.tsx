@@ -1,3 +1,4 @@
+import { boxPropertySchema } from '@/types/schema';
 import Converter from './Converter';
 import Gastank from './Gastank';
 import HeatExchanger from './HeatExchanger';
@@ -6,69 +7,42 @@ import Pump2 from './Pump2';
 import Watertank1 from './Watertank1';
 import Watertank2 from './Watertank2';
 
-export const bboxPropertySchema = {
-  width: {
-    type: 'number',
-    contraints: {
-      min: 0,
-      max: 10000
-    },
-    default: 100
-  },
-  height: {
-    type: 'number',
-    contraints: {
-      min: 0,
-      max: 10000
-    },
-    default: 100
-  },
-  x: {
-    type: 'number',
-    contraints: {
-      min: 0,
-      max: 10000
-    },
-    default: 0
-  },
-  y: {
-    type: 'number',
-    contraints: {
-      min: 0,
-      max: 10000
-    },
-    default: 0
-  }
+type BoxProp = {
+  [K in keyof typeof boxPropertySchema]: (typeof boxPropertySchema)[K]['type'] extends 'number' ? number : string;
 };
+
+// type BoxEntityProp = {
+//   [K in typeof bboxPropertySchema] : typeof K;
+// }
 
 export const equipmentComponentsMap = {
   Converter: {
     component: Converter,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Gastank: {
     component: Gastank,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   HeatExchanger: {
     component: HeatExchanger,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Pump1: {
     component: Pump1,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Pump2: {
     component: Pump2,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Watertank1: {
     component: Watertank1,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Watertank2: {
     component: Watertank2,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   }
 };
 

@@ -1,66 +1,63 @@
 import { fontColor1 } from '@/assets/color';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { TextField } from '@mui/material';
 import { motion } from 'framer-motion';
 import _ from 'lodash';
 import { scadaComponentsMap } from '../../scada/componentMap';
-import { selectEntity } from '../slice/scadaEditSceneSlice';
+import { selectEntity, updateEntity } from '../slice/scadaEditSceneSlice';
 import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
+import { useEffect, useState } from 'react';
+import { PropertyEditWindowContext } from './PropertyEditWindowContext';
+import PropertyEditItem from './PropertyEditItem';
+import { PropertySchema } from '@/types/type';
 
 const PropertyEditWindow = () => {
   const selectedUUIDs = useAppSelector(getSelectedUUIDs);
   const entity = useAppSelector(selectEntity(selectedUUIDs[0] ?? ''));
+  const dispatch = useAppDispatch();
+  const [property, setProperty] = useState<object>({});
+
+  useEffect(() => {
+    if (!selectedUUIDs[0]) return;
+    console.log(selectedUUIDs[0], { ...entity, ...property });
+
+    dispatch(updateEntity({ uuid: selectedUUIDs[0], newState: { ...entity, ...property } }));
+  }, [property]);
 
   if (!entity) return null;
-  const schema = scadaComponentsMap[entity.type].propertySchema;
+  const propertiesSchema = scadaComponentsMap[entity.type].propertySchema;
 
-  const PropertyEditList = [];
+  const propertyEditList = [];
 
-  for (let propertyName in schema) {
-    const propertyType = schema[propertyName as keyof typeof schema].type;
-    if (propertyType === 'number') {
-      PropertyEditList.push(
-        <div css={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <span css={{ fontSize: 18 }}>{_.startCase(propertyName)}</span>
-          <TextField
-            type="number"
-            InputLabelProps={{
-              shrink: true
-            }}
-            sx={{
-              border: `1px solid ${fontColor1}`,
-              borderRadius: 2,
-              '& .MuiInputBase-input': {
-                color: fontColor1
-              }
-            }}
-          />
-        </div>
-      );
-    } else if (propertyType === 'string') {
-    } else if (propertyType === 'boolean') {
-    }
+  for (const propertyName in propertiesSchema) {
+    const propertySchema = propertiesSchema[propertyName as keyof typeof propertiesSchema];
+
+    propertyEditList.push(
+      <PropertyEditItem propertyName={propertyName} schema={propertySchema as PropertySchema} entity={propertySchema} />
+    );
   }
 
   return (
-    <motion.div
-      transition={{ duration: 0.2, delay: 0.2 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      css={[
-        {
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gridTemplateRows: 'repeat(auto-fill, 100px)',
-          height: '100%',
-          maxHeight: '100%',
-          gap: 16
-        }
-      ]}
-    >
-      {PropertyEditList}
-    </motion.div>
+    <PropertyEditWindowContext.Provider value={{ property, setProperty }}>
+      <motion.div
+        transition={{ duration: 0.2, delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        css={[
+          {
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gridTemplateRows: 'repeat(auto-fill, 100px)',
+            height: '100%',
+            maxHeight: '100%',
+            gap: 16
+          }
+        ]}
+      >
+        {propertyEditList}
+      </motion.div>
+    </PropertyEditWindowContext.Provider>
   );
 };
 

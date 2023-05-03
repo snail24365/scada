@@ -1,4 +1,4 @@
-import { bboxPropertySchema } from '../equipments/equipmentComponentsMap';
+import { boxPropertySchema, linePropertySchema } from '@/types/schema';
 import Circle from './Circle';
 import Diamond from './Diamond';
 import Ellipse from './Ellipse';
@@ -9,49 +9,27 @@ import Triangle from './Triangle';
 export const shapeComponentsMap = {
   Circle: {
     component: Circle,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Line: {
     component: Line,
-    propertySchema: {
-      ...bboxPropertySchema,
-      fill: {
-        type: 'string',
-        validation: (value: string) => value.match(/^#[0-9a-f]{6}$/i) !== null,
-        default: 'transparent'
-      },
-      stroke: {
-        type: 'string',
-        validation: (value: string) => value.match(/^#[0-9a-f]{6}$/i) !== null,
-        default: '#eee'
-      },
-      strokeWidth: {
-        type: 'number',
-        validation: (value: number) => value >= 0,
-        default: 2
-      },
-      storkeDasharray: {
-        type: 'string',
-        validation: (value: string) => value.match(/^(\d+)(\s*,\s*\d+)*$/) !== null,
-        default: ''
-      }
-    }
+    propertySchema: linePropertySchema
   },
   Rectangle: {
     component: Rectangle,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Ellipse: {
     component: Ellipse,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Diamond: {
     component: Diamond,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   },
   Triangle: {
     component: Triangle,
-    propertySchema: bboxPropertySchema
+    propertySchema: boxPropertySchema
   }
 };
 

@@ -1,11 +1,13 @@
 import { ReactComponent as HeatExchangerSvg } from '@/assets/heatExchanger.svg';
-import { BBox, BoxEntity, Size } from '@/types/type';
+import { BoxProperty } from '@/types/schema';
+import { BBox, Size } from '@/types/type';
 import { useEffect, useState } from 'react';
 import { Vector2 } from 'three';
 
-type Props = React.SVGProps<SVGSVGElement> & {
-  speed?: number;
-} & Size;
+type Props = BoxProperty &
+  BBox & {
+    speed?: number;
+  } & Size;
 
 const HeatExchanger = (props: Props) => {
   const { width, height, speed = 1 } = props;

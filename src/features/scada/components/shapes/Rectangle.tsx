@@ -1,6 +1,8 @@
+import { ShapeProperty } from '@/types/schema';
+import { BBox } from '@/types/type';
 import React from 'react';
 
-export type RectangleProps = React.SVGProps<SVGRectElement>;
+export type RectangleProps = ShapeProperty & BBox;
 
 const Rectangle = (props: RectangleProps) => {
   return (

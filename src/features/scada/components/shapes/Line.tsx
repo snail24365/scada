@@ -1,11 +1,9 @@
+import { LineProperty } from '@/types/schema';
 import { XY } from '../../../../types/type';
 
 export type LineProps = {
   points: XY[];
-  fill?: string;
-  stroke?: string;
-  strokeWidth?: number;
-};
+} & LineProperty;
 
 const Line = ({ points }: LineProps) => {
   let d = 'M';
