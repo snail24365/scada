@@ -44,7 +44,6 @@ const EditableText = (props: EditalbeTextProps) => {
             <textarea
               placeholder="Type here..."
               style={{
-                color: '#fff',
                 border: 'none',
                 resize: 'none',
                 overflow: 'hidden',

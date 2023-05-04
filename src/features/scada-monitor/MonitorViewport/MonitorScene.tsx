@@ -7,22 +7,12 @@ import { useEffect } from 'react';
 import { fetchScadaMonitorScene, selectMonitorScene } from '../slice/scadaMonitorSceneSlice';
 import { selectCurrentPageId } from '../slice/scadaPageSlice';
 
-type Props = {};
+type Props = { width: number; height: number; resolution: { x: number; y: number } };
 
-const MonitorScene = (props: Props) => {
+const MonitorScene = ({ width, height, resolution }: Props) => {
   const scene = useAppSelector(selectMonitorScene);
-  const dispatch = useAppDispatch();
-  const currentScadaPageId = useAppSelector(selectCurrentPageId);
-
-  useEffect(() => {
-    (async () => {
-      if (!currentScadaPageId) return;
-      await dispatch(fetchScadaMonitorScene(currentScadaPageId));
-    })();
-  }, [currentScadaPageId]);
-
   return (
-    <>
+    <svg width={width} height={height} viewBox={`0 0 ${resolution.x} ${resolution.y}`}>
       {scene.lines.map((line) => {
         return <Line key={line.uuid} points={line.points} />;
       })}
@@ -34,8 +24,12 @@ const MonitorScene = (props: Props) => {
       {scene.texts.map((entity) => {
         return <Text key={entity.uuid} {...entity} />;
       })}
-    </>
+    </svg>
   );
 };
 
+export const getIsEmptyScene = (state: any) => {
+  const scene = selectMonitorScene(state);
+  return scene.lines.length === 0 && scene.boxes.length === 0 && scene.texts.length === 0;
+};
 export default MonitorScene;

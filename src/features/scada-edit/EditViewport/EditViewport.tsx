@@ -35,7 +35,7 @@ const EditViewport = ({}) => {
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
   const setSelectedMenuIndex = useSetRecoilState(selectedEditMenuIndexState);
   const resolution = useRecoilValue(resolutionState);
-  const { resolutionX, resolutionY } = resolution;
+  const { x: resolutionX, y: resolutionY } = resolution;
   const editScene = useMemo(() => <EditScene />, []);
   const computeViewportSize = useRecoilValue(computeViewportSizeState);
   const setEditContextMenu = useSetRecoilState(editContextMenuState);

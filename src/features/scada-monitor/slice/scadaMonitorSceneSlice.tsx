@@ -19,6 +19,8 @@ export const scadaMonitorSceneSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchScadaMonitorScene.fulfilled, (state, action) => {
+      console.log('fetchScadaMonitorScene.fulfilled', action.payload);
+
       const scene = action.payload;
       if (scene === null) {
         state.boxes = [];

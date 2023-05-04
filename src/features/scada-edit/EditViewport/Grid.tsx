@@ -3,7 +3,7 @@ import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 
 const Grid = () => {
   const { gridUnit, resolution } = useRecoilValue(scadaEditUtil);
-  const { resolutionX, resolutionY } = resolution;
+  const { x: resolutionX, y: resolutionY } = resolution;
   let d = '';
   for (let i = 0; i < resolutionX; i += gridUnit) {
     d += `M ${i} 0 L ${i} ${resolutionY} `;

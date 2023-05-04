@@ -20,8 +20,8 @@ export const viewboxState = atom({
 export const resolutionState = atom({
   key: 'resolution',
   default: {
-    resolutionX: 1,
-    resolutionY: 1
+    x: 1,
+    y: 1
   }
 });
 
@@ -118,7 +118,7 @@ export const reducedScaleState = selector({
   key: 'reducedScale',
   get: ({ get }) => {
     const { width, height } = get(viewportSizeState);
-    const { resolutionX, resolutionY } = get(resolutionState);
+    const { x: resolutionX, y: resolutionY } = get(resolutionState);
     return {
       x: resolutionX / width,
       y: resolutionY / height
@@ -134,7 +134,7 @@ export const isEquipmentPanelOpenState = atom({
 export const zoomRatioState = selector({
   key: 'zoomRatio',
   get: ({ get }) => {
-    const { resolutionX } = get(resolutionState);
+    const { x: resolutionX } = get(resolutionState);
     const viewbox = get(viewboxState);
     return resolutionX / viewbox.width;
   }
@@ -143,7 +143,7 @@ export const zoomRatioState = selector({
 export const viewboxZoomActionState = selector({
   key: 'zoom',
   get: ({ get }) => {
-    const { resolutionX, resolutionY } = get(resolutionState);
+    const { x: resolutionX, y: resolutionY } = get(resolutionState);
     const zoom = (type: 'in' | 'out', amount: number = 1) => {
       const zoomLimitRatio = 4;
       const widthLowerBound = resolutionX / zoomLimitRatio;
@@ -188,7 +188,7 @@ export const viewboxZoomActionState = selector({
 export const computeViewportSizeState = selector({
   key: 'getViewportSize',
   get: ({ get }) => {
-    const { resolutionX, resolutionY } = get(resolutionState);
+    const { x: resolutionX, y: resolutionY } = get(resolutionState);
     return (containerWidth: number, containerHeight: number) => {
       const resolutionRatio = resolutionX / resolutionY;
       const stretchedWidth = resolutionRatio * containerHeight;

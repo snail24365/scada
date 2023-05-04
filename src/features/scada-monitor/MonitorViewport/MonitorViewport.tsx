@@ -1,25 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
-import MonitorScene from './MonitorScene';
+import MonitorScene, { getIsEmptyScene } from './MonitorScene';
 import { darkBlue, darkBlue2, darkBlueGrey1 } from '@/assets/color';
 import { useRecoilValue } from 'recoil';
 import { computeViewportSizeState, resolutionState } from '@/features/scada/atom/scadaAtom';
 import { flexCenter } from '@/style/style';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { selectCurrentPageId } from '../slice/scadaPageSlice';
+import { fetchScadaMonitorScene } from '../slice/scadaMonitorSceneSlice';
+import EmptyScenePlaceholder from './EmptyScenePlaceholder';
 
 const MonitorViewport = () => {
-  const computeViewportSize = useRecoilValue(computeViewportSizeState);
-  const resolution = useRecoilValue(resolutionState);
-  const { resolutionX, resolutionY } = resolution;
-
-  const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  fetchMonitorSceneAfterMounted();
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
-    const size = computeViewportSize(containerWidth, containerHeight);
-    setViewportSize(size);
-  }, [containerRef.current]);
+  const resolution = useRecoilValue(resolutionState);
+  const isEmptyScene = useAppSelector(getIsEmptyScene);
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
+
+  adjustViewportSize(containerRef, setViewport);
 
   return (
     <div
@@ -33,11 +31,38 @@ const MonitorViewport = () => {
         flexCenter
       ]}
     >
-      <svg {...viewportSize} viewBox={`0 0 ${resolutionX} ${resolutionY}`}>
-        <MonitorScene />
-      </svg>
+      {isEmptyScene ? (
+        <EmptyScenePlaceholder />
+      ) : (
+        <MonitorScene width={viewport.width} height={viewport.height} resolution={resolution} />
+      )}
     </div>
   );
 };
 
 export default MonitorViewport;
+function adjustViewportSize(
+  containerRef: React.RefObject<HTMLDivElement>,
+  setViewportSize: React.Dispatch<React.SetStateAction<{ width: number; height: number }>>
+) {
+  const computeViewportSize = useRecoilValue(computeViewportSizeState);
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
+    const size = computeViewportSize(containerWidth, containerHeight);
+    setViewportSize(size);
+  }, [containerRef.current]);
+}
+
+function fetchMonitorSceneAfterMounted() {
+  const dispatch = useAppDispatch();
+  const currentScadaPageId = useAppSelector(selectCurrentPageId);
+
+  useEffect(() => {
+    (async () => {
+      if (!currentScadaPageId) return;
+      await dispatch(fetchScadaMonitorScene(currentScadaPageId));
+    })();
+  }, [currentScadaPageId]);
+}

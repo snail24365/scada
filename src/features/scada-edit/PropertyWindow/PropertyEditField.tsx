@@ -10,7 +10,6 @@ import PropertyEditFieldLayout from './PropertyEditFieldLayout';
 type Props = {
   propertyName: string;
   schema: PropertySchema;
-  // initialValue: any;
   pickedId: UUID;
 };
 
@@ -33,7 +32,6 @@ const PropertyEditField = ({ propertyName, schema, pickedId }: Props) => {
 
   const updateEntityProperty = (val: string | number) => {
     const value = toFixedNumber(String(val));
-
     dispatch(updateProperty({ uuid: pickedId, property: propertyName, value }));
   };
 

@@ -101,7 +101,7 @@ export const textPropertySchema = {
       max: 200,
       step: 1
     },
-    default: 16
+    default: 32
   },
   fontFamily: {
     type: [
@@ -144,11 +144,11 @@ export const textPropertySchema = {
   },
   color: {
     type: 'color',
-    default: '#000000'
+    default: '#fff'
   },
   backgroundColor: {
     type: 'color',
-    default: '#ffffff'
+    default: 'transparent'
   },
   opacity: {
     type: 'number',

@@ -38,7 +38,7 @@ const TextMenuButton = ({ isOpen, onClick }: Props) => {
       >
         <DragDrop
           type="Text"
-          component={<Text x={320} y={200} width={75} height={75} text="Text" type="Text" />}
+          component={<Text x={320} y={200} width={75} height={75} text="Text" />}
           stickerSize={stickerSize}
         />
       </div>

@@ -21,7 +21,7 @@ const MiniMap = ({ width }: Props) => {
   const zoomFrameRef = useRef<HTMLDivElement>(null);
 
   const resolution = useRecoilValue(resolutionState);
-  const { resolutionX, resolutionY } = resolution;
+  const { x: resolutionX, y: resolutionY } = resolution;
   const [viewbox, setViewbox] = useRecoilState(viewboxState);
 
   const viewportRatio = resolutionY / resolutionX;
