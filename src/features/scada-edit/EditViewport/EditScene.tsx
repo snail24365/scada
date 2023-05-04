@@ -27,12 +27,10 @@ const EditScene = ({}: EditSceneProp) => {
     })();
   }, [currentScadaPageId]);
 
-  // const scene = useAppSelector(selectEditScene);
-
   return (
     <>
       {scene.lines.map((line) => {
-        return <EditableLine key={line.uuid} points={line.points} type="Line" uuid={line.uuid} />;
+        return <EditableLine key={line.uuid} {...line} />;
       })}
       {scene.boxes.map((entity) => {
         const Component = editableBoxComponentMap[entity.type] as React.ComponentType;

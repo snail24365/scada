@@ -15,7 +15,6 @@ const PageEditModal = ({}: Props) => {
   const dispatch = useAppDispatch();
   const [pageEditModal, setPageEditModal] = useRecoilState(pageEditModalState);
   const { isOpen, pageId } = pageEditModal;
-  console.log(pageId);
 
   const page = useAppSelector(selectPage(pageId));
 

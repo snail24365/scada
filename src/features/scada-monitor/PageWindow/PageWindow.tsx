@@ -42,7 +42,6 @@ const PageWindow = (props: Props) => {
           </PageEditButton>
           <PageEditButton
             onClick={() => {
-              console.log(currentPageId);
               if (!currentPageId) return;
               dispatch(deleteScadaPage(currentPageId));
             }}

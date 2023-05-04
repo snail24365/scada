@@ -13,7 +13,7 @@ export const shapeComponentsMap = {
   },
   Line: {
     component: Line,
-    propertySchema: shapePropertySchema
+    propertySchema: linePropertySchema
   },
   Rectangle: {
     component: Rectangle,

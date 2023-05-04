@@ -24,7 +24,6 @@ const localStorageStrategy = async (args: RestServiceParam) => {
 
   if (method === 'get' && url.includes('scene')) {
     const resultString = localStorage.getItem(url);
-    console.log('resultString', resultString, url);
 
     if (!resultString) return null;
     return JSON.parse(resultString);

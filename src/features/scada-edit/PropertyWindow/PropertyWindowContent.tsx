@@ -9,7 +9,6 @@ import EmptyWindow from './EmptyWindow';
 import PropertyEditField from './PropertyEditField';
 
 const PropertyWindowContent = () => {
-  console.log('PropertyWindowContent');
   const id = useAppSelector(getSingleSelectionId);
   const entity = useAppSelector(getEntity(id));
 
@@ -18,8 +17,10 @@ const PropertyWindowContent = () => {
 
     const inputs = [];
     const propertySchema = scadaComponentsMap[entity.type].propertySchema;
+
     for (const name in propertySchema) {
       const schema = propertySchema[name as keyof typeof propertySchema];
+
       inputs.push(<PropertyEditField pickedId={id} key={name} propertyName={name} schema={schema} />);
     }
 
