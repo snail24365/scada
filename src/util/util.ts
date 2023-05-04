@@ -39,9 +39,9 @@ export const objectMap = <T, S>(obj: Record<string, T>, func: <U extends T>(x: U
 };
 
 export const drawNodeOnCanvas = (svg: Node, canvas: HTMLCanvasElement) => {
-  const originSvgSerialized = new XMLSerializer().serializeToString(svg);
+  const originalSerializedSvg = new XMLSerializer().serializeToString(svg);
   const img = new Image();
-  img.src = 'data:image/svg+xml,' + encodeURIComponent(originSvgSerialized);
+  img.src = 'data:image/svg+xml,' + encodeURIComponent(originalSerializedSvg);
   img.onload = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;

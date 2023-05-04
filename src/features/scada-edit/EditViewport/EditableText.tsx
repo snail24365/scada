@@ -11,7 +11,7 @@ import { getEditText, getEntity, updateText } from '../slice/scadaEditSceneSlice
 export type EditalbeTextProps = TextEntity;
 
 const EditableText = (props: EditalbeTextProps) => {
-  const { x, y, width, height, uuid } = props;
+  const { x, y, uuid, width, height } = props;
   const selectedUUIDs = useSelector(getSelectedUUIDs);
 
   const textEntity = useSelector(getEditText(uuid));
@@ -26,26 +26,31 @@ const EditableText = (props: EditalbeTextProps) => {
   }, [isSelcected]);
 
   const radius = 5;
+
   return (
     <>
       <svg x={x} y={y} width={width} height={height} pointerEvents={'none'}>
         <foreignObject width="100%" height="100%" css={{ border: '1px solid #444' }}>
-          <div css={[flexCenter, { pointerEvents: 'all', width, height }]}>
+          <div
+            style={{
+              pointerEvents: 'all',
+              width,
+              height,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
             <textarea
               placeholder="Type here..."
-              css={[
-                {
-                  width: '100%',
-                  height: '100%',
-                  color: '#fff',
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  resize: 'none',
-                  overflow: 'hidden',
-                  fontSize: 16
-                },
-                props
-              ]}
+              style={{
+                color: '#fff',
+                border: 'none',
+                resize: 'none',
+                overflow: 'hidden',
+                fontSize: 16,
+                ...props
+              }}
               value={textEntity?.text ?? ''}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 dispatch(updateText({ uuid, text: e.target.value }));
