@@ -2,7 +2,7 @@ import { boxComponentsMap } from '@/features/scada/componentMap';
 import Line from '@/features/scada/components/shapes/Line';
 import { objectMap, throwIfDev } from '@/util/util';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { fetchScadaEditScene, selectEditScene } from '../slice/scadaEditSceneSlice';
+import { fetchScadaEditScene, getEditScene } from '../slice/scadaEditSceneSlice';
 import withBoxEdit from './withBoxEdit/withBoxEdit';
 import withLineEdit from './withLineEdit/withLineEdit';
 import EditableText from './EditableText';
@@ -16,14 +16,12 @@ const editableBoxComponentMap = objectMap(boxComponentsMap, (info) => withBoxEdi
 type EditSceneProp = {};
 
 const EditScene = ({}: EditSceneProp) => {
-  const scene = useAppSelector(selectEditScene);
+  const scene = useAppSelector(getEditScene);
   const dispatch = useAppDispatch();
   const currentScadaPageId = useAppSelector(selectCurrentPageId);
 
   useEffect(() => {
     (async () => {
-      console.log(currentScadaPageId);
-
       if (!currentScadaPageId) return;
       await dispatch(fetchScadaEditScene(currentScadaPageId));
     })();

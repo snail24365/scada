@@ -53,3 +53,7 @@ export const drawNodeOnCanvas = (svg: Node, canvas: HTMLCanvasElement) => {
 export const AABBTest = (box1: { min: XY; max: XY }, box2: { min: XY; max: XY }) => {
   return box1.max.x > box2.min.x && box2.max.x > box1.min.x && box1.max.y > box2.min.y && box2.max.y > box1.min.y;
 };
+
+export const toFixedNumber = (value: string | number, digit: number = 0) => {
+  return Number.isNaN(Number(value)) ? value : Number(Number(String(value)).toFixed(digit));
+};

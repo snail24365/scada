@@ -4,10 +4,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type ScadaEditSection = {
   selectionLookup: Record<UUID, boolean | undefined>;
+  singleSelectionId: UUID | undefined;
 };
 
 const initialState: ScadaEditSection = {
-  selectionLookup: {}
+  selectionLookup: {},
+  singleSelectionId: undefined
 };
 
 export const scadaEditSelectionSlice = createSlice({
@@ -19,13 +21,19 @@ export const scadaEditSelectionSlice = createSlice({
       action.payload.uuids.forEach((uuid) => {
         state.selectionLookup[uuid] = true;
       });
+
+      if (action.payload.uuids.length === 1) {
+        state.singleSelectionId = action.payload.uuids[0];
+      }
     },
     unselectAll: (state) => {
       state.selectionLookup = {};
+      state.singleSelectionId = undefined;
     },
     exclusiveSelect: (state, action: PayloadAction<{ uuid: UUID }>) => {
       state.selectionLookup = {};
       state.selectionLookup[action.payload.uuid] = true;
+      state.singleSelectionId = action.payload.uuid;
     }
   }
 });
@@ -40,6 +48,10 @@ export const getSelectedUUIDs = (state: RootState) => {
     }
   }
   return selectedUUIDs;
+};
+
+export const getSingleSelectionId = (state: RootState) => {
+  return state.editSelection.singleSelectionId;
 };
 
 export default scadaEditSelectionSlice.reducer;

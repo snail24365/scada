@@ -1,5 +1,6 @@
 import { BoxComponents, boxComponentsMap } from '@/features/scada/componentMap';
-import { BoxProperty, LineProperty, TextProperty } from './schema';
+import { BoxProperty, LineProperty, ShapeProperty, TextProperty } from './schema';
+import shapeComponentsMap from '@/features/scada/components/shapes/shapeComponentsMap';
 
 export type XY = {
   x: number;
@@ -24,20 +25,6 @@ export type Entity = {
   type: string;
 };
 
-// export type BoxComponent = BBox;
-// export type LineComponent = Points & { type: 'Line' };
-// export type TextComponent = BBox & { type: 'Text'; text: string } & {
-//   fontSize?: number;
-//   fontFamily?: string;
-//   fontWeight?: number;
-//   color?: string;
-//   textAlign?: 'left' | 'center' | 'right';
-// };
-
-export type BoxEntity = Entity & BoxProperty & { type: keyof typeof boxComponentsMap };
-export type LineEntity = Entity & LineProperty & { type: 'Line' };
-export type TextEntity = Entity & TextProperty & { type: 'Text' };
-
 export type UUID = string;
 
 export type ScadaMode = 'monitor' | 'edit';
@@ -54,18 +41,6 @@ export type ScadaPage = {
   alarmLevel: AlarmLevel;
 };
 
-export type MonitorSceneState = {
-  lines: LineEntity[];
-  boxes: BoxEntity[];
-  texts: TextEntity[];
-};
-
-export type ScadaSceneState = {
-  lines: LineEntity[];
-  boxes: BoxEntity[];
-  texts: TextEntity[];
-};
-
 export type DomRect = {
   width: number;
   height: number;
@@ -79,14 +54,36 @@ export type DomRect = {
 
 export type ChildrenWithProp<T> = React.ReactElement<T> | React.ReactElement<T>[] | undefined;
 
-export type PropertySchema = {
-  type: 'number' | 'text' | 'boolean' | 'color' | 'category';
-  category?: string[];
-  default?: number | string | boolean;
-  validation?: (value: number | string | boolean) => boolean;
-  contraints?: {
-    min?: number;
-    max?: number;
-    step?: number;
-  };
+export type BoxEntity = Entity & BoxProperty & { type: keyof typeof boxComponentsMap };
+export type LineEntity = Entity & LineProperty & { type: 'Line' } & Points;
+export type TextEntity = Entity & TextProperty & { type: 'Text' };
+export type ShapeEntity = Entity & ShapeProperty & { type: keyof typeof shapeComponentsMap };
+export type ScadaEntity = BoxEntity | LineEntity | TextEntity | ShapeEntity;
+
+export function isLineEntity(entity: ScadaEntity): entity is LineEntity {
+  return entity.type === 'Line';
+}
+
+export function isBoxEntity(entity: ScadaEntity): entity is BoxEntity {
+  return entity.type in boxComponentsMap;
+}
+
+export function isTextEntity(entity: ScadaEntity): entity is TextEntity {
+  return entity.type === 'Text';
+}
+
+export function isShapeEntity(entity: ScadaEntity): entity is ShapeEntity {
+  return entity.type in shapeComponentsMap;
+}
+
+export type MonitorSceneState = {
+  lines: LineEntity[];
+  boxes: BoxEntity[];
+  texts: TextEntity[];
+};
+
+export type ScadaSceneState = {
+  lines: LineEntity[];
+  boxes: BoxEntity[];
+  texts: TextEntity[];
 };

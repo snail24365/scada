@@ -6,27 +6,24 @@ import MouseEventHandler from './withBoxEdit/MouseEventHandler';
 import { useSelector } from 'react-redux';
 import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
 import { useAppDispatch } from '@/store/hooks';
-import { updateText } from '../slice/scadaEditSceneSlice';
+import { getEditText, getEntity, updateText } from '../slice/scadaEditSceneSlice';
 
 export type EditalbeTextProps = TextEntity;
 
-const EditableText = ({ x, y, width, height, text, uuid }: EditalbeTextProps) => {
+const EditableText = (props: EditalbeTextProps) => {
+  const { x, y, width, height, uuid } = props;
   const selectedUUIDs = useSelector(getSelectedUUIDs);
+
+  const textEntity = useSelector(getEditText(uuid));
   const dispatch = useAppDispatch();
 
-  const [textState, setTextState] = useState(text || '');
-
-  const [isEditable, setIsEditable] = useState(false);
+  const [isTextEditMode, setIsTextEditMode] = useState(false);
 
   const isSelcected = selectedUUIDs.includes(uuid);
 
   useEffect(() => {
-    setIsEditable(false);
+    setIsTextEditMode(false);
   }, [isSelcected]);
-
-  useEffect(() => {
-    dispatch(updateText({ uuid, text: textState }));
-  }, [textState]);
 
   const radius = 5;
   return (
@@ -36,24 +33,28 @@ const EditableText = ({ x, y, width, height, text, uuid }: EditalbeTextProps) =>
           <div css={[flexCenter, { pointerEvents: 'all', width, height }]}>
             <textarea
               placeholder="Type here..."
-              css={{
-                width: '100%',
-                height: '100%',
-                color: '#fff',
-                backgroundColor: 'transparent',
-                border: 'none',
-                resize: 'none',
-                overflow: 'hidden'
-              }}
-              value={textState}
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-                setTextState(event.target.value);
+              css={[
+                {
+                  width: '100%',
+                  height: '100%',
+                  color: '#fff',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  resize: 'none',
+                  overflow: 'hidden',
+                  fontSize: 16
+                },
+                props
+              ]}
+              value={textEntity?.text ?? ''}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                dispatch(updateText({ uuid, text: e.target.value }));
               }}
             />
           </div>
         </foreignObject>
       </svg>
-      {!isEditable && (
+      {!isTextEditMode && (
         <MouseEventHandler
           x={x}
           y={y}
@@ -61,7 +62,7 @@ const EditableText = ({ x, y, width, height, text, uuid }: EditalbeTextProps) =>
           height={height}
           uuid={uuid}
           onDoubleClick={() => {
-            setIsEditable(true);
+            setIsTextEditMode(true);
           }}
         />
       )}

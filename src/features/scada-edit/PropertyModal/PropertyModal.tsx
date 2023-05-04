@@ -5,24 +5,20 @@ import { Paper } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import { propertyModalState } from '../atom/scadaEditSectionAtom';
-import { selectEntity } from '../slice/scadaEditSceneSlice';
-import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
+import { getEntity } from '../slice/scadaEditSceneSlice';
+import { getSelectedUUIDs, getSingleSelectionId } from '../slice/scadaEditSelectionSlice';
 
 type Props = {};
 
 const PropertyModal = ({}: Props) => {
   const [propertyModal, setProperyModal] = useRecoilState(propertyModalState);
 
-  const selectedUUIDs = useAppSelector(getSelectedUUIDs);
-  const entity = useAppSelector(selectEntity(selectedUUIDs[0]));
+  const pickedID = useAppSelector(getSingleSelectionId);
+  const entity = useAppSelector(getEntity(pickedID));
 
   const { isOpen } = propertyModal;
 
-  if (selectedUUIDs.length !== 1) return null;
-
-  if (!entity) {
-    return null;
-  }
+  if (!entity) return null;
 
   return (
     <AnimatePresence>

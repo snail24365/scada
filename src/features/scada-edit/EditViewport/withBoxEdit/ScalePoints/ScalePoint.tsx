@@ -70,7 +70,6 @@ const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
       const container = rootSvgRef.current;
       if (!container) return;
       const { x: pivotX, y: pivotY } = getXY(e);
-      console.log('move');
 
       type key = `${number},${number}`;
       const corners: Record<key, { x: number; y: number }> = {

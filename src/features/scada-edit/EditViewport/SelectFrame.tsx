@@ -10,7 +10,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
 import { EditSectionContext } from '../EditSectionContext';
 import { selectItems, unselectAll } from '../slice/scadaEditSelectionSlice';
-import { selectEditBBoxEntity, selectEditLines } from '../slice/scadaEditSceneSlice';
+import { selectEditBBoxEntity, getEditLines } from '../slice/scadaEditSceneSlice';
 
 const SelectFrame = () => {
   const [selectionRect, setSelectionRect] = useState({
@@ -27,7 +27,7 @@ const SelectFrame = () => {
   const setIsEditing = useSetRecoilState(isEditingState);
   const dispatch = useAppDispatch();
 
-  const lines = useAppSelector(selectEditLines);
+  const lines = useAppSelector(getEditLines);
   const bboxEntities = useAppSelector(selectEditBBoxEntity);
 
   const bodyRef = useRef(document.body);

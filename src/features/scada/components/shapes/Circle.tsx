@@ -11,7 +11,7 @@ const Circle = (props: Props) => {
   const r = Math.max(Math.min(width / 2, height / 2) - strokeWidth, 0);
 
   return (
-    <svg x={props.x} y={props.y} width={props.width} height={props.height}>
+    <svg {...props}>
       <circle {...props} cx={cx} cy={cy} r={r} fill={fill} />
     </svg>
   );

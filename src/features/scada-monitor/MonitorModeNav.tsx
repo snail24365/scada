@@ -1,6 +1,6 @@
 import { primaryGrey } from '@/assets/color';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { flexVerticalCenter } from '@/style/style';
+import { fadeInOut, flexVerticalCenter } from '@/style/style';
 import { Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { GoPencil } from 'react-icons/go';
@@ -9,9 +9,7 @@ import { scadaMode } from '../scada/atom/scadaAtom';
 import { selectMonitorScene } from './slice/scadaMonitorSceneSlice';
 
 const MonitorModeNav = () => {
-  const scadaPageTitle = 'SCADA 1'; // TODO : change to recoil
-  const dispatch = useAppDispatch();
-  const scene = useAppSelector(selectMonitorScene);
+  const scadaPageTitle = 'SCADA 1';
   const setMode = useSetRecoilState(scadaMode);
 
   const onScadaEditClick = () => {
@@ -20,10 +18,7 @@ const MonitorModeNav = () => {
 
   return (
     <motion.div
-      transition={{ duration: 0.6 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      {...fadeInOut}
       css={[
         flexVerticalCenter,
         {

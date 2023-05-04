@@ -67,6 +67,13 @@ export const scadaEditSceneSlice = createSlice({
       const text = state.texts.find((text) => text.uuid === action.payload.uuid);
       if (!text) return;
       text.text = action.payload.text;
+    },
+    updateProperty(state, action: PayloadAction<{ uuid: UUID; property: string; value: any }>) {
+      const entity = [...state.lines, ...state.boxes, ...state.texts].find(
+        (entity) => entity.uuid === action.payload.uuid
+      );
+      if (!entity) return;
+      (entity as any)[action.payload.property] = action.payload.value;
     }
   },
   extraReducers: (builder) => {
@@ -94,17 +101,31 @@ export const {
   updateEditScene,
   addEntity,
   updateText,
-  updateEntity
+  updateEntity,
+  updateProperty
 } = scadaEditSceneSlice.actions;
 
-export const selectEditScene = (state: RootState) => state.editScene;
-export const selectEditLines = (state: RootState) => state.editScene.lines;
-export const selectEntity = (uuid: UUID) => {
+export const getEditScene = (state: RootState) => state.editScene;
+export const getEditText = (uuid: UUID) => (state: RootState) =>
+  state.editScene.texts.find((text) => text.uuid === uuid);
+export const getEditLines = (state: RootState) => state.editScene.lines;
+export const getEntity = (uuid: UUID | undefined) => {
   return (state: RootState) => {
+    if (!uuid) return undefined;
     const { lines, boxes, texts } = state.editScene;
     return [...lines, ...boxes, ...texts].find((entity) => entity.uuid === uuid);
   };
 };
+
+export const getProperty = (uuid: UUID, property: string) => {
+  return (state: RootState) => {
+    const { lines, boxes, texts } = state.editScene;
+    const entity = [...lines, ...boxes, ...texts].find((entity) => entity.uuid === uuid);
+    if (!entity) return undefined;
+    return (entity as any)[property];
+  };
+};
+
 export const selectEditBBoxEntity = (state: RootState) => [...state.editScene.boxes, ...state.editScene.texts];
 export const isSelectedSelector = (uuid: UUID) => {
   return (state: RootState) => state.editSelection.selectionLookup[uuid] ?? false;
@@ -115,10 +136,12 @@ export const fetchScadaEditScene = createAsyncThunk('scada/scene/fetchScadaEditS
   return response as ScadaSceneState;
 });
 
-export const saveScadaScene = createAsyncThunk(
+export const saveScadaScene = createAsyncThunk<ScadaSceneState, void, { state: RootState }>(
   'scada/scene/saveScadaScene',
-  async ({ pageId, scadaScene }: { pageId: UUID; scadaScene: ScadaSceneState }) => {
-    const response = await restSerivce({ method: 'post', url: `/scene?page-id=${pageId}`, data: scadaScene });
+  async (_, thunkAPI) => {
+    const pageId = thunkAPI.getState().scadaPage.currentPageId;
+    const scene = thunkAPI.getState().editScene;
+    const response = await restSerivce({ method: 'post', url: `/scene?page-id=${pageId}`, data: scene });
     return response as ScadaSceneState;
   }
 );

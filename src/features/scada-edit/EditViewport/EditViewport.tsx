@@ -1,4 +1,4 @@
-import { darkBlueGrey1 } from '@/assets/color';
+import { darkBlueGrey1, greyBorder, greyBorder2 } from '@/assets/color';
 import {
   computeViewportSizeState,
   editViewportOffset,
@@ -136,7 +136,16 @@ const EditViewport = ({}) => {
 
   return (
     <EditViewportContext.Provider value={editViewportContextValue}>
-      <div style={{ position: 'relative', minHeight: 0, height: '100%', flex: 1, minWidth: 1200 }} ref={rootDivRef}>
+      <div
+        style={{
+          position: 'relative',
+          minHeight: 0,
+          height: '100%',
+          flex: 1,
+          minWidth: 1200
+        }}
+        ref={rootDivRef}
+      >
         <Paper elevation={3} sx={{ backgroundColor: darkBlueGrey1, width: '100%', height: '100%' }}>
           <div
             tabIndex={0}
@@ -164,6 +173,7 @@ const EditViewport = ({}) => {
               width={viewportSize.width}
               height={viewportSize.height}
               css={{
+                border: `2px solid ${greyBorder}`,
                 zIndex: 15,
                 backgroundColor: 'transparent'
               }}

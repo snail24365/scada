@@ -14,8 +14,6 @@ type Props = {
 const Panel = (props: Props) => {
   // const panelWidth = props.width ?? 400;
   const panelWidth = 400;
-  console.log(panelWidth);
-
   const backgroundColor = props.backgroundColor ?? darkBlue2;
   return (
     <AnimatePresence>

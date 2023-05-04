@@ -13,7 +13,7 @@ const Diamond = (props: Props) => {
   const p4 = { x: 0, y: height / 2 };
   const d = `M${p1.x} ${p1.y} L${p2.x} ${p2.y} L${p3.x} ${p3.y} L${p4.x} ${p4.y} Z`;
   return (
-    <svg x={props.x} y={props.y} width={props.width} height={props.height}>
+    <svg {...props}>
       <path {...props} d={d} strokeWidth={strokeWidth} />
     </svg>
   );

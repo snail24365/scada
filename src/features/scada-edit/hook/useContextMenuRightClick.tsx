@@ -8,16 +8,13 @@ import { useSetRecoilState } from 'recoil';
 import { editContextMenuState } from '../atom/scadaEditSectionAtom';
 
 const useContextMenuRightClick = (uuid: UUID) => {
-  const selectedUUIDs = useAppSelector(getSelectedUUIDs);
   const setEditContextMenu = useSetRecoilState(editContextMenuState);
 
   const dispatch = useDispatch();
 
   const onMouseRightClick: React.MouseEventHandler = (e) => {
     if (e.button !== MouseButton.RIGHT) return;
-    if (selectedUUIDs.length === 0) {
-      dispatch(exclusiveSelect({ uuid }));
-    }
+    dispatch(exclusiveSelect({ uuid }));
     setEditContextMenu({
       left: e.clientX,
       top: e.clientY,

@@ -1,26 +1,12 @@
 import { darkBlue } from '@/assets/color';
-import { useAppSelector } from '@/store/hooks';
 import { scrollbar } from '@/style/style';
 import { Paper } from '@mui/material';
 import { AnimatePresence } from 'framer-motion';
-import { useMemo } from 'react';
-import { selectEntity } from '../slice/scadaEditSceneSlice';
-import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
-import EmptyWindow from './EmptyWindow';
-import PropertyEditWindow from './PropertyEditWIndow';
+import PropertyWindowContent from './PropertyWindowContent';
 
 const PropertyWindow = () => {
-  const selectedUUIDs = useAppSelector(getSelectedUUIDs);
-  const entity = useAppSelector(selectEntity(selectedUUIDs[0] ?? ''));
-
-  const propertyEditWindow = useMemo(() => <PropertyEditWindow />, [entity]);
-  const emptyWindow = useMemo(() => <EmptyWindow />, [entity]);
-
-  const isSingleEntitySelected = selectedUUIDs.length === 1 && entity;
-  const contents = isSingleEntitySelected ? propertyEditWindow : emptyWindow;
-
   return (
-    <Paper elevation={3}>
+    <Paper elevation={3} sx={{ position: 'relative', zIndex: 60 }}>
       <div
         css={[
           scrollbar,
@@ -34,7 +20,9 @@ const PropertyWindow = () => {
           }
         ]}
       >
-        <AnimatePresence>{contents}</AnimatePresence>
+        <AnimatePresence>
+          <PropertyWindowContent />
+        </AnimatePresence>
       </div>
     </Paper>
   );

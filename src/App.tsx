@@ -20,7 +20,7 @@ function initialize() {
   const setResolution = useSetRecoilState(resolutionState);
 
   useEffect(() => {
-    setResolution({ resolutionX: 1000, resolutionY: 600 });
+    setResolution({ resolutionX: 1600, resolutionY: 900 });
     const contextMenuListener = (e: MouseEvent): void => e.preventDefault();
     window.addEventListener('contextmenu', contextMenuListener);
     return () => {

@@ -1,10 +1,9 @@
-import { BoxComponent, BoxEntity, UUID } from '../../../../../types/type';
+import { BBox, BoxEntity, UUID } from '../../../../../types/type';
 import ScalePoint, { ScalePointDirection } from './ScalePoint';
 
-const ScalePoints = (props: BoxComponent & { radius?: number; uuid: UUID }) => {
+const ScalePoints = (props: BBox & { radius?: number; uuid: UUID }) => {
   const radius = props.radius ?? 5;
   const eightDirections = Object.values(ScalePointDirection);
-  console.log(props);
 
   return (
     <>

@@ -1,3 +1,16 @@
+import { BBox } from './type';
+
+export type PropertySchema = Readonly<{
+  type: 'number' | 'text' | 'color' | readonly string[];
+  default?: number | string | boolean;
+  validation?: (value: any) => boolean;
+  contraints?: {
+    min?: number;
+    max?: number;
+    step?: number;
+  };
+}>;
+
 export const boxPropertySchema = {
   width: {
     type: 'number',
@@ -46,31 +59,10 @@ export const linePropertySchema = {
     type: 'number',
     validation: (value: number) => value >= 0,
     default: 2
-  },
-  storkeDasharray: {
-    type: 'string',
-    validation: (value: string) => value.match(/^(\d+)(\s*,\s*\d+)*$/) !== null,
-    default: ''
   }
 } as const;
 
 export const textPropertySchema = {
-  fontFamily: {
-    type: 'category',
-    category: [
-      'Arial',
-      'Verdana',
-      'Helvetica',
-      'Tahoma',
-      'Trebuchet MS',
-      'Times New Roman',
-      'Georgia',
-      'Garamond',
-      'Courier New',
-      'Brush Script MT'
-    ],
-    default: 'Arial'
-  },
   width: {
     type: 'number',
     contraints: {
@@ -113,32 +105,39 @@ export const textPropertySchema = {
       min: 0,
       max: 200,
       step: 1
-    }
+    },
+    default: 16
+  },
+  fontFamily: {
+    type: [
+      'Arial',
+      'Verdana',
+      'Helvetica',
+      'Tahoma',
+      'Trebuchet MS',
+      'Times New Roman',
+      'Georgia',
+      'Garamond',
+      'Courier New',
+      'Brush Script MT'
+    ],
+    default: 'Arial'
   },
   fontWeight: {
-    type: 'category',
-    category: ['normal', 'bold', 'bolder', 'lighter', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+    type: ['normal', 'bold', 'bolder', 'lighter', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
     default: 'normal'
   },
   fontStyle: {
-    type: 'category',
-    category: ['normal', 'italic', 'oblique'],
+    type: ['normal', 'italic', 'oblique'],
     default: 'normal'
   },
   textDecoration: {
-    type: 'category',
-    category: ['none', 'underline', 'overline', 'line-through', 'blink'],
+    type: ['none', 'underline', 'overline', 'line-through', 'blink'],
     default: 'none'
   },
   textAlign: {
-    type: 'category',
-    category: ['left', 'right', 'center', 'justify'],
+    type: ['left', 'right', 'center', 'justify'],
     default: 'left'
-  },
-  textBaseline: {
-    type: 'category',
-    category: ['top', 'hanging', 'middle', 'alphabetic', 'ideographic', 'bottom'],
-    default: 'top'
   },
   lineHeight: {
     type: 'number',
@@ -169,31 +168,44 @@ export const textPropertySchema = {
 
 export const shapePropertySchema = {
   ...boxPropertySchema,
-  fill: {
-    type: 'color',
-    default: 'transparent'
-  },
-  stroke: {
-    type: 'color',
-    default: '#eee'
-  },
-  strokeWidth: {
-    type: 'number',
-    validation: (value: number) => value >= 0,
-    default: 2
-  },
-  storkeDasharray: {
-    type: 'string',
-    validation: (value: string) => value.match(/^(\d+)(\s*,\s*\d+)*$/) !== null,
-    default: ''
-  }
+  ...({
+    fill: {
+      type: 'color',
+      default: 'transparent'
+    },
+    stroke: {
+      type: 'color',
+      default: '#eee'
+    },
+    strokeWidth: {
+      type: 'number',
+      validation: (value: number) => value >= 0,
+      default: 2
+    }
+  } as const)
 };
 
-type ScadaComponentProp<T> = {
-  [K in keyof T]?: any;
+type ComponentPropertyType<T extends Record<string, PropertySchema>> = {
+  readonly [K in keyof T]+?: T[K]['type'] extends 'number'
+    ? number
+    : T[K]['type'] extends 'text'
+    ? string
+    : T[K]['type'] extends 'color'
+    ? string
+    : T[K]['type'] extends T[K]['default']
+    ? T[K]['type']
+    : never;
 };
 
-export type BoxProperty = ScadaComponentProp<typeof boxPropertySchema>;
-export type LineProperty = ScadaComponentProp<typeof linePropertySchema>;
-export type TextProperty = ScadaComponentProp<typeof textPropertySchema>;
-export type ShapeProperty = ScadaComponentProp<typeof shapePropertySchema>;
+type WithRequiredProperty<Type, U extends keyof Type> = Type & {
+  [Property in U]-?: Type[Property];
+};
+
+type BBoxRequiredProperty = 'width' | 'height' | 'x' | 'y';
+export type BoxProperty = WithRequiredProperty<ComponentPropertyType<typeof boxPropertySchema>, BBoxRequiredProperty>;
+export type LineProperty = ComponentPropertyType<typeof linePropertySchema>;
+export type TextProperty = WithRequiredProperty<ComponentPropertyType<typeof textPropertySchema>, BBoxRequiredProperty>;
+export type ShapeProperty = WithRequiredProperty<
+  ComponentPropertyType<typeof shapePropertySchema>,
+  BBoxRequiredProperty
+>;
