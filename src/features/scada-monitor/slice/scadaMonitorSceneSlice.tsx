@@ -4,26 +4,18 @@ import { ScadaSceneState, UUID } from '../../../types/type';
 import { restSerivce } from '@/service/api';
 
 const initialState: ScadaSceneState = {
-  lines: [],
-  boxes: [],
-  texts: []
+  entities: []
 };
 
 export const scadaMonitorSceneSlice = createSlice({
   name: 'monitorScene',
   initialState,
-  reducers: {
-    // updateMonitorScene: (state, action: PayloadAction<ScadaSceneState>) => {
-    //   Object.assign(state, action.payload);
-    // }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchScadaMonitorScene.fulfilled, (state, action) => {
       const scene = action.payload;
       if (scene === null) {
-        state.boxes = [];
-        state.lines = [];
-        state.texts = [];
+        state.entities = [];
       } else {
         Object.assign(state, scene);
       }
@@ -37,7 +29,5 @@ export const fetchScadaMonitorScene = createAsyncThunk('scada/scene/fetchScadaMo
 });
 
 export const selectMonitorScene = (state: RootState) => state.monitorScene;
-
-// export const { updateMonitorScene } = scadaMonitorSceneSlice.actions;
 
 export default scadaMonitorSceneSlice.reducer;

@@ -6,6 +6,7 @@ import { throwIfDev } from '@/util/util';
 import { useEffect } from 'react';
 import { fetchScadaMonitorScene, selectMonitorScene } from '../slice/scadaMonitorSceneSlice';
 import { selectCurrentPageId } from '../slice/scadaPageSlice';
+import { isBoxEntity, isLineEntity, isTextEntity } from '@/types/type';
 
 type Props = {};
 
@@ -23,7 +24,20 @@ const MonitorScene = (props: Props) => {
 
   return (
     <>
-      {scene.lines.map((line) => {
+      {scene.entities.map((entity) => {
+        if (isBoxEntity(entity)) {
+          const Component = boxComponentsMap[entity.type].component as React.ComponentType;
+          if (!Component) throwIfDev('No component found for type: ' + entity.type);
+          return <Component key={entity.uuid} {...entity} />;
+        }
+        if (isLineEntity(entity)) {
+          return <Line key={entity.uuid} points={entity.points} />;
+        }
+        if (isTextEntity(entity)) {
+          return <Text key={entity.uuid} {...entity} />;
+        }
+      })}
+      {/* {scene.lines.map((line) => {
         return <Line key={line.uuid} points={line.points} />;
       })}
       {scene.boxes.map((entity) => {
@@ -33,7 +47,7 @@ const MonitorScene = (props: Props) => {
       })}
       {scene.texts.map((entity) => {
         return <Text key={entity.uuid} {...entity} />;
-      })}
+      })} */}
     </>
   );
 };

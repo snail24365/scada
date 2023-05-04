@@ -8,6 +8,7 @@ import withLineEdit from './withLineEdit/withLineEdit';
 import EditableText from './EditableText';
 import { selectCurrentPageId } from '@/features/scada-monitor/slice/scadaPageSlice';
 import { useEffect } from 'react';
+import { isBoxEntity, isLineEntity, isTextEntity } from '@/types/type';
 
 const EditableLine = withLineEdit(Line);
 
@@ -27,20 +28,22 @@ const EditScene = ({}: EditSceneProp) => {
     })();
   }, [currentScadaPageId]);
 
-  // const scene = useAppSelector(selectEditScene);
-
   return (
     <>
-      {scene.lines.map((line) => {
-        return <EditableLine key={line.uuid} points={line.points} type="Line" uuid={line.uuid} />;
-      })}
-      {scene.boxes.map((entity) => {
-        const Component = editableBoxComponentMap[entity.type] as React.ComponentType;
-        if (!Component) throwIfDev('No component found for type: ' + entity.type);
-        return <Component key={entity.uuid} {...entity} />;
-      })}
-      {scene.texts.map((entity) => {
-        return <EditableText key={entity.uuid} {...entity} />;
+      {scene.entities.map((entity) => {
+        console.log(entity.type);
+
+        if (isBoxEntity(entity)) {
+          const Component = editableBoxComponentMap[entity.type] as React.ComponentType;
+          if (!Component) throwIfDev('No component found for type: ' + entity.type);
+          return <Component key={entity.uuid} {...entity} />;
+        }
+        if (isLineEntity(entity)) {
+          return <EditableLine key={entity.uuid} points={entity.points} type="Line" uuid={entity.uuid} />;
+        }
+        if (isTextEntity(entity)) {
+          return <EditableText key={entity.uuid} {...entity} />;
+        }
       })}
     </>
   );

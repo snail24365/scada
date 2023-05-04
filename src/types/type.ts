@@ -76,14 +76,9 @@ export function isShapeEntity(entity: ScadaEntity): entity is ShapeEntity {
   return entity.type in shapeComponentsMap;
 }
 
-export type MonitorSceneState = {
-  lines: LineEntity[];
-  boxes: BoxEntity[];
-  texts: TextEntity[];
-};
-
 export type ScadaSceneState = {
-  lines: LineEntity[];
-  boxes: BoxEntity[];
-  texts: TextEntity[];
+  entities: ScadaEntity[];
+  // lines: LineEntity[];
+  // boxes: BoxEntity[];
+  // texts: TextEntity[];
 };
