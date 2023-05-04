@@ -35,7 +35,7 @@ const PageWindow = (props: Props) => {
         <div css={{ display: 'flex', gap: 2 }}>
           <PageEditButton
             onClick={() => {
-              dispatch(addScadaPage({ pageId: uuid(), title: 'Empty', alarmLevel: 0 }));
+              dispatch(addScadaPage({ pageId: uuid(), title: 'New page, double click to edit.', alarmLevel: 0 }));
             }}
           >
             +

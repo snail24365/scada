@@ -13,10 +13,3 @@ export const editContextMenuState = atom({
     top: 0
   }
 });
-
-export const propertyModalState = atom({
-  key: 'propertyModal',
-  default: {
-    isOpen: false
-  }
-});

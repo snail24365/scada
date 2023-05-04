@@ -185,11 +185,6 @@ export const viewboxZoomActionState = selector({
   }
 });
 
-export const currentScadaPageIdState = atom<UUID | null>({
-  key: 'currentPageId',
-  default: null
-});
-
 export const computeViewportSizeState = selector({
   key: 'getViewportSize',
   get: ({ get }) => {

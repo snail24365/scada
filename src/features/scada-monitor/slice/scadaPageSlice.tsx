@@ -15,8 +15,6 @@ const initialState: ScadaPageInfo = {
 
 const replaceWithNewPageInfo = (state: ScadaPageInfo, action: PayloadAction<ScadaPage[]>) => {
   const newPages = action.payload;
-  console.log('newPages', newPages);
-
   if (newPages === undefined || newPages === null) {
     return;
   }
@@ -38,8 +36,7 @@ export const scadaPageSlice = createSlice({
   name: 'scadaPage',
   initialState,
   reducers: {
-    updatePage: replaceWithNewPageInfo,
-    updateCurrentPage: (state, action: PayloadAction<UUID>) => {
+    updateCurrentPageId: (state, action: PayloadAction<UUID>) => {
       state.currentPageId = action.payload;
     }
   },
@@ -47,6 +44,7 @@ export const scadaPageSlice = createSlice({
     builder.addCase(fetchScadaPages.fulfilled, replaceWithNewPageInfo);
     builder.addCase(addScadaPage.fulfilled, replaceWithNewPageInfo);
     builder.addCase(deleteScadaPage.fulfilled, replaceWithNewPageInfo);
+    builder.addCase(updateScadaPage.fulfilled, replaceWithNewPageInfo);
   }
 });
 
@@ -70,6 +68,15 @@ export const deleteScadaPage = createAsyncThunk('scada/pages/deleteScadaPage', a
   return response as ScadaPage[];
 });
 
-export const { updatePage, updateCurrentPage } = scadaPageSlice.actions;
+export const updateScadaPage = createAsyncThunk('scada/pages/updateScadaPage', async (scadaPage: ScadaPage) => {
+  const response = await restSerivce({ method: 'put', url: `/scada/pages/${scadaPage.pageId}`, data: scadaPage });
+  return response as ScadaPage[];
+});
+
+export const { updateCurrentPageId } = scadaPageSlice.actions;
+
+export const selectPage = (pageId: UUID) => (state: RootState) => {
+  return state.scadaPage.pages.find((page) => page.pageId === pageId);
+};
 
 export default scadaPageSlice.reducer;

@@ -1,13 +1,11 @@
 import { primaryGrey } from '@/assets/color';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch } from '@/store/hooks';
+import { fadeInOut, flexVerticalCenter } from '@/style/style';
 import { Button } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentScadaPageIdState, scadaMode } from '../scada/atom/scadaAtom';
-import { saveScadaScene, getEditScene } from './slice/scadaEditSceneSlice';
-import { restSerivce } from '@/service/api';
-import { selectCurrentPageId } from '../scada-monitor/slice/scadaPageSlice';
-import { fadeInOut, flexVerticalCenter } from '@/style/style';
+import { useSetRecoilState } from 'recoil';
+import { scadaMode } from '../scada/atom/scadaAtom';
+import { saveScadaScene } from './slice/scadaEditSceneSlice';
 
 const EditModeNav = () => {
   const setMode = useSetRecoilState(scadaMode);

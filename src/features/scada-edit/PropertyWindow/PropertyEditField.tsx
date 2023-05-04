@@ -1,13 +1,10 @@
-import { fontColor1, greyBorder } from '@/assets/color';
+import { greyBorder } from '@/assets/color';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { PropertySchema } from '@/types/schema';
+import { UUID } from '@/types/type';
 import { toFixedNumber } from '@/util/util';
 import { MenuItem, Select, TextField } from '@mui/material';
-import _ from 'lodash';
-import { useContext } from 'react';
-import { PropertyEditWindowContext } from './PropertyWindowContext';
-import { BoxEntity, ScadaEntity, UUID } from '@/types/type';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { getEntity, getProperty, updateEntity, updateProperty } from '../slice/scadaEditSceneSlice';
+import { getProperty, updateProperty } from '../slice/scadaEditSceneSlice';
 import PropertyEditFieldLayout from './PropertyEditFieldLayout';
 
 type Props = {

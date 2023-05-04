@@ -1,30 +1,18 @@
 import EditMenu from '@/features/scada-edit/Menu/EditMenu';
-import { restSerivce } from '@/service/api';
-import { useAppDispatch } from '@/store/hooks';
 import { flexHorizontalCenter } from '@/style/style';
-import { ScadaSceneState } from '@/types/type';
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentScadaPageIdState, isEquipmentPanelOpenState } from '../scada/atom/scadaAtom';
+import { useSetRecoilState } from 'recoil';
+import { isEquipmentPanelOpenState } from '../scada/atom/scadaAtom';
 import { EditSectionContext } from './EditSectionContext';
 import EditViewport from './EditViewport/EditViewport';
-import { updateEditScene } from './slice/scadaEditSceneSlice';
-import { darkBlue } from '@/assets/color';
-import { Paper } from '@mui/material';
 import PropertyWindow from './PropertyWindow/PropertyWindow';
 
 type Props = {};
 
 const EditSection = (props: Props) => {
-  // const currentPageId = useRecoilValue(currentScadaPageIdState);
   const setIsEquipmentPanelOpen = useSetRecoilState(isEquipmentPanelOpenState);
-  // const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // (async () => {
-    //   const scene = (await restSerivce({ method: 'get', url: `/scene/${currentPageId}` })).data;
-    //   dispatch(updateEditScene(scene as ScadaSceneState));
-    // })();
     setIsEquipmentPanelOpen(false);
   }, []);
 

@@ -43,10 +43,10 @@ const localStorageStrategy = async (args: RestServiceParam) => {
 
   if (method === 'post' && url.includes('pages')) {
     const resultString = localStorage.getItem('pages');
-    const toSave = resultString ? JSON.parse(resultString) : [];
-    toSave.push(data);
-    localStorage.setItem('pages', JSON.stringify(toSave));
-    return toSave;
+    const pagesToSave = resultString ? JSON.parse(resultString) : [];
+    pagesToSave.push(data);
+    localStorage.setItem('pages', JSON.stringify(pagesToSave));
+    return pagesToSave;
   }
 
   if (method === 'delete' && url.includes('pages')) {
@@ -61,12 +61,16 @@ const localStorageStrategy = async (args: RestServiceParam) => {
     return result;
   }
 
-  if (method === 'post' && url.includes('pages')) {
-    localStorage.setItem('pages', JSON.stringify(data));
-    return data;
+  if (method === 'put' && url.includes('pages')) {
+    const resultString = localStorage.getItem('pages');
+    const pagesToSave = resultString ? JSON.parse(resultString) : [];
+    const pageToUpdate = pagesToSave.find((item: ScadaPage) => item.pageId === data.pageId);
+    pageToUpdate.title = data.title;
+    pageToUpdate.alarmLevel = data.alarmLevel;
+    localStorage.setItem('pages', JSON.stringify(pagesToSave));
+    return pagesToSave;
   }
 
-  //TODO update
   return null;
 };
 

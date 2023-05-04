@@ -1,6 +1,7 @@
 import React from 'react';
 import MonitorViewport from './MonitorViewport/MonitorViewport';
 import PageWindow from './PageWindow/PageWindow';
+import PageEditModal from './PageEditModal/PageEditModal';
 
 type Props = {};
 
@@ -10,6 +11,7 @@ const MonitorSection = (props: Props) => {
       <div css={{ display: 'flex', height: '100%', padding: '10px 20px' }}>
         <PageWindow />
         <MonitorViewport />
+        <PageEditModal />
       </div>
     </React.Suspense>
   );

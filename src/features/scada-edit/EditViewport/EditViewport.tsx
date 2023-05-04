@@ -1,4 +1,4 @@
-import { darkBlueGrey1, greyBorder, greyBorder2 } from '@/assets/color';
+import { darkBlue, darkBlueGrey1, greyBorder, greyBorder2 } from '@/assets/color';
 import {
   computeViewportSizeState,
   editViewportOffset,
@@ -78,7 +78,7 @@ const EditViewport = ({}) => {
 
   const viewboxZoomAction = useRecoilValue(viewboxZoomActionState);
 
-  const onWheelDrag2 = onDragCallback({
+  const onWheelDrag = onDragCallback({
     moveTarget: rootSvgRef,
     onMouseMove: (e) => {
       const viewbox = viewboxRef.current;
@@ -91,19 +91,6 @@ const EditViewport = ({}) => {
     },
     mouseButton: MouseButton.MIDDLE
   });
-  // const onWheelDrag = useDrag({
-  //   moveElementRef: rootSvgRef,
-  //   onMouseMove: (e) => {
-  //     const viewbox = viewboxRef.current;
-  //     const speed = 2;
-  //     let newX = viewbox.x + e.movementX * speed;
-  //     let newY = viewbox.y + e.movementY * speed;
-  //     newX = _.clamp(newX, 0, resolutionX - viewbox.width);
-  //     newY = _.clamp(newY, 0, resolutionY - viewbox.height);
-  //     setViewbox((prev) => ({ ...prev, x: newX, y: newY }));
-  //   },
-  //   mouseButton: MouseButton.MIDDLE
-  // });
 
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // selection reset
@@ -119,7 +106,7 @@ const EditViewport = ({}) => {
       });
     }
     // wheel move
-    onWheelDrag2(e);
+    onWheelDrag(e);
 
     // menu collapse reset
     setSelectedMenuIndex(-1);
@@ -173,9 +160,9 @@ const EditViewport = ({}) => {
               width={viewportSize.width}
               height={viewportSize.height}
               css={{
-                border: `2px solid ${greyBorder}`,
+                border: `5px solid ${'#222'}`,
                 zIndex: 15,
-                backgroundColor: 'transparent'
+                backgroundColor: darkBlueGrey1
               }}
             >
               {grid}

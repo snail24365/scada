@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentScadaPageIdState } from '../../scada/atom/scadaAtom';
-import PageListItem from './PageListItem';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useEffect } from 'react';
 import { fetchScadaPages, selectScadaPages } from '../slice/scadaPageSlice';
+import PageListItem from './PageListItem';
 
 type Props = {};
 

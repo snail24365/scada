@@ -3,10 +3,14 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { flexCenter } from '@/style/style';
 import { AlarmLevel, UUID } from '@/types/type';
 import { FaBeer } from 'react-icons/fa';
-import { selectCurrentPageId, selectScadaPages, updateCurrentPage } from '../slice/scadaPageSlice';
+import { selectCurrentPageId, selectScadaPages, updateCurrentPageId } from '../slice/scadaPageSlice';
+import { useSetRecoilState } from 'recoil';
+import { pageEditModalState } from '../PageEditModal/pageEditModalAtom';
+import { HiDocumentText } from 'react-icons/hi';
 
 const PageListItem = ({ title, alarmLevel, pageId }: { title: string; alarmLevel: AlarmLevel; pageId: UUID }) => {
   const currentPageId = useAppSelector(selectCurrentPageId);
+  const setPageEditModal = useSetRecoilState(pageEditModalState);
   const dispatch = useAppDispatch();
 
   const isSelected = currentPageId === pageId;
@@ -22,7 +26,10 @@ const PageListItem = ({ title, alarmLevel, pageId }: { title: string; alarmLevel
 
   return (
     <li
-      onClick={() => dispatch(updateCurrentPage(pageId))}
+      onDoubleClick={() => {
+        setPageEditModal({ isOpen: true, pageId });
+      }}
+      onClick={() => dispatch(updateCurrentPageId(pageId))}
       css={{
         display: 'flex',
         borderRadius: 6,
@@ -33,8 +40,9 @@ const PageListItem = ({ title, alarmLevel, pageId }: { title: string; alarmLevel
       }}
     >
       <span css={{ marginRight: 8 }}>
-        <FaBeer />
+        <HiDocumentText />
       </span>
+
       {title}
       <div css={[flexCenter, { marginLeft: 16 }]}>
         <div css={{ width: 10, height: 10, borderRadius: 5, backgroundColor: alarmColorMap[alarmLevel] }}></div>

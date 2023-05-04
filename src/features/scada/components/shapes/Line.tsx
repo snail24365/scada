@@ -14,6 +14,8 @@ const Line = (props: LineProps) => {
   for (let i = 1; i < points.length; i++) {
     d += ` L${points[i].x},${points[i].y}`;
   }
+  console.log('rest prop', restProp);
+
   return <path d={d} stroke="#eee" fill="transparent" {...restProp} />;
 };
 
