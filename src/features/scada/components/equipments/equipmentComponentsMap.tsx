@@ -7,14 +7,6 @@ import Pump2 from './Pump2';
 import Watertank1 from './Watertank1';
 import Watertank2 from './Watertank2';
 
-type BoxProp = {
-  [K in keyof typeof boxPropertySchema]: (typeof boxPropertySchema)[K]['type'] extends 'number' ? number : string;
-};
-
-// type BoxEntityProp = {
-//   [K in typeof bboxPropertySchema] : typeof K;
-// }
-
 export const equipmentComponentsMap = {
   Converter: {
     component: Converter,

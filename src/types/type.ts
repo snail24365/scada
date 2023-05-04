@@ -87,3 +87,5 @@ export type ScadaSceneState = {
   boxes: BoxEntity[];
   texts: TextEntity[];
 };
+
+export type RequestStatus = { status: 'idle' | 'loading' | 'succeeded' | 'failed' };

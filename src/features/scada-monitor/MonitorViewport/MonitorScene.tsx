@@ -28,8 +28,4 @@ const MonitorScene = ({ width, height, resolution }: Props) => {
   );
 };
 
-export const getIsEmptyScene = (state: any) => {
-  const scene = selectMonitorScene(state);
-  return scene.lines.length === 0 && scene.boxes.length === 0 && scene.texts.length === 0;
-};
 export default MonitorScene;

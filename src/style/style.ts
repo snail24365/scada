@@ -41,3 +41,8 @@ export const scrollbar = {
     margin: 2
   }
 };
+
+export const full = {
+  width: '100%',
+  height: '100%'
+};

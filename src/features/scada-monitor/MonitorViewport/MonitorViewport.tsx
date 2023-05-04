@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import MonitorScene, { getIsEmptyScene } from './MonitorScene';
-import { darkBlue, darkBlue2, darkBlueGrey1 } from '@/assets/color';
-import { useRecoilValue } from 'recoil';
+import { darkBlueGrey1 } from '@/assets/color';
+import Placeholder from '@/components/Placeholder';
 import { computeViewportSizeState, resolutionState } from '@/features/scada/atom/scadaAtom';
-import { flexCenter } from '@/style/style';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { flexCenter, full } from '@/style/style';
+import React, { useEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { fetchScadaMonitorScene, getIsEmptyScene } from '../slice/scadaMonitorSceneSlice';
 import { selectCurrentPageId } from '../slice/scadaPageSlice';
-import { fetchScadaMonitorScene } from '../slice/scadaMonitorSceneSlice';
-import EmptyScenePlaceholder from './EmptyScenePlaceholder';
+import MonitorScene from './MonitorScene';
 
 const MonitorViewport = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -15,24 +15,33 @@ const MonitorViewport = () => {
 
   const resolution = useRecoilValue(resolutionState);
   const isEmptyScene = useAppSelector(getIsEmptyScene);
+  const isFailed = useAppSelector((state) => state.monitorScene.status === 'failed');
+  const isSucceeded = useAppSelector((state) => state.monitorScene.status === 'succeeded');
+
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
 
   adjustViewportSize(containerRef, setViewport);
+
+  let message = null;
+  if (isEmptyScene && isSucceeded) {
+    message = `No component in the scene.`;
+  } else if (isFailed) {
+    message = `Failed to load scene. Please check your network.`;
+  }
 
   return (
     <div
       ref={containerRef}
       css={[
+        flexCenter,
+        full,
         {
-          width: '100%',
-          height: '100%',
           backgroundColor: darkBlueGrey1
-        },
-        flexCenter
+        }
       ]}
     >
-      {isEmptyScene ? (
-        <EmptyScenePlaceholder />
+      {message ? (
+        <Placeholder contents={message} />
       ) : (
         <MonitorScene width={viewport.width} height={viewport.height} resolution={resolution} />
       )}
