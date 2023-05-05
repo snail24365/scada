@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const useInterval = (callback: (...args: any) => any, ms?: number, dependencies?: any[]) => {
   dependencies = dependencies || [];

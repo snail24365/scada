@@ -7,9 +7,7 @@ import { EditSectionContext } from './EditSectionContext';
 import EditViewport from './EditViewport/EditViewport';
 import PropertyWindow from './PropertyWindow/PropertyWindow';
 
-type Props = {};
-
-const EditSection = (props: Props) => {
+const EditSection = () => {
   const setIsEquipmentPanelOpen = useSetRecoilState(isEquipmentPanelOpenState);
 
   useEffect(() => {
@@ -29,7 +27,6 @@ const EditSection = (props: Props) => {
           <PropertyWindow />
         </div>
       </div>
-      {/* <PropertyModal /> */}
     </EditSectionContext.Provider>
   );
 };

@@ -24,6 +24,13 @@ type DragOption<U extends Element, V extends Element, S extends Element> = {
   isTerminateOnMouseLeave?: boolean;
 };
 
+/**
+ *
+ * @description this function can be used instead of useDrag for performance.
+ *
+ * @param option
+ * @returns
+ */
 const onDragCallback = <U extends Element, V extends Element, S extends Element>(option: DragOption<U, V, S>) => {
   const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave, moveTarget, upTarget, leaveTarget } = option;
 

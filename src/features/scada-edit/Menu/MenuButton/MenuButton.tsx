@@ -1,18 +1,19 @@
-import { darkBlue } from '@/assets/color';
+import { darkBlue2 } from '@/assets/color';
 import { flexVerticalCenter } from '@/style/style';
 import { Collapse, Paper } from '@mui/material';
 import React from 'react';
 import { IconType } from 'react-icons/lib';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 
-type Props = {
+type MenuButtonProps = {
   icon: IconType;
   text: string;
   isOpen?: boolean;
   onClick?: React.MouseEventHandler;
+  children?: React.ReactNode;
 };
 
-const MenuButton = ({ icon: Icon, text, children, isOpen, onClick }: React.PropsWithChildren<Props>) => {
+const MenuButton = ({ icon: Icon, text, children, isOpen, onClick }: MenuButtonProps) => {
   isOpen = isOpen ?? false;
   onClick = onClick ?? (() => {});
   return (
@@ -34,7 +35,7 @@ const MenuButton = ({ icon: Icon, text, children, isOpen, onClick }: React.Props
         <Paper
           sx={{
             m: 1,
-            backgroundColor: darkBlue,
+            backgroundColor: darkBlue2,
             padding: '20px',
             borderRadius: 4
           }}

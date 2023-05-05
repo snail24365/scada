@@ -1,7 +1,7 @@
 import React from 'react';
 import { flexCenter } from '@/style/style';
 import { DragDropProp } from '../DragDrop/DragDrop';
-import { darkBlue } from '@/assets/color';
+import { darkBlue2 } from '@/assets/color';
 import { ChildrenWithProp } from '@/types/type';
 import equipmentComponentsMap from '@/features/scada/components/equipments/equipmentComponentsMap';
 
@@ -22,7 +22,7 @@ const EquipmentSection = ({ title, children }: { title: string; children: Equipm
         }}
       >
         {React.Children.map(children, (child, i) => {
-          return <div css={[flexCenter, { backgroundColor: darkBlue, borderRadius: 12, marginTop: 15 }]}>{child}</div>;
+          return <div css={[flexCenter, { backgroundColor: darkBlue2, borderRadius: 12, marginTop: 15 }]}>{child}</div>;
         })}
       </div>
     </div>

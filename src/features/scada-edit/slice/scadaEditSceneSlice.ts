@@ -19,11 +19,9 @@ export const scadaEditSceneSlice = createSlice({
       const entity = [...state.lines, ...state.boxes, ...state.texts].find(
         (entity) => entity.uuid === action.payload.uuid
       );
-      // TODO : replace type any with Components type
       Object.assign(entity as any, action.payload.newState);
     },
     addEntity: (state, action: PayloadAction<any>) => {
-      // TODO : replace type any with Components type
       if (action.payload.type === 'Line') {
         state.lines.push(action.payload);
       } else if (action.payload.type === 'Text') {

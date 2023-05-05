@@ -1,4 +1,4 @@
-import { darkBlue2, primaryGrey } from '@/assets/color';
+import { darkBlue1, primaryGrey } from '@/assets/color';
 import { CSSObject } from '@emotion/styled';
 
 export const flexCenter: CSSObject = {
@@ -32,7 +32,7 @@ export const fadeInOut = {
 export const scrollbar = {
   '&::-webkit-scrollbar': {
     width: 10,
-    backgroundColor: darkBlue2,
+    backgroundColor: darkBlue1,
     borderRadius: 8
   },
   '&::-webkit-scrollbar-thumb': {

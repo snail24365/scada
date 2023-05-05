@@ -1,4 +1,4 @@
-import { darkBlue2 } from '@/assets/color';
+import { darkBlue1 } from '@/assets/color';
 import { viewboxState, viewboxZoomActionState, zoomRatioState } from '@/features/scada/atom/scadaAtom';
 import { flexVerticalCenter } from '@/style/style';
 import { IconButton } from '@mui/material';
@@ -35,7 +35,7 @@ const EditMenu = (props: Props) => {
         padding: 8,
         alignItems: 'center',
         paddingLeft: 30,
-        backgroundColor: darkBlue2
+        backgroundColor: darkBlue1
       }}
     >
       <ButtonGroup>

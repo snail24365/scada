@@ -1,4 +1,4 @@
-import { darkBlue2, primaryBlue, primaryGrey } from '@/assets/color';
+import { darkBlue1 } from '@/assets/color';
 import { scrollbar } from '@/style/style';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
@@ -12,9 +12,8 @@ type Props = {
 };
 
 const Panel = (props: Props) => {
-  // const panelWidth = props.width ?? 400;
   const panelWidth = 400;
-  const backgroundColor = props.backgroundColor ?? darkBlue2;
+  const backgroundColor = props.backgroundColor ?? darkBlue1;
   return (
     <AnimatePresence>
       {props.isOpen && (

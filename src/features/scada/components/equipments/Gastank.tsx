@@ -2,9 +2,9 @@ import { ReactComponent as GastankSvg } from '@/assets/gastank.svg';
 import { BoxProperty } from '@/types/schema';
 import { BBox } from '@/types/type';
 
-type Props = BoxProperty & BBox;
+type GastankProps = BoxProperty & BBox;
 
-const Gastank = ({ width, height, x, y }: Props) => {
+const Gastank = ({ width, height, x, y }: GastankProps) => {
   return <GastankSvg width={width} height={height} x={x} y={y}></GastankSvg>;
 };
 

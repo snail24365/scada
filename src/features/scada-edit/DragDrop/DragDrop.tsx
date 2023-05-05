@@ -9,7 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 import { EditSectionContext } from '../EditSectionContext';
 import { addEntity } from '../slice/scadaEditSceneSlice';
-import EntityDragDropSticker from './DragDropSticker';
+import DragDropSticker from './DragDropSticker';
 
 export type DragDropProp = {
   component: React.ReactElement<Size & Omit<Entity, 'uuid'>>;
@@ -114,7 +114,7 @@ const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: DragDrop
   return (
     <div css={[flexCenter, { boxSizing: 'content-box' }]} onMouseDown={onMouseDownDrag}>
       {component}
-      <EntityDragDropSticker left={cursor.left} top={cursor.top} sticker={stickerElement} />
+      <DragDropSticker left={cursor.left} top={cursor.top} sticker={stickerElement} />
     </div>
   );
 };

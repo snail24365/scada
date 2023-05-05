@@ -1,7 +1,4 @@
-import { StateSetter } from '@/types/type';
 import { createContext } from 'react';
-
-type ZoomFunctionType = (type: 'in' | 'out', amount: number) => void;
 
 type EditSectionContextType = {
   rootSvgRef: React.RefObject<SVGSVGElement>;

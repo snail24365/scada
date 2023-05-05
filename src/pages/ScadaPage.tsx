@@ -1,4 +1,4 @@
-import { darkBlue, darkBlueGrey1 } from '@/assets/color';
+import { darkBlue2, darkBlue4 } from '@/assets/color';
 import Header from '@/components/Header';
 import EditModeNav from '@/features/scada-edit/EditModeNav';
 import EditSection from '@/features/scada-edit/EditSection';
@@ -8,9 +8,8 @@ import { scadaMode } from '@/features/scada/atom/scadaAtom';
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-type Props = {};
 
-const ScadaPage = (props: Props) => {
+const ScadaPage = () => {
   const mode = useRecoilValue(scadaMode);
   const isMonitorMode = mode === 'monitor';
   const Navbar = isMonitorMode ? MonitorModeNav : EditModeNav;
@@ -19,7 +18,7 @@ const ScadaPage = (props: Props) => {
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
       <Header />
-      <nav style={{ background: darkBlue, height: '54px', flexShrink: 0 }}>
+      <nav style={{ background: darkBlue2, height: '54px', flexShrink: 0 }}>
         <AnimatePresence>
           <Navbar />
         </AnimatePresence>
@@ -32,7 +31,7 @@ const ScadaPage = (props: Props) => {
           position: 'relative',
           display: 'flex',
           minHeight: 0,
-          backgroundColor: darkBlueGrey1,
+          backgroundColor: darkBlue4,
           '& > *': {
             minWidth: 0
           }

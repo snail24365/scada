@@ -11,7 +11,7 @@ const Grid = () => {
   for (let i = 0; i < resolutionY; i += gridUnit) {
     d += `M 0 ${i} L ${resolutionX} ${i} `;
   }
-  return <path d={d} fill="transparent" stroke="#222" strokeWidth={0.5} />;
+  return <path d={d} fill="transparent" stroke="#333" strokeWidth={0.5} />;
 };
 
 export default Grid;

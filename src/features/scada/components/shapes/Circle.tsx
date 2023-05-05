@@ -1,9 +1,9 @@
 import { ShapeProperty } from '@/types/schema';
 import { BBox } from '@/types/type';
 
-type Props = ShapeProperty & BBox;
+type CircleProps = ShapeProperty & BBox;
 
-const Circle = (props: Props) => {
+const Circle = (props: CircleProps) => {
   const { width, height, fill, x, y } = props;
   const strokeWidth = props.strokeWidth ?? 0;
   const cx = width / 2;

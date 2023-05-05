@@ -3,9 +3,7 @@ import { useEffect } from 'react';
 import { fetchScadaPages, selectScadaPages } from '../slice/scadaPageSlice';
 import PageListItem from './PageListItem';
 
-type Props = {};
-
-const PageList = ({}: Props) => {
+const PageList = () => {
   const dispatch = useAppDispatch();
   const pages = useAppSelector(selectScadaPages);
 

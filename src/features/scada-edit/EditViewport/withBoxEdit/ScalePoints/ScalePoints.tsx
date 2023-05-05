@@ -1,4 +1,4 @@
-import { BBox, BoxEntity, UUID } from '../../../../../types/type';
+import { BBox, UUID } from '../../../../../types/type';
 import ScalePoint, { ScalePointDirection } from './ScalePoint';
 
 const ScalePoints = (props: BBox & { radius?: number; uuid: UUID }) => {

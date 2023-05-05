@@ -1,4 +1,4 @@
-import { Optional, StateSetter } from '@/types/type';
+import { StateSetter } from '@/types/type';
 import { createContext } from 'react';
 
 type ButtonGroupContext = {
@@ -8,7 +8,7 @@ type ButtonGroupContext = {
 
 const initialButtonGroup = {
   selectedIndex: -1,
-  setSelectedIndex: () => {},
+  setSelectedIndex: () => {}
 };
 
 export const ButtonGroupContext = createContext<ButtonGroupContext>(initialButtonGroup);

@@ -4,17 +4,17 @@ import { BBox, Size } from '@/types/type';
 import { useEffect, useState } from 'react';
 import { Vector2 } from 'three';
 
-type Props = BoxProperty &
+type HeatExchangerProps = BoxProperty &
   BBox & {
     speed?: number;
   } & Size;
 
-const HeatExchanger = (props: Props) => {
+const HeatExchanger = (props: HeatExchangerProps) => {
   const { width, height, speed = 1 } = props;
   const cx = width / 2;
   const cy = height / 2;
-  const r = Math.min(width, height) / 5;
-  const s = r / 2;
+  const radius = Math.min(width, height) / 5;
+  const halfRadius = radius / 2;
 
   const [rotate, setRotate] = useState(0);
   useEffect(() => {
@@ -26,15 +26,15 @@ const HeatExchanger = (props: Props) => {
 
   let d = '';
   for (let i = 0; i < 4; i++) {
-    const p1 = new Vector2(s, 0).rotateAround(new Vector2(0, 0), rotate + (Math.PI / 2) * i);
-    const p2 = new Vector2(0, s).rotateAround(new Vector2(0, 0), rotate + (Math.PI / 2) * i);
+    const p1 = new Vector2(halfRadius, 0).rotateAround(new Vector2(0, 0), rotate + (Math.PI / 2) * i);
+    const p2 = new Vector2(0, halfRadius).rotateAround(new Vector2(0, 0), rotate + (Math.PI / 2) * i);
     d += `M${cx} ${cy} l${p1.x} ${p1.y} l ${p2.x} ${p2.y}z`;
   }
 
   return (
     <svg {...props}>
       <HeatExchangerSvg width={width} height={height}></HeatExchangerSvg>
-      <circle cx={cx} cy={cy} r={r} fill={'grey'} stroke="silver" strokeWidth={5} />
+      <circle cx={cx} cy={cy} r={radius} fill={'grey'} stroke="silver" strokeWidth={5} />
       <path d={d} fill="gold" />
     </svg>
   );

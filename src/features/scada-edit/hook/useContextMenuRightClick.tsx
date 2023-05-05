@@ -1,11 +1,10 @@
 import { MouseButton } from '@/hooks/useDrag';
-import { useAppSelector } from '@/store/hooks';
-import React from 'react';
-import { exclusiveSelect, getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
-import { useDispatch } from 'react-redux';
 import { UUID } from '@/types/type';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useSetRecoilState } from 'recoil';
 import { editContextMenuState } from '../atom/scadaEditSectionAtom';
+import { exclusiveSelect } from '../slice/scadaEditSelectionSlice';
 
 const useContextMenuRightClick = (uuid: UUID) => {
   const setEditContextMenu = useSetRecoilState(editContextMenuState);

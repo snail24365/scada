@@ -15,7 +15,6 @@ const useResizeListener = (targetRef: React.RefObject<Element>, callback: (domRe
     });
     resizeObserver.observe(target);
 
-    // viewport offset change
     return () => {
       resizeObserver.disconnect();
     };

@@ -13,9 +13,7 @@ const EditableLine = withLineEdit(Line);
 
 const editableBoxComponentMap = objectMap(boxComponentsMap, (info) => withBoxEdit(info.component as any));
 
-type EditSceneProp = {};
-
-const EditScene = ({}: EditSceneProp) => {
+const EditScene = () => {
   const scene = useAppSelector(getEditScene);
   const dispatch = useAppDispatch();
   const currentScadaPageId = useAppSelector(selectCurrentPageId);

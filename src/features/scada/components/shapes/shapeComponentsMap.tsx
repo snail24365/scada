@@ -1,4 +1,4 @@
-import { boxPropertySchema, linePropertySchema, shapePropertySchema } from '@/types/schema';
+import { boxPropertySchema, linePropertySchema, boxShapePropertySchema } from '@/types/schema';
 import Circle from './Circle';
 import Diamond from './Diamond';
 import Ellipse from './Ellipse';
@@ -9,7 +9,7 @@ import Triangle from './Triangle';
 export const shapeComponentsMap = {
   Circle: {
     component: Circle,
-    propertySchema: shapePropertySchema
+    propertySchema: boxShapePropertySchema
   },
   Line: {
     component: Line,
@@ -17,19 +17,19 @@ export const shapeComponentsMap = {
   },
   Rectangle: {
     component: Rectangle,
-    propertySchema: shapePropertySchema
+    propertySchema: boxShapePropertySchema
   },
   Ellipse: {
     component: Ellipse,
-    propertySchema: shapePropertySchema
+    propertySchema: boxShapePropertySchema
   },
   Diamond: {
     component: Diamond,
-    propertySchema: shapePropertySchema
+    propertySchema: boxShapePropertySchema
   },
   Triangle: {
     component: Triangle,
-    propertySchema: shapePropertySchema
+    propertySchema: boxShapePropertySchema
   }
 };
 

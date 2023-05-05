@@ -1,3 +1,4 @@
+import { flexCenter, full } from '@/style/style';
 import React from 'react';
 
 type Props = {
@@ -8,14 +9,11 @@ const Placeholder = ({ contents }: Props) => {
   return (
     <div
       css={{
+        ...full,
+        ...flexCenter,
         fontSize: 20,
         textAlign: 'center',
-        lineHeight: '36px',
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        lineHeight: '36px'
       }}
     >
       {contents}

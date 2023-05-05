@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
-import { BiText } from 'react-icons/bi';
-import { ButtonGroupContext } from '../ButtonGroup/ButtonGroupContext';
-import MenuButton from './MenuButton';
-import { flexCenter } from '@/style/style';
-import DragDrop from '../../DragDrop/DragDrop';
 import Text from '@/features/scada/components/texts/Text';
+import { flexCenter } from '@/style/style';
+import React from 'react';
+import { BiText } from 'react-icons/bi';
+import DragDrop from '../../DragDrop/DragDrop';
+import MenuButton from './MenuButton';
 
-type Props = { isOpen?: boolean; onClick?: React.MouseEventHandler };
+type TextMenuButtonProps = { isOpen?: boolean; onClick?: React.MouseEventHandler };
 
-const TextMenuButton = ({ isOpen, onClick }: Props) => {
+const TextMenuButton = ({ isOpen, onClick }: TextMenuButtonProps) => {
   const buttonSize = 100;
   const scale = 1.5;
   const stickerSize = buttonSize * scale;

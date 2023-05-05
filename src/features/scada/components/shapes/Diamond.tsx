@@ -1,10 +1,9 @@
 import { ShapeProperty } from '@/types/schema';
 import { BBox } from '@/types/type';
-import React from 'react';
 
-type Props = ShapeProperty & BBox;
+type DiamondProps = ShapeProperty & BBox;
 
-const Diamond = (props: Props) => {
+const Diamond = (props: DiamondProps) => {
   const { width, height } = props;
   const strokeWidth = props.strokeWidth ?? 0;
   const p1 = { x: width / 2, y: 0 };

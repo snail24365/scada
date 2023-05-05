@@ -1,4 +1,4 @@
-import { darkBlue, darkBlueGrey1, greyBorder2 } from '@/assets/color';
+import { darkBlue2, darkBlue4, borderColor2 } from '@/assets/color';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { flexVerticalCenter } from '@/style/style';
 import { motion } from 'framer-motion';
@@ -6,9 +6,8 @@ import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { addScadaPage, deleteScadaPage, selectCurrentPageId, selectScadaPages } from '../slice/scadaPageSlice';
 import PageList from './PageList';
-type Props = {};
 
-const PageWindow = (props: Props) => {
+const PageWindow = () => {
   const pages = useAppSelector(selectScadaPages);
   const currentPageId = useAppSelector(selectCurrentPageId);
   const dispatch = useAppDispatch();
@@ -20,8 +19,8 @@ const PageWindow = (props: Props) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       style={{
-        backgroundColor: darkBlue,
-        border: `3px solid ${greyBorder2}`,
+        backgroundColor: darkBlue2,
+        border: `3px solid ${borderColor2}`,
         marginRight: '10px',
         padding: '20px 10px',
         borderRadius: 6
@@ -67,7 +66,7 @@ const PageEditButton = ({ children, onClick }: React.PropsWithChildren<{ onClick
           cursor: 'pointer',
           fontWeight: 600,
           borderRadius: 3,
-          '&:hover': { backgroundColor: darkBlueGrey1 }
+          '&:hover': { backgroundColor: darkBlue4 }
         }
       ]}
     >

@@ -1,15 +1,13 @@
 import { boxComponentsMap } from '@/features/scada/componentMap';
 import Line from '@/features/scada/components/shapes/Line';
 import Text from '@/features/scada/components/texts/Text';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import { throwIfDev } from '@/util/util';
-import { useEffect } from 'react';
-import { fetchScadaMonitorScene, selectMonitorScene } from '../slice/scadaMonitorSceneSlice';
-import { selectCurrentPageId } from '../slice/scadaPageSlice';
+import { selectMonitorScene } from '../slice/scadaMonitorSceneSlice';
 
-type Props = { width: number; height: number; resolution: { x: number; y: number } };
+type MonitorSceneProps = { width: number; height: number; resolution: { x: number; y: number } };
 
-const MonitorScene = ({ width, height, resolution }: Props) => {
+const MonitorScene = ({ width, height, resolution }: MonitorSceneProps) => {
   const scene = useAppSelector(selectMonitorScene);
   return (
     <svg width={width} height={height} viewBox={`0 0 ${resolution.x} ${resolution.y}`}>

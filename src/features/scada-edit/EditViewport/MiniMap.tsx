@@ -9,7 +9,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Vector2 } from 'three';
 import { EditSectionContext } from '../EditSectionContext';
-import { darkBlue, primaryBlue, primaryGrey } from '@/assets/color';
+import { darkBlue2, primaryBlue, primaryGrey } from '@/assets/color';
 
 type Props = { width: number };
 
@@ -72,7 +72,7 @@ const MiniMap = ({ width }: Props) => {
         width,
         height,
         zIndex: 30,
-        backgroundColor: darkBlue,
+        backgroundColor: darkBlue2,
         opacity: 0.9,
         border: `1px solid ${primaryGrey}`
       }}

@@ -1,4 +1,4 @@
-import { darkBlue } from '@/assets/color';
+import { darkBlue2 } from '@/assets/color';
 import { scrollbar } from '@/style/style';
 import { Paper } from '@mui/material';
 import { AnimatePresence } from 'framer-motion';
@@ -15,7 +15,7 @@ const PropertyWindow = () => {
             overflowX: 'hidden',
             width: 'max(400px, 20vw)',
             height: '100%',
-            backgroundColor: darkBlue,
+            backgroundColor: darkBlue2,
             padding: 24
           }
         ]}

@@ -1,4 +1,4 @@
-import { darkBlue2, fontColor1, greyBorder } from '@/assets/color';
+import { darkBlue1, fontColor1, borderColor1 } from '@/assets/color';
 import { fadeInOut, flexCenter } from '@/style/style';
 import { Button, MenuItem, Paper, Select, TextField } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -9,9 +9,8 @@ import { pageEditModalState } from './pageEditModalAtom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectPage, updateScadaPage } from '../slice/scadaPageSlice';
 import { AlarmLevel } from '@/types/type';
-type Props = {};
 
-const PageEditModal = ({}: Props) => {
+const PageEditModal = () => {
   const dispatch = useAppDispatch();
   const [pageEditModal, setPageEditModal] = useRecoilState(pageEditModalState);
   const { isOpen, pageId } = pageEditModal;
@@ -27,7 +26,7 @@ const PageEditModal = ({}: Props) => {
   const inputStyle = {
     '& .MuiInputBase-input': {
       color: fontColor1,
-      border: `1px solid ${greyBorder}`
+      border: `1px solid ${borderColor1}`
     }
   };
 
@@ -68,7 +67,7 @@ const PageEditModal = ({}: Props) => {
                 minHeight: 400,
                 overflow: 'hidden',
                 padding: '8px 5px',
-                backgroundColor: darkBlue2,
+                backgroundColor: darkBlue1,
                 flexDirection: 'column'
               }
             ]}

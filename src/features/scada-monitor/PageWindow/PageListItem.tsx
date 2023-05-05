@@ -1,12 +1,11 @@
-import { deepDark, primaryBlue } from '@/assets/color';
+import { darkBlue5, primaryBlue } from '@/assets/color';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { flexCenter } from '@/style/style';
 import { AlarmLevel, UUID } from '@/types/type';
-import { FaBeer } from 'react-icons/fa';
-import { selectCurrentPageId, selectScadaPages, updateCurrentPageId } from '../slice/scadaPageSlice';
+import { HiDocumentText } from 'react-icons/hi';
 import { useSetRecoilState } from 'recoil';
 import { pageEditModalState } from '../PageEditModal/pageEditModalAtom';
-import { HiDocumentText } from 'react-icons/hi';
+import { selectCurrentPageId, updateCurrentPageId } from '../slice/scadaPageSlice';
 
 const PageListItem = ({ title, alarmLevel, pageId }: { title: string; alarmLevel: AlarmLevel; pageId: UUID }) => {
   const currentPageId = useAppSelector(selectCurrentPageId);
@@ -16,7 +15,7 @@ const PageListItem = ({ title, alarmLevel, pageId }: { title: string; alarmLevel
   const isSelected = currentPageId === pageId;
 
   const backgroundColor = isSelected ? primaryBlue : 'transparent';
-  const hoverColor = isSelected ? primaryBlue : deepDark;
+  const hoverColor = isSelected ? primaryBlue : darkBlue5;
   const alarmColorMap = {
     0: 'transparent',
     1: 'green',

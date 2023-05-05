@@ -2,9 +2,7 @@ import { isEquipmentPanelOpenState } from '@/features/scada/atom/scadaAtom';
 import { MdOutlineFolderDelete } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
 
-type Props = {};
-
-const EquipmentButton = (props: Props) => {
+const EquipmentButton = () => {
   const [isPanelOpen, setPanelOpen] = useRecoilState(isEquipmentPanelOpenState);
   return (
     <div

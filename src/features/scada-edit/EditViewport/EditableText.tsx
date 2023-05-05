@@ -1,12 +1,11 @@
 import ScalePoints from '@/features/scada-edit/EditViewport/withBoxEdit/ScalePoints/ScalePoints';
-import { flexCenter } from '@/style/style';
+import { useAppDispatch } from '@/store/hooks';
 import { TextEntity } from '@/types/type';
 import React, { useEffect, useState } from 'react';
-import MouseEventHandler from './withBoxEdit/MouseEventHandler';
 import { useSelector } from 'react-redux';
+import { getEditText, updateText } from '../slice/scadaEditSceneSlice';
 import { getSelectedUUIDs } from '../slice/scadaEditSelectionSlice';
-import { useAppDispatch } from '@/store/hooks';
-import { getEditText, getEntity, updateText } from '../slice/scadaEditSceneSlice';
+import MouseEventHandler from './MouseEventHandler';
 
 export type EditalbeTextProps = TextEntity;
 

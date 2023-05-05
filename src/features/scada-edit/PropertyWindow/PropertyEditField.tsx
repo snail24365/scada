@@ -1,4 +1,4 @@
-import { greyBorder } from '@/assets/color';
+import { borderColor1 } from '@/assets/color';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { PropertySchema } from '@/types/schema';
 import { UUID } from '@/types/type';
@@ -7,21 +7,21 @@ import { MenuItem, Select, TextField } from '@mui/material';
 import { getProperty, updateProperty } from '../slice/scadaEditSceneSlice';
 import PropertyEditFieldLayout from './PropertyEditFieldLayout';
 
-type Props = {
+type PropertyEditFieldProps = {
   propertyName: string;
   schema: PropertySchema;
   pickedId: UUID;
 };
 
 const borderStyle = {
-  border: `1px solid ${greyBorder}`,
+  border: `1px solid ${borderColor1}`,
   borderRadius: 2,
   '& .MuiInputBase-input': {
     color: '#fff'
   }
 };
 
-const PropertyEditField = ({ propertyName, schema, pickedId }: Props) => {
+const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditFieldProps) => {
   const { type, default: defaultValue } = schema;
   const dispatch = useAppDispatch();
   const propertyValue = useAppSelector(getProperty(pickedId, propertyName));

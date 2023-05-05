@@ -2,7 +2,8 @@ import { ShapeProperty } from '@/types/schema';
 import { BBox, XY } from '@/types/type';
 import React from 'react';
 
-export type TriangleProps = ShapeProperty & BBox;
+type TriangleProps = ShapeProperty & BBox;
+
 const Triangle = (props: TriangleProps & BBox) => {
   const { x, y, width, height } = props;
   const p1 = { x: width / 2, y: 0 };

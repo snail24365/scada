@@ -1,4 +1,4 @@
-import { darkBlue } from '@/assets/color';
+import { darkBlue2 } from '@/assets/color';
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';

@@ -1,4 +1,4 @@
-import { darkBlue, darkBlueGrey1, greyBorder, greyBorder2 } from '@/assets/color';
+import { darkBlue2, darkBlue4, borderColor1, borderColor2 } from '@/assets/color';
 import {
   computeViewportSizeState,
   editViewportOffset,
@@ -27,7 +27,7 @@ import MiniMap from './MiniMap';
 import SelectFrame from './SelectFrame';
 import { useEditViewportKeyControl } from './useEditViewportKeyControl';
 
-const EditViewport = ({}) => {
+const EditViewport = () => {
   const dispatch = useAppDispatch();
   const { rootDivRef, rootSvgRef } = useContext(EditSectionContext);
   const setEditViewportOffset = useSetRecoilState(editViewportOffset);
@@ -133,7 +133,7 @@ const EditViewport = ({}) => {
         }}
         ref={rootDivRef}
       >
-        <Paper elevation={3} sx={{ backgroundColor: darkBlueGrey1, width: '100%', height: '100%' }}>
+        <Paper elevation={3} sx={{ backgroundColor: darkBlue4, width: '100%', height: '100%' }}>
           <div
             tabIndex={0}
             css={{
@@ -160,9 +160,9 @@ const EditViewport = ({}) => {
               width={viewportSize.width}
               height={viewportSize.height}
               css={{
-                border: `5px solid ${'#222'}`,
+                border: `3px solid ${'#222'}`,
                 zIndex: 15,
-                backgroundColor: darkBlueGrey1
+                backgroundColor: darkBlue4
               }}
             >
               {grid}

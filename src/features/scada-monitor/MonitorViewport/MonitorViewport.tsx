@@ -1,4 +1,4 @@
-import { darkBlueGrey1 } from '@/assets/color';
+import { darkBlue4 } from '@/assets/color';
 import Placeholder from '@/components/Placeholder';
 import { computeViewportSizeState, resolutionState } from '@/features/scada/atom/scadaAtom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -36,7 +36,7 @@ const MonitorViewport = () => {
         flexCenter,
         full,
         {
-          backgroundColor: darkBlueGrey1
+          backgroundColor: darkBlue4
         }
       ]}
     >

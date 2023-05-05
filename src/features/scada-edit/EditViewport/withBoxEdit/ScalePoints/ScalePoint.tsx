@@ -1,4 +1,5 @@
 import { primaryBlue } from '@/assets/color';
+import { EditSectionContext } from '@/features/scada-edit/EditSectionContext';
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
@@ -6,9 +7,7 @@ import { BBox, UUID } from '@/types/type';
 import { useContext } from 'react';
 import { useRecoilValue } from 'recoil';
 import { updateBBox } from '../../../slice/scadaEditSceneSlice';
-import { EditViewportContext } from '../../EditViewportContext';
 import { WithBoxEditContext } from '../WithBoxEditContext';
-import { EditSectionContext } from '@/features/scada-edit/EditSectionContext';
 
 export enum ScalePointDirection {
   nw = 'nw',
@@ -21,7 +20,7 @@ export enum ScalePointDirection {
   w = 'w'
 }
 
-type Props = {
+type ScalePointProps = {
   boundBox: BBox;
   direction: ScalePointDirection;
   r: number;
@@ -45,7 +44,7 @@ const eightDirectionInfos: Record<ScalePointDirection, DirectionInfo> = {
   w: { dx: -1, dy: 0, cursor: 'ew-resize' }
 };
 
-const ScalePoint = ({ boundBox, r, direction, entityUUID }: Props) => {
+const ScalePoint = ({ boundBox, r, direction, entityUUID }: ScalePointProps) => {
   const { rootSvgRef } = useContext(EditSectionContext);
   const { setIsBoxEditing: setIsEditing } = useContext(WithBoxEditContext);
   const { clamp, getXY } = useRecoilValue(scadaEditUtil);

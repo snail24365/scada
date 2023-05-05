@@ -1,6 +1,6 @@
-import { BoxComponents, boxComponentsMap } from '@/features/scada/componentMap';
-import { BoxProperty, LineProperty, ShapeProperty, TextProperty } from './schema';
+import { boxComponentsMap } from '@/features/scada/componentMap';
 import shapeComponentsMap from '@/features/scada/components/shapes/shapeComponentsMap';
+import { BoxProperty, LineProperty, ShapeProperty, TextProperty } from './schema';
 
 export type XY = {
   x: number;
@@ -28,8 +28,6 @@ export type Entity = {
 export type UUID = string;
 
 export type ScadaMode = 'monitor' | 'edit';
-
-export type Optional<T> = T | undefined;
 
 export type DisplayStyle = 'none' | 'block' | 'flex' | 'grid' | 'inline' | 'inline-block';
 
@@ -75,12 +73,6 @@ export function isTextEntity(entity: ScadaEntity): entity is TextEntity {
 export function isShapeEntity(entity: ScadaEntity): entity is ShapeEntity {
   return entity.type in shapeComponentsMap;
 }
-
-export type MonitorSceneState = {
-  lines: LineEntity[];
-  boxes: BoxEntity[];
-  texts: TextEntity[];
-};
 
 export type ScadaSceneState = {
   lines: LineEntity[];

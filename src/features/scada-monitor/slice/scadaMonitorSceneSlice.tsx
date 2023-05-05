@@ -13,11 +13,7 @@ const initialState: ScadaSceneState & RequestStatus = {
 export const scadaMonitorSceneSlice = createSlice({
   name: 'monitorScene',
   initialState,
-  reducers: {
-    // updateMonitorScene: (state, action: PayloadAction<ScadaSceneState>) => {
-    //   Object.assign(state, action.payload);
-    // }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchScadaMonitorScene.fulfilled, (state, action) => {
       const scene = action.payload;

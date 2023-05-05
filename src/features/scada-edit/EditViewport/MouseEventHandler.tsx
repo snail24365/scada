@@ -1,19 +1,20 @@
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
 import useDrag, { MouseButton } from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
-import { BoxEntity } from '@/types/type';
+import { BoxEntity, Entity } from '@/types/type';
 import { mapVector2, toXY } from '@/util/util';
 import { useContext, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Vector2 } from 'three';
-import { EditSectionContext } from '../../EditSectionContext';
-import useContextMenuRightClick from '../../hook/useContextMenuRightClick';
-import { translateBoxEntity } from '../../slice/scadaEditSceneSlice';
-import { WithBoxEditContext } from './WithBoxEditContext';
-import { exclusiveSelect } from '../../slice/scadaEditSelectionSlice';
-import { editContextMenuState } from '../../atom/scadaEditSectionAtom';
+import { EditSectionContext } from '../EditSectionContext';
+import useContextMenuRightClick from '../hook/useContextMenuRightClick';
+import { translateBoxEntity } from '../slice/scadaEditSceneSlice';
+import { WithBoxEditContext } from './withBoxEdit/WithBoxEditContext';
+import { exclusiveSelect } from '../slice/scadaEditSelectionSlice';
+import { editContextMenuState } from '../atom/scadaEditSectionAtom';
+import { BoxProperty } from '@/types/schema';
 
-type MouseEventHandlerProps = Omit<BoxEntity, 'type'> & {
+type MouseEventHandlerProps = Omit<Entity & BoxProperty, 'type'> & {
   onDoubleClick?: React.MouseEventHandler;
 };
 

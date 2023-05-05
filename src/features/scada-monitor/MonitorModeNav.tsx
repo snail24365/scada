@@ -1,12 +1,10 @@
 import { primaryGrey } from '@/assets/color';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fadeInOut, flexVerticalCenter } from '@/style/style';
 import { Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { GoPencil } from 'react-icons/go';
 import { useSetRecoilState } from 'recoil';
 import { scadaMode } from '../scada/atom/scadaAtom';
-import { selectMonitorScene } from './slice/scadaMonitorSceneSlice';
 
 const MonitorModeNav = () => {
   const scadaPageTitle = 'SCADA 1';

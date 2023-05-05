@@ -9,7 +9,7 @@ export enum MouseButton {
   FORWARD = 4
 }
 
-type UseDragProps = {
+type UseDragOption = {
   onMouseMove?: (e: React.MouseEvent) => void | boolean;
   onMouseUp?: (e: React.MouseEvent) => void | boolean;
   onMouseDown?: (e: React.MouseEvent) => void | boolean;
@@ -18,7 +18,7 @@ type UseDragProps = {
   mouseButton?: MouseButton;
 };
 
-const useDrag = ({ mouseButton, upElementRef, moveElementRef, onMouseMove, onMouseUp, onMouseDown }: UseDragProps) => {
+const useDrag = ({ mouseButton, upElementRef, moveElementRef, onMouseMove, onMouseUp, onMouseDown }: UseDragOption) => {
   mouseButton = mouseButton ?? MouseButton.LEFT;
   upElementRef = upElementRef ?? moveElementRef;
 

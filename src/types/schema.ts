@@ -1,5 +1,3 @@
-import { BBox } from './type';
-
 export type PropertySchema = Readonly<{
   type: 'number' | 'text' | 'color' | readonly string[];
   default?: number | string | boolean;
@@ -161,7 +159,7 @@ export const textPropertySchema = {
   }
 } as const;
 
-export const shapePropertySchema = {
+export const boxShapePropertySchema = {
   ...boxPropertySchema,
   ...({
     fill: {
@@ -201,6 +199,6 @@ export type BoxProperty = WithRequiredProperty<ComponentPropertyType<typeof boxP
 export type LineProperty = ComponentPropertyType<typeof linePropertySchema>;
 export type TextProperty = WithRequiredProperty<ComponentPropertyType<typeof textPropertySchema>, BBoxRequiredProperty>;
 export type ShapeProperty = WithRequiredProperty<
-  ComponentPropertyType<typeof shapePropertySchema>,
+  ComponentPropertyType<typeof boxShapePropertySchema>,
   BBoxRequiredProperty
 >;

@@ -1,7 +1,7 @@
 import { LineProperty } from '@/types/schema';
 import { XY } from '../../../../types/type';
 
-export type LineProps = {
+type LineProps = {
   points: XY[];
 } & LineProperty;
 

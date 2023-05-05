@@ -1,9 +1,9 @@
 import { ShapeProperty } from '@/types/schema';
 import { BBox } from '@/types/type';
 
-type Props = ShapeProperty & BBox;
+type EllipseProps = ShapeProperty & BBox;
 
-const Ellipse = (props: Props) => {
+const Ellipse = (props: EllipseProps) => {
   const { width, height } = props;
   const cx = width / 2;
   const cy = height / 2;

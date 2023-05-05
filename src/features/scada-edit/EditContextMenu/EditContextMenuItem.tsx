@@ -1,13 +1,13 @@
-import { darkBlue } from '@/assets/color';
+import { darkBlue2 } from '@/assets/color';
 import { fadeInOut } from '@/style/style';
 import { motion } from 'framer-motion';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import { editContextMenuState } from '../atom/scadaEditSectionAtom';
 
-type Props = { onClick: React.MouseEventHandler; contents: React.ReactNode };
+type EditContextMenuItemProps = { onClick: React.MouseEventHandler; contents: React.ReactNode };
 
-const EditContextMenuItem = ({ onClick, contents }: Props) => {
+const EditContextMenuItem = ({ onClick, contents }: EditContextMenuItemProps) => {
   const setEditContextMenu = useSetRecoilState(editContextMenuState);
   return (
     <motion.li
@@ -19,7 +19,7 @@ const EditContextMenuItem = ({ onClick, contents }: Props) => {
       css={{
         padding: '10px 5px',
         '&:hover': {
-          backgroundColor: darkBlue,
+          backgroundColor: darkBlue2,
           color: 'white',
           cursor: 'pointer',
           transitionDuration: '0.5s'

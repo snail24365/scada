@@ -5,9 +5,8 @@ import { IconButton } from '@mui/material';
 import { BiZoomIn, BiZoomOut } from 'react-icons/bi';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ZoomRatioDisplay from './ZoomRatioDisplay';
-type Props = {};
 
-const ZoomMenu = (props: Props) => {
+const ZoomMenu = () => {
   const setViewbox = useSetRecoilState(viewboxState);
   const viewboxZoomAction = useRecoilValue(viewboxZoomActionState);
   const zoomAmount = 3;

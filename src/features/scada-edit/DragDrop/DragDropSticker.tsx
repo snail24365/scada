@@ -1,13 +1,13 @@
 import { Size } from '@/types/type';
 import React from 'react';
 import ReactDOM from 'react-dom';
-type Props<T extends Size> = {
+type EntityDragDropStickerProps<T extends Size> = {
   left: number;
   top: number;
   sticker: React.ReactElement<T>;
 };
 
-const EntityDragDropSticker = <T extends Size>({ left, top, sticker }: Props<T>) => {
+const DragDropSticker = <T extends Size>({ left, top, sticker }: EntityDragDropStickerProps<T>) => {
   return ReactDOM.createPortal(
     <div
       css={{
@@ -22,4 +22,4 @@ const EntityDragDropSticker = <T extends Size>({ left, top, sticker }: Props<T>)
   );
 };
 
-export default EntityDragDropSticker;
+export default DragDropSticker;

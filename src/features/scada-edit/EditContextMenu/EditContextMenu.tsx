@@ -1,4 +1,4 @@
-import { darkBlue2 } from '@/assets/color';
+import { darkBlue1 } from '@/assets/color';
 import { useAppSelector } from '@/store/hooks';
 import ReactDOM from 'react-dom';
 import { useDispatch } from 'react-redux';
@@ -31,7 +31,7 @@ const EditContextMenu = ({}: Props) => {
         maxWidth: 500,
         overflow: 'hidden',
         padding: '8px 5px',
-        backgroundColor: darkBlue2
+        backgroundColor: darkBlue1
       }}
     >
       <EditContextMenuItem onClick={deleteSelected} contents="Delete" />

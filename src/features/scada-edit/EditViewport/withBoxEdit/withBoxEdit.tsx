@@ -3,7 +3,7 @@ import { BoxEntity } from '@/types/type';
 import React, { useState } from 'react';
 import Frame from './Frame';
 import LinkArrow from './LinkArrow';
-import MouseEventHandler from './MouseEventHandler';
+import MouseEventHandler from '../MouseEventHandler';
 import ScalePoints from './ScalePoints/ScalePoints';
 import { WithBoxEditContext } from './WithBoxEditContext';
 

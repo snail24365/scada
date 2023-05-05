@@ -1,4 +1,4 @@
-import { darkBlue } from '@/assets/color';
+import { darkBlue2 } from '@/assets/color';
 import Circle from '@/features/scada/components/shapes/Circle';
 import Diamond from '@/features/scada/components/shapes/Diamond';
 import Ellipse from '@/features/scada/components/shapes/Ellipse';
@@ -10,9 +10,9 @@ import { FaRegSquare } from 'react-icons/fa';
 import DragDrop from '../../../DragDrop/DragDrop';
 import MenuButton from '../MenuButton';
 
-type Props = { isOpen?: boolean; onClick?: React.MouseEventHandler };
+type ShapeMenuButtonProps = { isOpen?: boolean; onClick?: React.MouseEventHandler };
 
-const ShapeMenuButton = ({ isOpen, onClick }: Props) => {
+const ShapeMenuButton = ({ isOpen, onClick }: ShapeMenuButtonProps) => {
   const buttonSize = 100;
   const scale = 1.5;
   const stickerSize = buttonSize * scale;
@@ -22,7 +22,7 @@ const ShapeMenuButton = ({ isOpen, onClick }: Props) => {
     width: buttonSize,
     height: buttonSize,
     stroke: '#fff',
-    fill: darkBlue,
+    fill: darkBlue2,
     strokeWidth: 3
   };
   return (
@@ -52,7 +52,7 @@ const ShapeMenuButton = ({ isOpen, onClick }: Props) => {
         <DragDrop type="Circle" component={<Circle {...boxShapeProp} />} stickerSize={stickerSize} />
         <DragDrop
           type="Ellipse"
-          component={<Ellipse x={0} y={0} width={100} height={75} strokeWidth={3} fill={darkBlue} stroke="#fff" />}
+          component={<Ellipse x={0} y={0} width={100} height={75} strokeWidth={3} fill={darkBlue2} stroke="#fff" />}
           stickerSize={stickerSize}
         />
         <DragDrop type="Diamond" component={<Diamond {...boxShapeProp} />} stickerSize={stickerSize} />
