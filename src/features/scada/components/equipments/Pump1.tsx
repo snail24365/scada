@@ -1,11 +1,24 @@
 import { ReactComponent as PumpSvg } from '@/assets/pump1.svg';
 import { BoxProperty } from '@/types/schema';
 import { BBox } from '@/types/type';
+import { useEffect, useRef } from 'react';
 
-type Pump1Props = BoxProperty & BBox;
+type Pump1Props = BoxProperty & BBox & { rotationSpeed?: number };
 
-const Pump1 = ({ width, height, x, y }: Pump1Props) => {
-  return <PumpSvg width={width} height={height} x={x} y={y}></PumpSvg>;
+const Pump1 = ({ width, height, x, y, rotationSpeed = 0 }: Pump1Props) => {
+  const ref = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    const rotation = ref.current?.querySelector('#rotation');
+    if (!rotation) return;
+    rotation.setAttribute('dur', `${10 / rotationSpeed}s`);
+  }, [rotationSpeed]);
+
+  return (
+    <g ref={ref}>
+      <PumpSvg width={width} height={height} x={x} y={y}></PumpSvg>
+    </g>
+  );
 };
 
 export default Pump1;

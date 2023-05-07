@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
-<svg
+<svg:svg
    width="47.390442mm"
    height="26.02129mm"
    viewBox="0 0 47.390442 26.02129"
    version="1.1"
-   id="root"
+   id="svg5"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
-   sodipodi:docname="watertank1.svg"
+   sodipodi:docname="watertank1.svg.2023_05_07_08_24_09.0.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
      id="namedview7"
@@ -26,139 +25,133 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="2.587745"
-     inkscape:cx="-32.460695"
-     inkscape:cy="95.063463"
+     inkscape:cx="53.328284"
+     inkscape:cy="92.744842"
      inkscape:window-width="1391"
      inkscape:window-height="1223"
-     inkscape:window-x="91"
-     inkscape:window-y="114"
+     inkscape:window-x="117"
+     inkscape:window-y="95"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1" />
-  <defs
+     inkscape:current-layer="svg7815" />
+  <svg:defs
      id="defs2">
-    <rect
-       x="51.009663"
-       y="39.802994"
-       width="83.47036"
-       height="28.596327"
-       id="rect879" />
-    <linearGradient
+    <svg:linearGradient
        inkscape:collect="always"
        id="linearGradient5893">
-      <stop
+      <svg:stop
          style="stop-color:#5e5f9e;stop-opacity:1;"
          offset="0"
          id="stop5897" />
-      <stop
+      <svg:stop
          style="stop-color:#d6d6d6;stop-opacity:1;"
          offset="0.49529782"
          id="stop5889" />
-      <stop
+      <svg:stop
          style="stop-color:#5a5aa4;stop-opacity:1;"
          offset="1"
          id="stop5891" />
-    </linearGradient>
-    <linearGradient
+    </svg:linearGradient>
+    <svg:linearGradient
        inkscape:collect="always"
        id="linearGradient5877">
-      <stop
+      <svg:stop
          style="stop-color:#ffffff;stop-opacity:1;"
          offset="0.0031348"
          id="stop5881" />
-      <stop
+      <svg:stop
          style="stop-color:#3f3fc0;stop-opacity:1;"
          offset="0.46081504"
          id="stop5873" />
-      <stop
+      <svg:stop
          style="stop-color:#3f3fc0;stop-opacity:0;"
          offset="1"
          id="stop5875" />
-    </linearGradient>
-    <rect
-       x="45.213112"
+    </svg:linearGradient>
+    <svg:rect
+       x="45.21311"
        y="35.552189"
        width="93.904152"
-       height="26.664143"
+       height="26.664142"
        id="rect3405" />
-    <rect
-       x="-36.325062"
+    <svg:rect
+       x="-36.325063"
        y="-86.175415"
        width="127.91059"
-       height="48.691044"
+       height="48.691042"
        id="rect3399" />
-    <rect
-       x="57.57909"
-       y="-38.257248"
+    <svg:rect
+       x="57.579089"
+       y="-38.257247"
        width="108.20232"
        height="22.799774"
        id="rect3393" />
-    <rect
-       x="-69.558632"
-       y="-86.948288"
+    <svg:rect
+       x="-69.558631"
+       y="-86.948289"
        width="179.69313"
-       height="40.962303"
+       height="40.962305"
        id="rect2928" />
-    <rect
-       x="-80.765297"
-       y="-88.88047"
+    <svg:rect
+       x="-80.7653"
+       y="-88.880473"
        width="180.07957"
-       height="37.870811"
+       height="37.87081"
        id="rect2922" />
-    <rect
-       x="-69.558632"
-       y="-85.016106"
+    <svg:rect
+       x="-69.558631"
+       y="-85.016105"
        width="187.42186"
        height="61.057022"
        id="rect2776" />
-    <rect
+    <svg:rect
        x="-3.8643684"
        y="-62.216331"
        width="166.55428"
-       height="35.938625"
+       height="35.938626"
        id="rect2770" />
-    <rect
-       x="-84.629669"
-       y="60.670586"
+    <svg:rect
+       x="-84.629668"
+       y="60.670584"
        width="18.162531"
        height="23.572647"
        id="rect2105" />
-    <rect
-       x="168.48647"
+    <svg:rect
+       x="168.48646"
        y="20.481153"
-       width="286.73615"
+       width="286.73614"
        height="152.64255"
        id="rect2039" />
-    <linearGradient
+    <svg:linearGradient
        id="linearGradient5753">
-      <stop
+      <svg:stop
          style="stop-color:#4a4a4a;stop-opacity:1;"
          offset="0"
          id="stop5759" />
-      <stop
+      <svg:stop
          style="stop-color:#bdbdbd;stop-opacity:1;"
          offset="0.55171365"
          id="stop5761" />
-      <stop
+      <svg:stop
          style="stop-color:#3a3a3a;stop-opacity:1;"
          offset="1"
          id="stop5763" />
-    </linearGradient>
-    <linearGradient
+    </svg:linearGradient>
+    <svg:linearGradient
        id="blue">
-      <stop
+      <svg:stop
          style="stop-color:#56566d;stop-opacity:1;"
          offset="0"
          id="stop5749" />
-      <stop
+      <svg:stop
          style="stop-color:#7a9be9;stop-opacity:1;"
          offset="0.50808775"
          id="stop5757" />
-      <stop
+      <svg:stop
          style="stop-color:#9393bb;stop-opacity:1;"
          offset="1"
          id="stop5751" />
-    </linearGradient>
-    <linearGradient
+    </svg:linearGradient>
+    <svg:linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5753"
        id="linearGradient5918"
@@ -168,7 +161,7 @@
        y2="16.717016"
        gradientUnits="userSpaceOnUse"
        gradientTransform="translate(0.40897897,0.30673425)" />
-    <linearGradient
+    <svg:linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5753"
        id="linearGradient5956"
@@ -178,27 +171,27 @@
        x2="60.968124"
        y2="16.717016"
        gradientTransform="translate(0.46010163,24.180883)" />
-    <clipPath
+    <svg:clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath3621">
-      <g
+      <svg:g
          inkscape:label="Clip"
          id="use3623">
-        <g
+        <svg:g
            id="g3633"
            transform="matrix(0.99446136,0,0,1.826952,0.31064211,-32.742825)"
            style="image-rendering:auto">
-          <rect
+          <svg:rect
              style="fill:#0000ff;stroke:#000000;stroke-width:0.0539979"
              id="rect3631"
              width="43.209373"
              height="3.393585"
              x="16.021379"
              y="36.205952" />
-        </g>
-      </g>
-    </clipPath>
-    <linearGradient
+        </svg:g>
+      </svg:g>
+    </svg:clipPath>
+    <svg:linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5877"
        id="linearGradient5879"
@@ -207,98 +200,93 @@
        x2="33.718319"
        y2="10.940188"
        gradientUnits="userSpaceOnUse" />
-    <linearGradient
+    <svg:linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5893"
-       id="linearGradient1037"
-       gradientUnits="userSpaceOnUse"
+       id="linearGradient5895"
        x1="15.900181"
        y1="18.046198"
        x2="15.900181"
-       y2="39.415348" />
-  </defs>
-  <g
+       y2="39.415348"
+       gradientUnits="userSpaceOnUse" />
+  </svg:defs>
+  <svg:g
      inkscape:label="레이어 1"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-13.905287,-15.95018)">
-    <rect
+    <svg:rect
        style="fill:url(#linearGradient5918);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
        id="rect5850"
        width="47.339317"
        height="2.1471395"
        x="13.905288"
        y="15.95018" />
-    <rect
+    <svg:rect
        style="fill:url(#linearGradient5956);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
        id="rect5850-6"
        width="47.339317"
        height="2.1471395"
        x="13.956409"
        y="39.824329" />
-    <g
+    <svg:g
        id="g3619"
        clip-path="url(#clipPath3621)">
-      <rect
-         style="fill:#0000ff;stroke:#000000;stroke-width:0.377953"
-         id="rect2540"
-         width="0"
-         height="0"
-         x="0"
-         y="0" />
-    </g>
-    <rect
+      <svg:rect
+         style="fill:#0000ff;stroke-width:0.37795276;stroke:#000000"
+         id="rect2540" />
+    </svg:g>
+    <svg:rect
        style="fill:#999999;stroke:#000000;stroke-width:0.1;stroke-dasharray:none"
        id="value-container"
        width="25.049963"
        height="6.8503976"
        x="25.417429"
        y="25.472416" />
-    <rect
-       style="fill:url(#linearGradient1037);fill-opacity:1;stroke:#515151;stroke-width:0.13458;stroke-dasharray:none;stroke-opacity:1"
+    <svg:rect
+       style="fill:url(#linearGradient5895);fill-opacity:1;stroke:#515151;stroke-width:0.13458;stroke-dasharray:none;stroke-opacity:1"
        id="rect5885"
        width="43.521679"
        height="21.743551"
        x="15.967471"
        y="18.114611" />
-    <svg
+    <svg:rect
+       style="fill:url(#linearGradient5895);fill-opacity:1;stroke:#515151;stroke-width:0.13458;stroke-dasharray:none;stroke-opacity:1"
+       id="full"
+       width="43.521679"
+       height="21.743551"
+       x="15.967471"
+       y="18.114611">
+      <svg />
+    </svg:rect>
+    <svg:svg
        version="1.1"
        id="svg7815"
        width="43.521679"
        height="21.743551"
        y="18.114611"
-       x="15.967471"
-       style="fill:#1a0ccf;fill-opacity:0.71823204">
-      <rect
+       x="15.967471">
+      <svg:rect
          width="100%"
          height="100%"
          fill="#ffffff"
          id="water"
-         style="fill:#1a0ccf;fill-opacity:0.71823204"
-         x="0"
-         y="0" />
-    </svg>
-    <rect
-       style="fill:#21282c;fill-opacity:1;stroke:#515151;stroke-width:0.0904914"
-       id="rect3230"
-       width="22.503351"
-       height="11.460919"
-       x="26.885614"
-       y="23.40929" />
-    <rect
+         style="fill-opacity:1;fill:#0000ff" />
+    </svg:svg>
+    <svg:text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,14.850522,16.551603)"
+       id="value-text"
+       style="font-size:21.3333px;white-space:pre;shape-inside:url(#rect3405);display:inline;fill:#000000;stroke:#000000;stroke-width:0.377953"><svg:tspan
+         x="75.243191"
+         y="54.427705"
+         id="tspan8981">0%</svg:tspan></svg:text>
+    <svg:rect
        style="fill:url(#linearGradient5879);fill-opacity:1;stroke:#515151;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect5871"
        width="0"
        height="20.75568"
        x="19.937729"
        y="18.710789" />
-    <text
-       xml:space="preserve"
-       transform="matrix(0.31786592,0,0,0.30987657,16.729356,13.162749)"
-       id="value-text"
-       style="font-size:23.3333px;white-space:pre;shape-inside:url(#rect879);display:inline;fill:#ececec;fill-opacity:1;stroke:#515151;stroke-width:0.377953"><tspan
-         x="51.009766"
-         y="60.447236"
-         id="tspan5665">0%</tspan></text>
-  </g>
-</svg>
+  </svg:g>
+</svg:svg>

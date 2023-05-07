@@ -26,10 +26,14 @@ const EquipmentPanel = (props: Props) => {
       </EquipmentSection>
       <EquipmentSection title="Watertank">
         <DragDrop type="Watertank1" component={<Watertank1 {...bbox} />} stickerSize={stickerSize} />
-        <DragDrop type="Watertank2" component={<Watertank2 {...bbox} />} stickerSize={stickerSize} />
+        <DragDrop
+          type="Watertank2"
+          component={<Watertank2 {...bbox} percentage={0} value={0} />}
+          stickerSize={stickerSize}
+        />
       </EquipmentSection>
       <EquipmentSection title="Heat Exchanger">
-        <DragDrop type="HeatExchanger" component={<HeatExchanger speed={2} {...bbox} />} stickerSize={stickerSize} />
+        <DragDrop type="HeatExchanger" component={<HeatExchanger {...bbox} />} stickerSize={stickerSize} />
       </EquipmentSection>
       <EquipmentSection title="Gastank">
         <DragDrop type="Gastank" component={<Gastank {...bbox} />} stickerSize={stickerSize} />

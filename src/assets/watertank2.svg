@@ -6,7 +6,7 @@
    height="38.101021mm"
    viewBox="0 0 45.981495 38.101021"
    version="1.1"
-   id="svg8222"
+   id="root"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
    sodipodi:docname="watertank2.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -26,16 +26,22 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="3.659624"
-     inkscape:cx="75.55421"
-     inkscape:cy="63.804369"
+     inkscape:cx="57.792822"
+     inkscape:cy="64.350873"
      inkscape:window-width="1392"
      inkscape:window-height="1230"
-     inkscape:window-x="886"
-     inkscape:window-y="113"
+     inkscape:window-x="378"
+     inkscape:window-y="98"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
      id="defs8219">
+    <rect
+       x="22.953178"
+       y="-54.103919"
+       width="99.190518"
+       height="44.540095"
+       id="rect9298" />
     <linearGradient
        inkscape:collect="always"
        id="linearGradient13799">
@@ -48,7 +54,7 @@
          offset="0.52351099"
          id="stop13795" />
       <stop
-         style="stop-color:#000000;stop-opacity:0;"
+         style="stop-color:#000000;stop-opacity:1;"
          offset="1"
          id="stop13797" />
     </linearGradient>
@@ -87,6 +93,12 @@
        x2="47.572056"
        y2="38.281769"
        gradientUnits="userSpaceOnUse" />
+    <rect
+       x="22.953178"
+       y="-54.10392"
+       width="50.551644"
+       height="25.958952"
+       id="rect9298-8" />
   </defs>
   <g
      inkscape:label="레이어 1"
@@ -121,13 +133,6 @@
        id="path13793" />
     <rect
        style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0"
-       id="rect13809"
-       width="3.6148975"
-       height="21.400196"
-       x="41.209835"
-       y="7.8081789" />
-    <rect
-       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0"
        id="rect13819"
        width="27.473223"
        height="6.7960081"
@@ -144,8 +149,46 @@
        style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0"
        id="rect13823"
        width="14.314996"
-       height="5.4946446"
+       height="2.313535"
        x="18.074488"
-       y="35.209103" />
+       y="37.884129" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,14.531889,25.593477)"
+       id="percentage"
+       style="font-size:21.3333px;white-space:pre;shape-inside:url(#rect9298);display:inline;fill:#ffffff;stroke:#515151;stroke-width:0.377953"><tspan
+         x="22.953125"
+         y="-35.228545"
+         id="tspan3217">0%</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,13.205458,34.004799)"
+       id="value"
+       style="font-size:21.3333px;white-space:pre;shape-inside:url(#rect9298-8);display:inline;fill:#ffffff;stroke:#515151;stroke-width:0.377953"><tspan
+         x="22.953125"
+         y="-35.228545"
+         id="tspan3219">24.3</tspan></text>
+    <rect
+       style="fill:#333333;stroke:#515151;stroke-width:0.0990111"
+       id="rect9461"
+       width="3.5435889"
+       height="21.256588"
+       x="40.583004"
+       y="7.952281" />
+    <svg
+       version="1.1"
+       id="svg9465"
+       height="21.256588"
+       width="3.5435889"
+       x="40.583004"
+       y="7.952281"
+       style="fill:#333333">
+      <rect
+         id="gauge"
+         fill="#215ef4"
+         height="100%"
+         width="100%"
+         style="fill:#333333" />
+    </svg>
   </g>
 </svg>

@@ -1,4 +1,4 @@
-import { XY } from '@/types/type';
+import { BBox, XY } from '@/types/type';
 import { Vector2 } from 'three';
 
 export const throwIfDev = (message: string) => {
