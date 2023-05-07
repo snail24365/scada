@@ -25,8 +25,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="2.5877449"
-     inkscape:cx="-39.22334"
-     inkscape:cy="48.111388"
+     inkscape:cx="-43.860583"
+     inkscape:cy="48.497825"
      inkscape:window-width="1392"
      inkscape:window-height="1230"
      inkscape:window-x="104"
@@ -93,7 +93,7 @@
            attributeType="XML"
            repeatCount="indefinite"
            attributeName="transform"
-           id="rotation" />
+           data-id="rotation" />
       </g>
     </g>
   </g>

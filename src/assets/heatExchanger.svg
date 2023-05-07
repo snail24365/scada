@@ -26,8 +26,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.91490602"
-     inkscape:cx="140.45158"
-     inkscape:cy="234.45031"
+     inkscape:cx="127.33548"
+     inkscape:cy="235.54332"
      inkscape:window-width="1392"
      inkscape:window-height="1230"
      inkscape:window-x="295"
@@ -255,7 +255,7 @@
          dur="0s"
          repeatCount="indefinite"
          type="rotate"
-         id="rotation" />
+         data-id="rotation" />
       <path
          style="fill:#808000;fill-opacity:1;stroke:#797c7a;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
          d="M -0.23493582,1.2462384 C 3.8156472,-3.2422496 -0.15700582,-14.725351 13.47102,-10.864277 30.996842,-4.2097396 -0.60374082,-4.3305646 2.0114452,1.0385724 Z"

@@ -32,7 +32,7 @@ const PropertyWindowContent = () => {
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             gridTemplateRows: 'repeat(auto-fill, 100px)',
-            height: '100%',
+            paddingBottom: 30,
             gap: 16
           }
         ]}

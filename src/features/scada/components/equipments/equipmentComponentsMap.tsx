@@ -18,11 +18,23 @@ export const equipmentComponentsMap = {
   },
   HeatExchanger: {
     component: HeatExchanger,
-    propertySchema: boxPropertySchema
+    propertySchema: {
+      ...boxPropertySchema,
+      speed: {
+        type: 'tag/speed',
+        default: 0
+      }
+    }
   },
   Pump1: {
     component: Pump1,
-    propertySchema: boxPropertySchema
+    propertySchema: {
+      ...boxPropertySchema,
+      percentage: {
+        type: 'tag/speed',
+        default: 0
+      }
+    }
   },
   Pump2: {
     component: Pump2,
@@ -30,11 +42,27 @@ export const equipmentComponentsMap = {
   },
   Watertank1: {
     component: Watertank1,
-    propertySchema: boxPropertySchema
+    propertySchema: {
+      ...boxPropertySchema,
+      percentage: {
+        type: 'tag/percentage',
+        default: 0
+      }
+    }
   },
   Watertank2: {
     component: Watertank2,
-    propertySchema: boxPropertySchema
+    propertySchema: {
+      ...boxPropertySchema,
+      percentage: {
+        type: 'tag/percentage',
+        default: 0
+      },
+      value: {
+        type: 'tag/value',
+        default: 0
+      }
+    }
   }
 };
 

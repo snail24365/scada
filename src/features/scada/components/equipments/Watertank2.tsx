@@ -10,22 +10,22 @@ const Watertank2 = ({ width, height, x, y, percentage = 0, value = 0 }: Watertan
   useEffect(() => {
     if (!ref.current) return;
 
-    const root = ref.current.querySelector('#root');
+    const root = ref.current.querySelector('[data-id="root"]');
     if (!root) return;
     root.setAttribute('width', `${width}`);
     root.setAttribute('height', `${height}`);
     root.setAttribute('x', `${x}`);
     root.setAttribute('y', `${y}`);
 
-    const text = ref.current.querySelector('#percentage tspan');
+    const text = ref.current.querySelector('[data-id="percentage"] tspan');
     if (!text) return;
     text.innerHTML = `${Math.round(percentage)}%`;
 
-    const valueText = ref.current.querySelector('#value tspan');
+    const valueText = ref.current.querySelector('[data-id="value-text"] tspan');
     if (!valueText) return;
     valueText.innerHTML = `${Number(value).toFixed(2)}`;
 
-    const gauge = ref.current.querySelector('#gauge');
+    const gauge = ref.current.querySelector('[data-id="gauge"]');
     gauge?.setAttribute('height', percentage + '%');
     gauge?.setAttribute('y', 100 - percentage + '%');
   }, [width, height, x, y, percentage, value]);

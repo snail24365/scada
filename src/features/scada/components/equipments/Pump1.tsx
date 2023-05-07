@@ -9,9 +9,9 @@ const Pump1 = ({ width, height, x, y, rotationSpeed = 0 }: Pump1Props) => {
   const ref = useRef<SVGGElement>(null);
 
   useEffect(() => {
-    const rotation = ref.current?.querySelector('#rotation');
+    const rotation = ref.current?.querySelector('[data-id="rotation"]');
     if (!rotation) return;
-    rotation.setAttribute('dur', `${10 / rotationSpeed}s`);
+    rotation.setAttribute('dur', `${10 / 1}s`);
   }, [rotationSpeed]);
 
   return (

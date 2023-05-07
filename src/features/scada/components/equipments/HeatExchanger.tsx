@@ -12,7 +12,7 @@ const HeatExchanger = ({ speed = 0, ...rest }: HeatExchangerProps) => {
   const ref = useRef<SVGGElement>(null);
 
   useEffect(() => {
-    const rotation = ref.current?.querySelector('#rotation');
+    const rotation = ref.current?.querySelector('[data-id="rotation"]');
     if (!rotation) return;
     const duration = speed === 0 ? 0 : 10 / speed;
     rotation.setAttribute('dur', `${duration}s`);

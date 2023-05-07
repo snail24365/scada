@@ -11,22 +11,24 @@ const Watertank1 = ({ width, height, x, y, percentage = 0 }: Watertank1Props) =>
   useEffect(() => {
     if (!ref.current) return;
 
-    const root = ref.current.querySelector('#root');
+    const root = ref.current.querySelector('[data-id="root"]');
+
     if (!root) return;
     root.setAttribute('width', `${width}`);
     root.setAttribute('height', `${height}`);
     root.setAttribute('x', `${x}`);
     root.setAttribute('y', `${y}`);
 
-    const text = ref.current.querySelector('#value-text');
-    const tspan = text?.querySelector('tspan');
-    if (tspan) tspan.innerHTML = `${Math.round(percentage)}%`;
+    const text = ref.current.querySelector('[data-id="percentage"]');
+    if (!text) return;
+    text.innerHTML = `${Math.round(percentage)}%`;
 
-    const water = ref.current.querySelector('#water');
+    const water = ref.current.querySelector('[data-id="water"]');
+
     if (!water) return;
     water.setAttribute('height', `${percentage}%`);
     water.setAttribute('y', `${100 - percentage}%`);
-  }, [width, height, x, y]);
+  }, [width, height, x, y, percentage]);
 
   return (
     <g ref={ref}>

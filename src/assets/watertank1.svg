@@ -6,9 +6,10 @@
    height="26.02129mm"
    viewBox="0 0 47.390442 26.02129"
    version="1.1"
-   id="root"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
    sodipodi:docname="watertank1.svg"
+   data-id="root"
+   id="svg24571"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -26,12 +27,12 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="2.587745"
-     inkscape:cx="-32.460695"
-     inkscape:cy="95.063463"
+     inkscape:cx="-36.7115"
+     inkscape:cy="95.449899"
      inkscape:window-width="1391"
      inkscape:window-height="1223"
-     inkscape:window-x="91"
-     inkscape:window-y="114"
+     inkscape:window-x="1396"
+     inkscape:window-y="165"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
@@ -273,10 +274,11 @@
          width="100%"
          height="100%"
          fill="#ffffff"
-         id="water"
          style="fill:#1a0ccf;fill-opacity:0.71823204"
          x="0"
-         y="0" />
+         y="0"
+         data-id="water"
+         id="rect24562" />
     </svg>
     <rect
        style="fill:#21282c;fill-opacity:1;stroke:#515151;stroke-width:0.0904914"
@@ -295,10 +297,11 @@
     <text
        xml:space="preserve"
        transform="matrix(0.31786592,0,0,0.30987657,16.729356,13.162749)"
-       id="value-text"
-       style="font-size:23.3333px;white-space:pre;shape-inside:url(#rect879);display:inline;fill:#ececec;fill-opacity:1;stroke:#515151;stroke-width:0.377953"><tspan
+       style="font-size:23.3333px;white-space:pre;shape-inside:url(#rect879);display:inline;fill:#ececec;fill-opacity:1;stroke:#515151;stroke-width:0.377953"
+       id="text24568"><tspan
          x="51.009766"
-         y="60.447236"
-         id="tspan5665">0%</tspan></text>
+         y="60.447235"
+         id="tspan5665"
+         data-id="percentage">0%</tspan></text>
   </g>
 </svg>
