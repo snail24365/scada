@@ -1,9 +1,9 @@
 import { darkBlue2 } from '@/assets/color';
 import { scrollbar } from '@/style/style';
-import { MenuItem, Paper, Select } from '@mui/material';
+import { Divider, MenuItem, Paper, Select } from '@mui/material';
 import { AnimatePresence } from 'framer-motion';
-import PropertyWindowContent from './PropertyWindowContent';
-import TagSection from './TagSection';
+import PropertyEditSection from './PropertyEditSection';
+import TagEditSection from './TagEditSection';
 
 const PropertyWindow = () => {
   return (
@@ -22,8 +22,8 @@ const PropertyWindow = () => {
         ]}
       >
         <AnimatePresence>
-          <PropertyWindowContent />
-          {/* <TagSection /> */}
+          <PropertyEditSection />
+          <Divider />
         </AnimatePresence>
       </div>
     </Paper>

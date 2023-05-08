@@ -21,6 +21,33 @@ import axios from 'axios';
  */
 const localStorageStrategy = async (args: RestServiceParam) => {
   const { method, url, data } = args;
+  if (url === '/tag-subscription' && method === 'post') {
+    localStorage.setItem(url, JSON.stringify(data));
+  }
+
+  if (url === '/tag-subscription' && method === 'get') {
+    const resultString = localStorage.getItem(url);
+    if (!resultString) return null;
+    return JSON.parse(resultString);
+  }
+
+  if (url === '/tag' && method === 'get') {
+    const tags: string[] = data;
+    const ret: Record<string, number> = {};
+    const timeDependSeudoRandom = (Math.floor(+new Date() / 10000) * 13) % 10;
+    tags.forEach((tag) => {
+      let value = 0;
+      if (tag.startsWith('p')) {
+        value = Math.random() * 100 * 0.8 + 20;
+      } else if (tag.startsWith('s')) {
+        value = timeDependSeudoRandom / 2;
+      } else {
+        value = Math.random() * 100;
+      }
+      ret[tag] = value;
+    });
+    return ret;
+  }
 
   if (method === 'get' && url.includes('scene')) {
     const resultString = localStorage.getItem(url);

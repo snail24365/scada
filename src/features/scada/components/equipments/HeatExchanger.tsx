@@ -6,21 +6,26 @@ import { useEffect, useRef } from 'react';
 type HeatExchangerProps = BoxProperty &
   BBox & {
     speed?: number;
-  } & Size;
+    speedTag?: string | null;
+  };
 
-const HeatExchanger = ({ speed = 0, ...rest }: HeatExchangerProps) => {
+const HeatExchanger = ({ speed = 0, width, height, x, y }: HeatExchangerProps) => {
   const ref = useRef<SVGGElement>(null);
 
   useEffect(() => {
     const rotation = ref.current?.querySelector('[data-id="rotation"]');
-    if (!rotation) return;
     const duration = speed === 0 ? 0 : 10 / speed;
-    rotation.setAttribute('dur', `${duration}s`);
+
+    if (!rotation) return;
+    const newRotation = rotation.cloneNode(true) as Element;
+    newRotation.setAttribute('dur', `${duration}s`);
+    console.log(rotation.parentNode);
+    rotation.parentNode?.replaceChild(newRotation, rotation);
   }, [speed]);
 
   return (
     <g ref={ref}>
-      <HeatExchangerSvg {...rest}></HeatExchangerSvg>
+      <HeatExchangerSvg width={width} height={height} x={x} y={y}></HeatExchangerSvg>
     </g>
   );
 };

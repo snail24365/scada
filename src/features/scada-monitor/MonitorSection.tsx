@@ -2,6 +2,7 @@ import React from 'react';
 import MonitorViewport from './MonitorViewport/MonitorViewport';
 import PageWindow from './PageWindow/PageWindow';
 import PageEditModal from './PageEditModal/PageEditModal';
+import TagDaemon from './TagDaemon';
 
 type Props = {};
 
@@ -12,6 +13,7 @@ const MonitorSection = (props: Props) => {
         <PageWindow />
         <MonitorViewport />
         <PageEditModal />
+        <TagDaemon />
       </div>
     </React.Suspense>
   );

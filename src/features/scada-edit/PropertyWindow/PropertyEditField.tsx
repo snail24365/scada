@@ -22,7 +22,7 @@ const borderStyle = {
 };
 
 const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditFieldProps) => {
-  const { type, default: defaultValue } = schema;
+  const { category: type, default: defaultValue } = schema;
   const dispatch = useAppDispatch();
   const propertyValue = useAppSelector(getProperty(pickedId, propertyName));
 
@@ -36,12 +36,11 @@ const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditField
   };
 
   if (typeof type === 'object') {
-    const menuItems = type.map((categoryItem, i) => (
+    const items = type.map((categoryItem, i) => (
       <MenuItem key={i} value={categoryItem}>
         {categoryItem}
       </MenuItem>
     ));
-
     inputField = (
       <Select
         value={value}
@@ -50,7 +49,32 @@ const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditField
         }}
         sx={borderStyle}
       >
-        {menuItems}
+        {items}
+      </Select>
+    );
+  } else if (type.startsWith('tag')) {
+    const map = {
+      'tag/percentage': 'p',
+      'tag/value': 'v',
+      'tag/speed': 's'
+    };
+    const prefix = map[type as keyof typeof map];
+    const categories = [...Array(13).keys()].map((x) => `${prefix}${x}`);
+    const items = categories.map((tag, i) => (
+      <MenuItem key={i} value={tag}>
+        {tag}
+      </MenuItem>
+    ));
+    inputField = (
+      <Select
+        value={value}
+        onChange={(e) => {
+          console.log(e.target.value);
+          updateEntityProperty(e.target.value);
+        }}
+        sx={borderStyle}
+      >
+        {items}
       </Select>
     );
   } else {
@@ -61,6 +85,7 @@ const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditField
         value={value}
         onChange={(e) => {
           updateEntityProperty(e.target.value);
+          console.log(e);
         }}
       />
     );

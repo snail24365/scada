@@ -13,7 +13,15 @@ const initialState: ScadaSceneState & RequestStatus = {
 export const scadaMonitorSceneSlice = createSlice({
   name: 'monitorScene',
   initialState,
-  reducers: {},
+  reducers: {
+    updateMonitorEntityProperty(state, action: PayloadAction<{ uuid: UUID; property: string; value: any }>) {
+      const entity = [...state.lines, ...state.boxes, ...state.texts].find(
+        (entity) => entity.uuid === action.payload.uuid
+      );
+      if (!entity) return;
+      (entity as any)[action.payload.property] = action.payload.value;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchScadaMonitorScene.fulfilled, (state, action) => {
       const scene = action.payload;
@@ -47,6 +55,6 @@ export const getIsEmptyScene = (state: any) => {
 
 export const selectMonitorScene = (state: RootState) => state.monitorScene;
 
-// export const { updateMonitorScene } = scadaMonitorSceneSlice.actions;
+export const { updateMonitorEntityProperty } = scadaMonitorSceneSlice.actions;
 
 export default scadaMonitorSceneSlice.reducer;

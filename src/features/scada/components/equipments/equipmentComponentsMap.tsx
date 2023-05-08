@@ -7,6 +7,79 @@ import Pump2 from './Pump2';
 import Watertank1 from './Watertank1';
 import Watertank2 from './Watertank2';
 
+export const equipmentMap = {
+  Converter,
+  Gastank,
+  HeatExchanger,
+  Pump1,
+  Pump2,
+  Watertank1,
+  Watertank2
+} as const;
+
+export const equipemntSchemaMap = {
+  Converter: boxPropertySchema,
+  Gastank: boxPropertySchema,
+  HeatExchanger: {
+    ...boxPropertySchema,
+    speed: {
+      type: 'number',
+      default: 0,
+      hidden: true
+    },
+    speedTag: {
+      type: 'tag/speed',
+      default: null
+    }
+  },
+  Pump1: {
+    ...boxPropertySchema,
+    percentage: {
+      type: 'number',
+      default: 0,
+      hidden: true
+    },
+    percentageTag: {
+      type: 'tag/percentage',
+      default: null
+    }
+  },
+  Pump2: boxPropertySchema,
+  Watertank1: {
+    ...boxPropertySchema,
+    percentage: {
+      type: 'number',
+      default: 0,
+      hidden: true
+    },
+    percentageTag: {
+      type: 'tag/percentage',
+      default: null
+    }
+  },
+  Watertank2: {
+    ...boxPropertySchema,
+    percentage: {
+      type: 'number',
+      default: 0,
+      hidden: true
+    },
+    percentageTag: {
+      type: 'tag/percentage',
+      default: null
+    },
+    value: {
+      type: 'number',
+      default: 0,
+      hidden: true
+    },
+    valueTag: {
+      type: 'tag/value',
+      default: null
+    }
+  }
+} as const;
+
 export const equipmentComponentsMap = {
   Converter: {
     component: Converter,
@@ -21,8 +94,13 @@ export const equipmentComponentsMap = {
     propertySchema: {
       ...boxPropertySchema,
       speed: {
+        type: 'number',
+        default: 0,
+        hidden: true
+      },
+      speedTag: {
         type: 'tag/speed',
-        default: 0
+        default: null
       }
     }
   },
@@ -31,8 +109,13 @@ export const equipmentComponentsMap = {
     propertySchema: {
       ...boxPropertySchema,
       percentage: {
-        type: 'tag/speed',
-        default: 0
+        type: 'number',
+        default: 0,
+        hidden: true
+      },
+      percentageTag: {
+        type: 'tag/percentage',
+        default: null
       }
     }
   },
@@ -45,8 +128,13 @@ export const equipmentComponentsMap = {
     propertySchema: {
       ...boxPropertySchema,
       percentage: {
+        type: 'number',
+        default: 0,
+        hidden: true
+      },
+      percentageTag: {
         type: 'tag/percentage',
-        default: 0
+        default: null
       }
     }
   },
@@ -55,12 +143,22 @@ export const equipmentComponentsMap = {
     propertySchema: {
       ...boxPropertySchema,
       percentage: {
+        type: 'number',
+        default: 0,
+        hidden: true
+      },
+      percentageTag: {
         type: 'tag/percentage',
-        default: 0
+        default: null
       },
       value: {
+        type: 'number',
+        default: 0,
+        hidden: true
+      },
+      valueTag: {
         type: 'tag/value',
-        default: 0
+        default: null
       }
     }
   }
@@ -69,3 +167,5 @@ export const equipmentComponentsMap = {
 export type EquipmentsType = keyof typeof equipmentComponentsMap;
 
 export default equipmentComponentsMap;
+
+type a = (typeof equipemntSchemaMap)['HeatExchanger'];

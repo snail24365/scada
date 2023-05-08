@@ -71,7 +71,7 @@ const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: DragDrop
         ...defaultProperty,
         ...component.props,
         uuid: uuidv4(),
-        type: type,
+        type,
         width,
         height,
         x,

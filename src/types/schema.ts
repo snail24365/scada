@@ -1,7 +1,9 @@
 export type PropertySchema = Readonly<{
-  type: 'number' | 'text' | 'color' | readonly string[];
+  type: 'number' | 'string' | 'object' | 'array';
+  category: 'number' | 'text' | 'color' | readonly string[] | `tag/${string}`;
   default?: number | string | boolean;
   validation?: (value: any) => boolean;
+  hidden?: boolean;
   contraints?: {
     min?: number;
     max?: number;
@@ -179,14 +181,14 @@ export const boxShapePropertySchema = {
 };
 
 type ComponentPropertyType<T extends Record<string, PropertySchema>> = {
-  readonly [K in keyof T]+?: T[K]['type'] extends 'number'
+  readonly [K in keyof T]+?: T[K]['category'] extends 'number'
     ? number
-    : T[K]['type'] extends 'text'
+    : T[K]['category'] extends 'text'
     ? string
-    : T[K]['type'] extends 'color'
+    : T[K]['category'] extends 'color'
     ? string
-    : T[K]['type'] extends T[K]['default']
-    ? T[K]['type']
+    : T[K]['category'] extends T[K]['default']
+    ? T[K]['category']
     : never;
 };
 
