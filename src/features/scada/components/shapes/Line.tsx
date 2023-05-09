@@ -1,4 +1,4 @@
-import { LineProperty } from '@/types/schema';
+import { LineProperty } from '@/types/schema/propertySchema';
 import { XY } from '../../../../types/type';
 
 type LineProps = {

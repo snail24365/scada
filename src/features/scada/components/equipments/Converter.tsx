@@ -1,5 +1,5 @@
 import { ReactComponent as ConverterSvg } from '@/assets/converter.svg';
-import { BoxProperty } from '@/types/schema';
+import { BoxProperty } from '@/types/schema/propertySchema';
 import { BBox } from '@/types/type';
 
 type ConverterProps = BoxProperty & BBox;

@@ -1,14 +1,13 @@
 import { useAppSelector } from '@/store/hooks';
 import { fadeInOut } from '@/style/style';
+import { PropertySchema } from '@/types/schema/propertySchema';
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
-import { scadaComponentsMap } from '../../scada/componentMap';
+import { scadaPropertySchema } from '../../scada/components/scadaComponents';
 import { getEntity } from '../slice/scadaEditSceneSlice';
 import { getSingleSelectionId } from '../slice/scadaEditSelectionSlice';
 import EmptyWindow from './EmptyWindow';
 import PropertyEditField from './PropertyEditField';
-import TagEditField from './TagEditField';
-import { PropertySchema } from '@/types/schema';
 
 const PropertyEditSection = () => {
   const id = useAppSelector(getSingleSelectionId);
@@ -19,7 +18,7 @@ const PropertyEditSection = () => {
 
     const propertyFields = [];
 
-    const propertySchema = scadaComponentsMap[entity.type].propertySchema;
+    const propertySchema = scadaPropertySchema[entity.type];
 
     for (const name in propertySchema) {
       const schema = propertySchema[name as keyof typeof propertySchema] as PropertySchema;

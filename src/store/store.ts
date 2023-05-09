@@ -4,7 +4,6 @@ import editSceneReducer from '@/features/scada-edit/slice/scadaEditSceneSlice';
 import editSelectionReducer from '@/features/scada-edit/slice/scadaEditSelectionSlice';
 import monitorSceneReducer from '@/features/scada-monitor/slice/scadaMonitorSceneSlice';
 import scadaPageReducer from '@/features/scada-monitor/slice/scadaPageSlice';
-import tagSubscriptionReducer from '@/features/scada-monitor/slice/tagSubscriptionSlice';
 
 const middlewares: Middleware<any, any>[] = [];
 if (process.env.NODE_ENV === `development`) {
@@ -16,8 +15,7 @@ const store = configureStore({
     editScene: editSceneReducer,
     editSelection: editSelectionReducer,
     monitorScene: monitorSceneReducer,
-    scadaPage: scadaPageReducer,
-    tagSubscription: tagSubscriptionReducer
+    scadaPage: scadaPageReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares)
 });

@@ -1,17 +1,17 @@
-import { boxComponentsMap } from '@/features/scada/componentMap';
+import { selectCurrentPageId } from '@/features/scada-monitor/slice/scadaPageSlice';
+import { boxComponents } from '@/features/scada/components/scadaComponents';
 import Line from '@/features/scada/components/shapes/Line';
 import { objectMap, throwIfDev } from '@/util/util';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchScadaEditScene, getEditScene } from '../slice/scadaEditSceneSlice';
+import EditableText from './EditableText';
 import withBoxEdit from './withBoxEdit/withBoxEdit';
 import withLineEdit from './withLineEdit/withLineEdit';
-import EditableText from './EditableText';
-import { selectCurrentPageId } from '@/features/scada-monitor/slice/scadaPageSlice';
-import { useEffect } from 'react';
 
 const EditableLine = withLineEdit(Line);
 
-const editableBoxComponentMap = objectMap(boxComponentsMap, (info) => withBoxEdit(info.component as any));
+const editableBoxComponentMap = objectMap(boxComponents, (info) => withBoxEdit(info as any));
 
 const EditScene = () => {
   const scene = useAppSelector(getEditScene);

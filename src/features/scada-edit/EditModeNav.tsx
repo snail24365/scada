@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 import { useSetRecoilState } from 'recoil';
 import { scadaMode } from '../scada/atom/scadaAtom';
 import { saveScadaScene } from './slice/scadaEditSceneSlice';
-import { saveTagSubscription } from '../scada-monitor/slice/tagSubscriptionSlice';
 
 const EditModeNav = () => {
   const setMode = useSetRecoilState(scadaMode);
@@ -15,7 +14,6 @@ const EditModeNav = () => {
   const onDoneButtonClick = async () => {
     (async () => {
       dispatch(saveScadaScene());
-      dispatch(saveTagSubscription());
       setMode('monitor');
     })();
   };

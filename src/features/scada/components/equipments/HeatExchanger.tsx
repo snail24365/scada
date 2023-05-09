@@ -1,12 +1,12 @@
 import { ReactComponent as HeatExchangerSvg } from '@/assets/heatExchanger.svg';
-import { BoxProperty } from '@/types/schema';
+import { BoxProperty } from '@/types/schema/propertySchema';
 import { BBox, Size } from '@/types/type';
 import { useEffect, useRef } from 'react';
 
 type HeatExchangerProps = BoxProperty &
   BBox & {
     speed?: number;
-    speedTag?: string | null;
+    speed_tag?: string | null;
   };
 
 const HeatExchanger = ({ speed = 0, width, height, x, y }: HeatExchangerProps) => {

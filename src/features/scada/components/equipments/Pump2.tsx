@@ -1,5 +1,5 @@
 import { ReactComponent as PumpSvg } from '@/assets/pump2.svg';
-import { BoxProperty } from '@/types/schema';
+import { BoxProperty } from '@/types/schema/propertySchema';
 import { BBox } from '@/types/type';
 
 type Pump2Props = BoxProperty & BBox;

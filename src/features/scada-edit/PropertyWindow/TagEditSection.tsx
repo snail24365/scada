@@ -1,10 +1,10 @@
+import { scadaPropertySchema } from '@/features/scada/components/scadaComponents';
 import { useAppSelector } from '@/store/hooks';
 import { fadeInOut } from '@/style/style';
 import { motion } from 'framer-motion';
-import React, { useMemo } from 'react';
-import { getSingleSelectionId } from '../slice/scadaEditSelectionSlice';
+import { useMemo } from 'react';
 import { getEntity } from '../slice/scadaEditSceneSlice';
-import { scadaComponentsMap } from '@/features/scada/componentMap';
+import { getSingleSelectionId } from '../slice/scadaEditSelectionSlice';
 
 type Props = {};
 
@@ -15,8 +15,7 @@ const TagEditSection = (props: Props) => {
   const editFields = useMemo(() => {
     if (!(entity && id)) return null;
 
-    // const inputs = [];
-    const propertySchema = scadaComponentsMap[entity.type].propertySchema;
+    const propertySchema = scadaPropertySchema[entity.type];
 
     for (const name in propertySchema) {
       const schema = propertySchema[name as keyof typeof propertySchema] as any;

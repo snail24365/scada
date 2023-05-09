@@ -1,4 +1,4 @@
-import { textPropertySchema } from '@/types/schema';
+import { textPropertySchema } from '@/types/schema/textPropertySchema';
 import Text from './Text';
 
 export const textComponentsMap = {

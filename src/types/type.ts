@@ -1,6 +1,6 @@
-import { boxComponentsMap } from '@/features/scada/componentMap';
 import shapeComponentsMap from '@/features/scada/components/shapes/shapeComponentsMap';
-import { BoxProperty, LineProperty, ShapeProperty, TextProperty } from './schema';
+import { BoxProperty, LineProperty, ShapeProperty, TextProperty } from './schema/propertySchema';
+import { boxComponents } from '@/features/scada/components/scadaComponents';
 
 export type XY = {
   x: number;
@@ -52,7 +52,7 @@ export type DomRect = {
 
 export type ChildrenWithProp<T> = React.ReactElement<T> | React.ReactElement<T>[] | undefined;
 
-export type BoxEntity = Entity & BoxProperty & { type: keyof typeof boxComponentsMap };
+export type BoxEntity = Entity & BoxProperty & { type: keyof typeof boxComponents };
 export type LineEntity = Entity & LineProperty & { type: 'Line' } & Points;
 export type TextEntity = Entity & TextProperty & { type: 'Text' };
 export type ShapeEntity = Entity & ShapeProperty & { type: keyof typeof shapeComponentsMap };
@@ -63,7 +63,7 @@ export function isLineEntity(entity: ScadaEntity): entity is LineEntity {
 }
 
 export function isBoxEntity(entity: ScadaEntity): entity is BoxEntity {
-  return entity.type in boxComponentsMap;
+  return entity.type in boxComponents;
 }
 
 export function isTextEntity(entity: ScadaEntity): entity is TextEntity {

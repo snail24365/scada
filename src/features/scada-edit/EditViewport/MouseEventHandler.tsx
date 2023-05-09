@@ -12,7 +12,7 @@ import { translateBoxEntity } from '../slice/scadaEditSceneSlice';
 import { WithBoxEditContext } from './withBoxEdit/WithBoxEditContext';
 import { exclusiveSelect } from '../slice/scadaEditSelectionSlice';
 import { editContextMenuState } from '../atom/scadaEditSectionAtom';
-import { BoxProperty } from '@/types/schema';
+import { BoxProperty } from '@/types/schema/propertySchema';
 
 type MouseEventHandlerProps = Omit<Entity & BoxProperty, 'type'> & {
   onDoubleClick?: React.MouseEventHandler;

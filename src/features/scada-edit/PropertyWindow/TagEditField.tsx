@@ -1,5 +1,5 @@
 import { borderColor1 } from '@/assets/color';
-import { PropertySchema } from '@/types/schema';
+import { PropertySchema } from '@/types/schema/propertySchema';
 import { UUID } from '@/types/type';
 import { MenuItem, Select } from '@mui/material';
 import PropertyEditFieldLayout from './PropertyEditFieldLayout';
@@ -23,7 +23,7 @@ const borderStyle = {
 
 const TagEditField = ({ propertyName, schema, pickedId }: TagEditFieldProps) => {
   const [value, setValue] = useState('');
-  const { category: type } = schema;
+  const { type: type } = schema;
   const dispatch = useAppDispatch();
 
   let menuItem: React.ReactElement[] = [];

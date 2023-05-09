@@ -34,13 +34,13 @@ const localStorageStrategy = async (args: RestServiceParam) => {
   if (url === '/tag' && method === 'get') {
     const tags: string[] = data;
     const ret: Record<string, number> = {};
-    const timeDependSeudoRandom = (Math.floor(+new Date() / 10000) * 13) % 10;
+    const timeDependSeudoRandom = (Math.floor(+new Date() / 15000) * 13) % 10;
     tags.forEach((tag) => {
       let value = 0;
       if (tag.startsWith('p')) {
-        value = Math.random() * 100 * 0.8 + 20;
+        value = 20 + 4 * timeDependSeudoRandom + Math.random() * 10;
       } else if (tag.startsWith('s')) {
-        value = timeDependSeudoRandom / 2;
+        value = timeDependSeudoRandom / 5 + Math.random();
       } else {
         value = Math.random() * 100;
       }

@@ -55,6 +55,29 @@ export const getIsEmptyScene = (state: any) => {
 
 export const selectMonitorScene = (state: RootState) => state.monitorScene;
 
+// TODO need to be refactored
+export const selectTagSubscriptionMap = (state: RootState) => {
+  const entities = [...state.monitorScene.boxes, ...state.monitorScene.lines, ...state.monitorScene.texts];
+  const tagSubscriptionMap: Record<string, { uuid: UUID; property: string }[]> = {};
+  for (const entity of entities) {
+    for (const property of Object.keys(entity)) {
+      if (property.endsWith('_tag')) {
+        const tag = (entity as any)[property];
+
+        if (tag === null) {
+          continue;
+        }
+
+        if (!tagSubscriptionMap[tag]) {
+          tagSubscriptionMap[tag] = [];
+        }
+        tagSubscriptionMap[tag].push({ uuid: entity.uuid, property: property.replace('_tag', '') });
+      }
+    }
+  }
+  return tagSubscriptionMap;
+};
+
 export const { updateMonitorEntityProperty } = scadaMonitorSceneSlice.actions;
 
 export default scadaMonitorSceneSlice.reducer;

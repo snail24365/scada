@@ -8,12 +8,10 @@ import { useRecoilValue } from 'recoil';
 import { fetchScadaMonitorScene, getIsEmptyScene } from '../slice/scadaMonitorSceneSlice';
 import { selectCurrentPageId } from '../slice/scadaPageSlice';
 import MonitorScene from './MonitorScene';
-import { fetchTagSubscription } from '../slice/tagSubscriptionSlice';
 
 const MonitorViewport = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   fetchMonitorSceneAfterMounted();
-  fetchTagSubscriptionAfterMounted();
 
   const resolution = useRecoilValue(resolutionState);
   const isEmptyScene = useAppSelector(getIsEmptyScene);
@@ -76,13 +74,4 @@ function fetchMonitorSceneAfterMounted() {
       await dispatch(fetchScadaMonitorScene(currentScadaPageId));
     })();
   }, [currentScadaPageId]);
-}
-
-function fetchTagSubscriptionAfterMounted() {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    (async () => {
-      await dispatch(fetchTagSubscription());
-    })();
-  }, []);
 }

@@ -1,4 +1,4 @@
-import { ShapeProperty } from '@/types/schema';
+import { ShapeProperty } from '@/types/schema/propertySchema';
 import { BBox } from '@/types/type';
 
 type EllipseProps = ShapeProperty & BBox;

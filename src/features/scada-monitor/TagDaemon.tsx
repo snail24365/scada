@@ -1,47 +1,54 @@
 import { restSerivce } from '@/service/api';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { rest } from 'lodash';
-import React, { useEffect } from 'react';
-import { EntityProperty } from './slice/tagSubscriptionSlice';
-import { updateMonitorEntityProperty } from './slice/scadaMonitorSceneSlice';
+import { UUID } from '@/types/type';
+import { useEffect } from 'react';
+import { selectTagSubscriptionMap, updateMonitorEntityProperty } from './slice/scadaMonitorSceneSlice';
+import { AppDispatch } from '@/store/store';
+import _ from 'lodash';
 
 type TagDaemonProps = {
   fetchInterval?: number;
 };
 
-const TagDaemon = ({ fetchInterval = 3000 }: TagDaemonProps) => {
+const TagDaemon = ({ fetchInterval = 5000 }: TagDaemonProps) => {
   const dispatch = useAppDispatch();
-  const tagSubscription = useAppSelector((state) => state.tagSubscription);
+  const tagSubscriptionMap = useAppSelector(selectTagSubscriptionMap, (prev, next) => _.isEqual(prev, next));
 
   useEffect(() => {
-    const interval = setInterval(synchronizeScada, fetchInterval);
+    // TODO : should be called after scene fetched
+    setTimeout(async () => {
+      synchronizeTagProperties(tagSubscriptionMap, dispatch);
+    }, 500);
+
+    const interval = setInterval(async () => {
+      await synchronizeTagProperties(tagSubscriptionMap, dispatch);
+    }, fetchInterval);
     return () => {
       clearInterval(interval);
     };
+  }, [tagSubscriptionMap]);
 
-    async function synchronizeScada() {
-      const tags = Object.keys(tagSubscription);
-
-      const tagInfo = await restSerivce({ url: '/tag', method: 'get', data: tags });
-
-      injectLatestDataToRedux();
-
-      function injectLatestDataToRedux() {
-        for (const tag of tags) {
-          const value = tagInfo[tag];
-
-          const linkedProperties = tagSubscription[tag];
-          for (const linkedProperty of linkedProperties) {
-            const { uuid, property } = linkedProperty;
-
-            dispatch(updateMonitorEntityProperty({ uuid, property, value }));
-          }
-        }
-      }
-    }
-  }, [tagSubscription, dispatch]);
-
-  return <></>;
+  return null;
 };
 
 export default TagDaemon;
+
+async function synchronizeTagProperties(
+  tagSubscriptionMap: Record<string, Array<{ uuid: UUID; property: string }>>,
+  dispatch: AppDispatch
+) {
+  const tags = Object.keys(tagSubscriptionMap);
+  console.log('Sync!');
+
+  const tagValueMap = await restSerivce({ url: '/tag', method: 'get', data: tags });
+  for (const tag of tags) {
+    const value = tagValueMap[tag];
+
+    for (const propertyInfo of tagSubscriptionMap[tag]) {
+      const { uuid, property } = propertyInfo;
+      console.log(uuid, property, value, tag);
+
+      dispatch(updateMonitorEntityProperty({ uuid, property, value }));
+    }
+  }
+}

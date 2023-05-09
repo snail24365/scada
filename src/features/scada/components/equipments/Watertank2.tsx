@@ -1,5 +1,5 @@
 import { ReactComponent as Watertank } from '@/assets/watertank2.svg';
-import { BoxProperty } from '@/types/schema';
+import { BoxProperty } from '@/types/schema/propertySchema';
 import { BBox } from '@/types/type';
 import { useEffect, useRef } from 'react';
 

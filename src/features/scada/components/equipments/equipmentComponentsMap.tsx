@@ -1,4 +1,4 @@
-import { boxPropertySchema } from '@/types/schema';
+import { boxPropertySchema } from '@/types/schema/boxPropertySchema';
 import Converter from './Converter';
 import Gastank from './Gastank';
 import HeatExchanger from './HeatExchanger';
@@ -7,7 +7,7 @@ import Pump2 from './Pump2';
 import Watertank1 from './Watertank1';
 import Watertank2 from './Watertank2';
 
-export const equipmentMap = {
+export const equipmentComponents = {
   Converter,
   Gastank,
   HeatExchanger,
@@ -17,7 +17,7 @@ export const equipmentMap = {
   Watertank2
 } as const;
 
-export const equipemntSchemaMap = {
+export const equipmentPropertySchema = {
   Converter: boxPropertySchema,
   Gastank: boxPropertySchema,
   HeatExchanger: {
@@ -27,8 +27,9 @@ export const equipemntSchemaMap = {
       default: 0,
       hidden: true
     },
-    speedTag: {
-      type: 'tag/speed',
+    speed_tag: {
+      type: 'string',
+      tag: 'speed',
       default: null
     }
   },
@@ -39,8 +40,9 @@ export const equipemntSchemaMap = {
       default: 0,
       hidden: true
     },
-    percentageTag: {
-      type: 'tag/percentage',
+    percentage_tag: {
+      type: 'string',
+      tag: 'percentage',
       default: null
     }
   },
@@ -52,8 +54,9 @@ export const equipemntSchemaMap = {
       default: 0,
       hidden: true
     },
-    percentageTag: {
-      type: 'tag/percentage',
+    percentage_tag: {
+      type: 'string',
+      tag: 'percentage',
       default: null
     }
   },
@@ -64,8 +67,9 @@ export const equipemntSchemaMap = {
       default: 0,
       hidden: true
     },
-    percentageTag: {
-      type: 'tag/percentage',
+    percentage_tag: {
+      type: 'string',
+      tag: 'percentage',
       default: null
     },
     value: {
@@ -73,9 +77,10 @@ export const equipemntSchemaMap = {
       default: 0,
       hidden: true
     },
-    valueTag: {
-      type: 'tag/value',
-      default: null
+    value_tag: {
+      type: 'string',
+      default: null,
+      tag: 'value'
     }
   }
 } as const;
@@ -99,8 +104,9 @@ export const equipmentComponentsMap = {
         hidden: true
       },
       speedTag: {
-        type: 'tag/speed',
-        default: null
+        type: 'string',
+        default: null,
+        tag: 'speed'
       }
     }
   },
@@ -114,7 +120,7 @@ export const equipmentComponentsMap = {
         hidden: true
       },
       percentageTag: {
-        type: 'tag/percentage',
+        type: 'string',
         default: null
       }
     }
@@ -133,7 +139,7 @@ export const equipmentComponentsMap = {
         hidden: true
       },
       percentageTag: {
-        type: 'tag/percentage',
+        type: 'string',
         default: null
       }
     }
@@ -148,7 +154,7 @@ export const equipmentComponentsMap = {
         hidden: true
       },
       percentageTag: {
-        type: 'tag/percentage',
+        type: 'string',
         default: null
       },
       value: {
@@ -157,7 +163,7 @@ export const equipmentComponentsMap = {
         hidden: true
       },
       valueTag: {
-        type: 'tag/value',
+        type: 'string',
         default: null
       }
     }
@@ -167,5 +173,3 @@ export const equipmentComponentsMap = {
 export type EquipmentsType = keyof typeof equipmentComponentsMap;
 
 export default equipmentComponentsMap;
-
-type a = (typeof equipemntSchemaMap)['HeatExchanger'];

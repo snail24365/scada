@@ -1,12 +1,15 @@
 import { borderColor1 } from '@/assets/color';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { PropertySchema } from '@/types/schema';
+import { PropertySchema } from '@/types/schema/propertySchema';
 import { UUID } from '@/types/type';
 import { toFixedNumber } from '@/util/util';
 import { MenuItem, Select, TextField } from '@mui/material';
 import { getProperty, updateProperty } from '../slice/scadaEditSceneSlice';
 import PropertyEditFieldLayout from './PropertyEditFieldLayout';
 
+/**
+ * TODO : refactor this component
+ */
 type PropertyEditFieldProps = {
   propertyName: string;
   schema: PropertySchema;
@@ -22,7 +25,7 @@ const borderStyle = {
 };
 
 const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditFieldProps) => {
-  const { category: type, default: defaultValue } = schema;
+  const { type: type, default: defaultValue, tag } = schema;
   const dispatch = useAppDispatch();
   const propertyValue = useAppSelector(getProperty(pickedId, propertyName));
 
@@ -37,7 +40,7 @@ const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditField
 
   if (typeof type === 'object') {
     const items = type.map((categoryItem, i) => (
-      <MenuItem key={i} value={categoryItem}>
+      <MenuItem key={i} value={categoryItem} css={{ color: '#000' }}>
         {categoryItem}
       </MenuItem>
     ));
@@ -52,16 +55,16 @@ const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditField
         {items}
       </Select>
     );
-  } else if (type.startsWith('tag')) {
+  } else if (tag) {
     const map = {
-      'tag/percentage': 'p',
-      'tag/value': 'v',
-      'tag/speed': 's'
+      percentage: 'p',
+      value: 'v',
+      speed: 's'
     };
-    const prefix = map[type as keyof typeof map];
+    const prefix = map[tag as keyof typeof map];
     const categories = [...Array(13).keys()].map((x) => `${prefix}${x}`);
     const items = categories.map((tag, i) => (
-      <MenuItem key={i} value={tag}>
+      <MenuItem key={i} value={tag} css={{ color: '#000' }}>
         {tag}
       </MenuItem>
     ));

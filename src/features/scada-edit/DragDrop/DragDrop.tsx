@@ -1,5 +1,4 @@
 import { scadaEditUtil } from '@/features/scada/atom/scadaAtom';
-import { ScadaComponents, scadaComponentsMap } from '@/features/scada/componentMap';
 import useDrag from '@/hooks/useDrag';
 import { useAppDispatch } from '@/store/hooks';
 import { flexCenter } from '@/style/style';
@@ -10,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { EditSectionContext } from '../EditSectionContext';
 import { addEntity } from '../slice/scadaEditSceneSlice';
 import DragDropSticker from './DragDropSticker';
+import { ScadaComponents, scadaPropertySchema } from '@/features/scada/components/scadaComponents';
 
 export type DragDropProp = {
   component: React.ReactElement<Size & Omit<Entity, 'uuid'>>;
@@ -58,7 +58,7 @@ const DragDrop = ({ component, stickerSize, type, dropIgnoreElements }: DragDrop
     const width = stickerSize * reducedScale.x;
     const height = stickerSize * (component.props.height / component.props.width) * reducedScale.y;
 
-    const propertySchema = scadaComponentsMap[type].propertySchema;
+    const propertySchema = scadaPropertySchema[type];
     const defaultProperty: Record<string, any> = {};
 
     type propertyName = keyof typeof propertySchema;
