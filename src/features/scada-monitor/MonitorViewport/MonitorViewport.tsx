@@ -23,12 +23,13 @@ const MonitorViewport = () => {
 
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
 
-  adjustViewportSize(containerRef, setViewport);
-
-  useResizeListener(containerRef, ({ width, height }) => {
-    const a = computeViewportSize(width, height);
-    setViewport(a);
-  });
+  useResizeListener(
+    containerRef,
+    ({ width, height }) => {
+      setViewport(computeViewportSize(width, height));
+    },
+    [resolution]
+  );
 
   let message = null;
   if (isEmptyScene && isSucceeded) {
@@ -71,19 +72,6 @@ const MonitorViewport = () => {
 };
 
 export default MonitorViewport;
-function adjustViewportSize(
-  containerRef: React.RefObject<HTMLDivElement>,
-  setViewportSize: React.Dispatch<React.SetStateAction<{ width: number; height: number }>>
-) {
-  const computeViewportSize = useRecoilValue(computeViewportSizeState);
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
-    const size = computeViewportSize(containerWidth, containerHeight);
-    setViewportSize(size);
-  }, [containerRef.current]);
-}
 
 function fetchMonitorSceneAfterMounted() {
   const dispatch = useAppDispatch();

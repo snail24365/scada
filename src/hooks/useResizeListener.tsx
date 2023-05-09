@@ -2,7 +2,11 @@ import { DomRect } from '@/types/type';
 import { throwIfDev } from '@/util/util';
 import { useEffect } from 'react';
 
-const useResizeListener = (targetRef: React.RefObject<Element>, callback: (domRect: DomRect) => any) => {
+const useResizeListener = (
+  targetRef: React.RefObject<Element>,
+  callback: (domRect: DomRect) => any,
+  dependencies?: any[]
+) => {
   useEffect(() => {
     if (!targetRef.current) {
       return;
@@ -19,7 +23,7 @@ const useResizeListener = (targetRef: React.RefObject<Element>, callback: (domRe
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  }, dependencies ?? []);
 };
 
 export default useResizeListener;
