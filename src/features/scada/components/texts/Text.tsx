@@ -1,6 +1,5 @@
 import { TextProperty } from '@/types/schema/propertySchema';
 import { BBox } from '@/types/type';
-import React, { useState } from 'react';
 
 export type TextProps = TextProperty & BBox;
 

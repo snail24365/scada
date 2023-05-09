@@ -1,4 +1,4 @@
-import shapeComponentsMap from '@/features/scada/components/shapes/shapeComponentsMap';
+import shapeComponentsMap from '@/features/scada/components/shapes/shapeComponents';
 import { BoxProperty, LineProperty, ShapeProperty, TextProperty } from './schema/propertySchema';
 import { boxComponents } from '@/features/scada/components/scadaComponents';
 

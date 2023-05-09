@@ -17,7 +17,7 @@ export const equipmentComponents = {
   Watertank2
 } as const;
 
-export const equipmentPropertySchema = {
+export const equipmentsPropertyMap = {
   Converter: boxPropertySchema,
   Gastank: boxPropertySchema,
   HeatExchanger: {

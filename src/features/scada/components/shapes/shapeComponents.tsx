@@ -7,7 +7,7 @@ import Rectangle from './Rectangle';
 import Triangle from './Triangle';
 import { linePropertySchema } from '@/types/schema/linePropertySchema';
 
-export const shapePropertySchema = {
+export const shapePropertyMap = {
   Circle: boxShapePropertySchema,
   Line: linePropertySchema,
   Rectangle: boxShapePropertySchema,
