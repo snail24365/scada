@@ -11,11 +11,13 @@ import store from './store/store';
 import 'normalize.css/normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
+import DemoData from './DemoData';
 <link href="path/to/node_modules/normalize.css/normalize.css" rel="stylesheet" />;
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <RecoilRoot>
     <Provider store={store}>
+      <DemoData />
       <App />
     </Provider>
   </RecoilRoot>
