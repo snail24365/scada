@@ -17,7 +17,7 @@ type PropertyEditFieldProps = {
 };
 
 const borderStyle = {
-  border: `1px solid ${borderColor1}`,
+  border: `1px solid grey`,
   borderRadius: 2,
   '& .MuiInputBase-input': {
     color: '#fff'

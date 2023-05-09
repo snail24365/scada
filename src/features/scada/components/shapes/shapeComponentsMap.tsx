@@ -25,33 +25,4 @@ export const shapeComponents = {
   Triangle
 } as const;
 
-export const shapeComponentsMap = {
-  Circle: {
-    component: Circle,
-    propertySchema: boxShapePropertySchema
-  },
-  Line: {
-    component: Line,
-    propertySchema: linePropertySchema
-  },
-  Rectangle: {
-    component: Rectangle,
-    propertySchema: boxShapePropertySchema
-  },
-  Ellipse: {
-    component: Ellipse,
-    propertySchema: boxShapePropertySchema
-  },
-  Diamond: {
-    component: Diamond,
-    propertySchema: boxShapePropertySchema
-  },
-  Triangle: {
-    component: Triangle,
-    propertySchema: boxShapePropertySchema
-  }
-};
-
-export type shapeComponents = keyof typeof shapeComponentsMap;
-
-export default shapeComponentsMap;
+export type ShapeComponents = keyof typeof shapeComponents;

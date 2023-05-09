@@ -11,7 +11,14 @@ const Pump1 = ({ width, height, x, y, rotationSpeed = 0 }: Pump1Props) => {
   useEffect(() => {
     const rotation = ref.current?.querySelector('[data-id="rotation"]');
     if (!rotation) return;
-    rotation.setAttribute('dur', `${10 / 1}s`);
+
+    const duration = rotationSpeed === 0 ? 0 : 10 / rotationSpeed;
+
+    if (!rotation) return;
+    const newRotation = rotation.cloneNode(true) as Element;
+    newRotation.setAttribute('dur', `${duration}s`);
+    console.log(rotation.parentNode);
+    rotation.parentNode?.replaceChild(newRotation, rotation);
   }, [rotationSpeed]);
 
   return (

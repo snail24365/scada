@@ -8,6 +8,7 @@ import { useRecoilValue } from 'recoil';
 import { fetchScadaMonitorScene, getIsEmptyScene } from '../slice/scadaMonitorSceneSlice';
 import { selectCurrentPageId } from '../slice/scadaPageSlice';
 import MonitorScene from './MonitorScene';
+import { Card, Paper } from '@mui/material';
 
 const MonitorViewport = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,22 +31,24 @@ const MonitorViewport = () => {
   }
 
   return (
-    <div
-      ref={containerRef}
-      css={[
-        flexCenter,
-        full,
-        {
-          backgroundColor: darkBlue4
-        }
-      ]}
-    >
-      {message ? (
-        <Placeholder contents={message} />
-      ) : (
-        <MonitorScene width={viewport.width} height={viewport.height} resolution={resolution} />
-      )}
-    </div>
+    <Paper elevation={4} sx={{ width: '100%', height: '100%' }}>
+      <div
+        ref={containerRef}
+        css={[
+          flexCenter,
+          full,
+          {
+            backgroundColor: darkBlue4
+          }
+        ]}
+      >
+        {message ? (
+          <Placeholder contents={message} />
+        ) : (
+          <MonitorScene width={viewport.width} height={viewport.height} resolution={resolution} />
+        )}
+      </div>
+    </Paper>
   );
 };
 

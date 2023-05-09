@@ -1,11 +1,11 @@
-import React from 'react';
-import { flexCenter } from '@/style/style';
-import { DragDropProp } from '../DragDrop/DragDrop';
 import { darkBlue2 } from '@/assets/color';
+import { EquipmentsType } from '@/features/scada/components/equipments/equipmentComponents';
+import { flexCenter } from '@/style/style';
 import { ChildrenWithProp } from '@/types/type';
-import equipmentComponentsMap from '@/features/scada/components/equipments/equipmentComponentsMap';
+import React from 'react';
+import { DragDropProp } from '../DragDrop/DragDrop';
 
-type EquipmentDragDrops = ChildrenWithProp<DragDropProp & { type: keyof typeof equipmentComponentsMap }>;
+type EquipmentDragDrops = ChildrenWithProp<DragDropProp & { type: EquipmentsType }>;
 
 const EquipmentSection = ({ title, children }: { title: string; children: EquipmentDragDrops }) => {
   return (

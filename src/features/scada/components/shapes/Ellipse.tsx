@@ -12,7 +12,17 @@ const Ellipse = (props: EllipseProps) => {
   const ry = Math.max(height / 2 - strokeWidth, 1);
   return (
     <svg {...props}>
-      <ellipse {...props} cx={cx} cy={cy} rx={rx} ry={ry} strokeWidth={3} preserveAspectRatio="none" x={0} y={0} />
+      <ellipse
+        {...props}
+        cx={cx}
+        cy={cy}
+        rx={rx}
+        ry={ry}
+        strokeWidth={strokeWidth}
+        preserveAspectRatio="none"
+        x={0}
+        y={0}
+      />
     </svg>
   );
 };

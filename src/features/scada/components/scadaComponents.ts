@@ -1,10 +1,12 @@
-import { equipmentComponents, equipmentPropertySchema } from './equipments/equipmentComponentsMap';
+import { textPropertySchema } from '@/types/schema/textPropertySchema';
+import { equipmentComponents, equipmentPropertySchema } from './equipments/equipmentComponents';
 import { shapeComponents, shapePropertySchema } from './shapes/shapeComponentsMap';
-import textComponentsMap from './texts/textComponentsMap';
+import { textComponents } from './texts/textComponentsMap';
 
 export const scadaComponents = {
   ...equipmentComponents,
-  ...shapeComponents
+  ...shapeComponents,
+  ...textComponents
 };
 
 export type ScadaComponents = keyof typeof scadaComponents;
@@ -12,7 +14,7 @@ export type ScadaComponents = keyof typeof scadaComponents;
 export const scadaPropertySchema = {
   ...equipmentPropertySchema,
   ...shapePropertySchema,
-  ...textComponentsMap
+  ...textPropertySchema
 };
 
 export const boxComponents = {

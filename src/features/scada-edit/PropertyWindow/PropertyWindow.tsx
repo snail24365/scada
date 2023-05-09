@@ -23,7 +23,6 @@ const PropertyWindow = () => {
       >
         <AnimatePresence>
           <PropertyEditSection />
-          <Divider />
         </AnimatePresence>
       </div>
     </Paper>

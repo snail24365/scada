@@ -1,13 +1,7 @@
-import { textPropertySchema } from '@/types/schema/textPropertySchema';
 import Text from './Text';
 
-export const textComponentsMap = {
-  Text: {
-    component: Text,
-    propertySchema: textPropertySchema
-  }
+export const textComponents = {
+  Text: Text
 };
 
-export type TextComponentsType = keyof typeof textComponentsMap;
-
-export default textComponentsMap;
+export type TextType = keyof typeof textComponents;

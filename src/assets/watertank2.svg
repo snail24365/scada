@@ -27,14 +27,14 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="3.659624"
-     inkscape:cx="40.031435"
-     inkscape:cy="57.246318"
+     inkscape:cx="85.391286"
+     inkscape:cy="64.897377"
      inkscape:window-width="1392"
      inkscape:window-height="1230"
      inkscape:window-x="334"
      inkscape:window-y="57"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="svg9465" />
   <defs
      id="defs8219">
     <rect
@@ -168,7 +168,7 @@
        data-id="value-text"><tspan
          x="71.227224"
          y="-35.228545"
-         id="tspan379">0</tspan></text>
+         id="tspan347">0</tspan></text>
     <rect
        style="fill:#333333;stroke:#515151;stroke-width:0.0990111"
        id="rect9461"
@@ -188,7 +188,7 @@
          fill="#215ef4"
          height="100%"
          width="100%"
-         style="fill:#333333"
+         style="fill:#1270b4"
          data-id="gauge"
          id="rect32055" />
     </svg>
@@ -201,6 +201,6 @@
        data-id="percentage"><tspan
          x="90.056667"
          y="-22.113311"
-         id="tspan381">0%</tspan></text>
+         id="tspan349">0%</tspan></text>
   </g>
 </svg>

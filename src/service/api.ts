@@ -40,7 +40,7 @@ const localStorageStrategy = async (args: RestServiceParam) => {
       if (tag.startsWith('p')) {
         value = 20 + 4 * timeDependSeudoRandom + Math.random() * 10;
       } else if (tag.startsWith('s')) {
-        value = timeDependSeudoRandom / 5 + Math.random();
+        value = timeDependSeudoRandom / 2 + 5 * Math.random();
       } else {
         value = Math.random() * 100;
       }
