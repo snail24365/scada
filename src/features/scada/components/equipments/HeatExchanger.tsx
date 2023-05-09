@@ -19,7 +19,6 @@ const HeatExchanger = ({ speed = 0, width, height, x, y }: HeatExchangerProps) =
     if (!rotation) return;
     const newRotation = rotation.cloneNode(true) as Element;
     newRotation.setAttribute('dur', `${duration}s`);
-    console.log(rotation.parentNode);
     rotation.parentNode?.replaceChild(newRotation, rotation);
   }, [speed]);
 

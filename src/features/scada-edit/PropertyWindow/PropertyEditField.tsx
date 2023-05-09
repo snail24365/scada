@@ -72,7 +72,6 @@ const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditField
       <Select
         value={value}
         onChange={(e) => {
-          console.log(e.target.value);
           updateEntityProperty(e.target.value);
         }}
         sx={borderStyle}
@@ -88,7 +87,6 @@ const PropertyEditField = ({ propertyName, schema, pickedId }: PropertyEditField
         value={value}
         onChange={(e) => {
           updateEntityProperty(e.target.value);
-          console.log(e);
         }}
       />
     );

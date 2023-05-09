@@ -65,7 +65,7 @@ const EditViewport = () => {
     });
   }, []);
 
-  useResizeListener(rootDivRef, ({ x, y, width, height }) => {
+  useResizeListener(rootDivRef, ({ width, height }) => {
     setViewportSize(computeViewportSize(width, height));
   });
 

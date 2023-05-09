@@ -7,8 +7,9 @@ const useResizeListener = (targetRef: React.RefObject<Element>, callback: (domRe
     if (!targetRef.current) {
       return;
     }
+
     const target = targetRef.current;
-    var resizeObserver = new ResizeObserver((entries) => {
+    const resizeObserver = new ResizeObserver((entries) => {
       if (entries.length !== 1) return throwIfDev(`useResizeCallback: entries.length !== 1`);
       const entry = entries[0];
       callback(entry.target.getBoundingClientRect());

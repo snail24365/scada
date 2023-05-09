@@ -18,7 +18,7 @@ const TagDaemon = ({ fetchInterval = 5000 }: TagDaemonProps) => {
     // TODO : should be called after scene fetched
     setTimeout(async () => {
       synchronizeTagProperties(tagSubscriptionMap, dispatch);
-    }, 500);
+    }, 100);
 
     const interval = setInterval(async () => {
       await synchronizeTagProperties(tagSubscriptionMap, dispatch);
@@ -38,7 +38,6 @@ async function synchronizeTagProperties(
   dispatch: AppDispatch
 ) {
   const tags = Object.keys(tagSubscriptionMap);
-  console.log('Sync!');
 
   const tagValueMap = await restSerivce({ url: '/tag', method: 'get', data: tags });
   for (const tag of tags) {
@@ -46,8 +45,6 @@ async function synchronizeTagProperties(
 
     for (const propertyInfo of tagSubscriptionMap[tag]) {
       const { uuid, property } = propertyInfo;
-      console.log(uuid, property, value, tag);
-
       dispatch(updateMonitorEntityProperty({ uuid, property, value }));
     }
   }

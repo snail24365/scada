@@ -9,6 +9,7 @@ import { fetchScadaMonitorScene, getIsEmptyScene } from '../slice/scadaMonitorSc
 import { selectCurrentPageId } from '../slice/scadaPageSlice';
 import MonitorScene from './MonitorScene';
 import { Card, Paper } from '@mui/material';
+import useResizeListener from '@/hooks/useResizeListener';
 
 const MonitorViewport = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -18,10 +19,16 @@ const MonitorViewport = () => {
   const isEmptyScene = useAppSelector(getIsEmptyScene);
   const isFailed = useAppSelector((state) => state.monitorScene.status === 'failed');
   const isSucceeded = useAppSelector((state) => state.monitorScene.status === 'succeeded');
+  const computeViewportSize = useRecoilValue(computeViewportSizeState);
 
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
 
   adjustViewportSize(containerRef, setViewport);
+
+  useResizeListener(containerRef, ({ width, height }) => {
+    const a = computeViewportSize(width, height);
+    setViewport(a);
+  });
 
   let message = null;
   if (isEmptyScene && isSucceeded) {
@@ -31,14 +38,25 @@ const MonitorViewport = () => {
   }
 
   return (
-    <Paper elevation={4} sx={{ width: '100%', height: '100%' }}>
+    <Paper
+      elevation={4}
+      sx={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: darkBlue4,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+      ref={containerRef}
+    >
       <div
-        ref={containerRef}
         css={[
           flexCenter,
           full,
           {
-            backgroundColor: darkBlue4
+            width: viewport.width,
+            height: viewport.height
           }
         ]}
       >
