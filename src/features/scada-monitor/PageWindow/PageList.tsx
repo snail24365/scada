@@ -21,7 +21,7 @@ const PageList = () => {
     );
 
   return (
-    <ul css={{ display: 'flex', flexDirection: 'column', gap: 15, minWidth: 250 }}>
+    <ul css={{ display: 'flex', flexDirection: 'column', gap: 15, width: 250 }}>
       {pages.map((page) => (
         <PageListItem {...page} key={page.pageId} />
       ))}

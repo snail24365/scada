@@ -41,32 +41,22 @@ const MonitorViewport = () => {
   return (
     <Paper
       elevation={4}
-      sx={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: darkBlue4,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
+      sx={[
+        full,
+        flexCenter,
+        {
+          position: 'relative',
+          backgroundColor: darkBlue4,
+          flexGrow: 1
+        }
+      ]}
       ref={containerRef}
     >
-      <div
-        css={[
-          flexCenter,
-          full,
-          {
-            width: viewport.width,
-            height: viewport.height
-          }
-        ]}
-      >
-        {message ? (
-          <Placeholder contents={message} />
-        ) : (
-          <MonitorScene width={viewport.width} height={viewport.height} resolution={resolution} />
-        )}
-      </div>
+      {message ? (
+        <Placeholder contents={message} />
+      ) : (
+        <MonitorScene width={viewport.width} height={viewport.height} resolution={resolution} />
+      )}
     </Paper>
   );
 };

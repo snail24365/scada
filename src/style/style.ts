@@ -46,3 +46,5 @@ export const full = {
   width: '100%',
   height: '100%'
 };
+
+export const absoulteFull: CSSObject = { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' };
