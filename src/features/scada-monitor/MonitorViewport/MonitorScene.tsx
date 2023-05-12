@@ -13,8 +13,8 @@ const MonitorScene = ({ width, height, resolution }: MonitorSceneProps) => {
   return (
     <div css={[absoulteFull, flexCenter]}>
       <svg width={width} height={height} viewBox={`0 0 ${resolution.x} ${resolution.y}`}>
-        {scene.lines.map((line) => {
-          return <Line key={line.uuid} points={line.points} />;
+        {scene.lines.map(({ uuid, points, ...rest }) => {
+          return <Line key={uuid} points={points} {...rest} />;
         })}
         {scene.boxes.map((entity) => {
           const Component = boxComponents[entity.type] as React.ComponentType;
