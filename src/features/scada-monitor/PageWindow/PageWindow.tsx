@@ -26,7 +26,7 @@ const PageWindow = () => {
         borderRadius: 6
       }}
     >
-      <div css={[flexVerticalCenter, { justifyContent: 'space-between', marginBottom: 20, minWidth: 300 }]}>
+      <div css={[flexVerticalCenter, { justifyContent: 'space-between', marginBottom: 20 }]}>
         <div>
           <span css={{ fontSize: 18, fontWeight: 600 }}>Pages List</span>
           <span css={{ marginLeft: 10, color: 'grey' }}>{`(${numPage})`}</span>
