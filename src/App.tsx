@@ -1,39 +1,30 @@
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import './App.css';
-import ScadaPage from './pages/ScadaPage';
-import { resolutionState } from './features/scada/atom/scadaAtom';
-import { useEffect, useRef, useState } from 'react';
+import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SitePage from './pages/SitePage';
-
-//todo remote this to env
+import Stack from './components/util/Stack';
+import { resolutionState } from './features/scada/atom/scadaAtom';
+import ScadaPage from './pages/ScadaPage';
+import SitePage from './pages/SitePage/SitePage';
+import { full } from './style/style';
 
 function App() {
   initialize();
 
   return (
-    <BrowserRouter>
-      <div
-        className="App"
-        style={{
-          width: '100%',
-          height: '100%',
-          minWidth: 1600,
-          minHeight: 700,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'row'
-        }}
-      >
-        <Sidebar />
+    <Stack direction="row" sx={{ ...full, minWidth: 1600, minHeight: 700, overflow: 'hidden' }}>
+      <Sidebar />
+      <Stack sx={{ position: 'relative', flexGrow: 1, flexShrink: 0 }}>
+        <Header />
         <Routes>
-          <Route path="/site" element={<SitePage />} />
-          <Route path="/scada" element={<ScadaPage />} />
-          <Route path="/" element={<ScadaPage />} />
+          <Route path="site/*" element={<SitePage />}></Route>
+          <Route path="scada" element={<ScadaPage />} />
+          <Route path="*" element={<ScadaPage />} />
         </Routes>
-      </div>
-    </BrowserRouter>
+      </Stack>
+    </Stack>
   );
 }
 

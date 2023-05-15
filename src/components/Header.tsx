@@ -1,9 +1,30 @@
-import { darkBlue5, borderColor2, primaryBlue } from '@/assets/color';
+import { borderColor2, darkBlue5, primaryBlue } from '@/assets/color';
 import { flexVerticalCenter } from '@/style/style';
-import React from 'react';
+import { ReactNode } from 'react';
+import { AiFillHome } from 'react-icons/ai';
 import { MdTouchApp } from 'react-icons/md';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
+  const { pathname } = useLocation();
+
+  let title = '';
+  const iconSize = 22;
+
+  let icon: ReactNode = null;
+  switch (pathname) {
+    case '/site':
+      title = 'Site';
+      icon = <MdTouchApp fill={primaryBlue} fontSize={iconSize} />;
+      break;
+    case '/':
+      title = 'SCADA';
+      icon = <AiFillHome fill={primaryBlue} fontSize={iconSize} />;
+      break;
+    default:
+      break;
+  }
+
   return (
     <header
       css={{
@@ -14,10 +35,8 @@ const Header = () => {
         borderBottom: `3px solid ${borderColor2}`
       }}
     >
-      <div css={{ marginRight: 8 }}>
-        <MdTouchApp fill={primaryBlue} fontSize={22} />
-      </div>
-      <div css={{ fontWeight: 600 }}>SCADA</div>
+      <div css={{ marginRight: 8 }}>{icon}</div>
+      <div css={{ fontWeight: 600 }}>{title}</div>
     </header>
   );
 };

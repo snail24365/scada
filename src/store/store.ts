@@ -4,10 +4,11 @@ import editSceneReducer from '@/features/scada-edit/slice/scadaEditSceneSlice';
 import editSelectionReducer from '@/features/scada-edit/slice/scadaEditSelectionSlice';
 import monitorSceneReducer from '@/features/scada-monitor/slice/scadaMonitorSceneSlice';
 import scadaPageReducer from '@/features/scada-monitor/slice/scadaPageSlice';
+import sitesReducer from '@/features/site/siteSlice';
 
 const middlewares: Middleware<any, any>[] = [];
 if (process.env.NODE_ENV === `development`) {
-  middlewares.push(logger);
+  // middlewares.push(logger);
 }
 
 const store = configureStore({
@@ -15,7 +16,8 @@ const store = configureStore({
     editScene: editSceneReducer,
     editSelection: editSelectionReducer,
     monitorScene: monitorSceneReducer,
-    scadaPage: scadaPageReducer
+    scadaPage: scadaPageReducer,
+    sites: sitesReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares)
 });

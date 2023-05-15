@@ -3,7 +3,7 @@ import { RootState } from '../../../store/store';
 import { RequestStatus, ScadaSceneState, UUID } from '../../../types/type';
 import { restSerivce } from '@/service/api';
 
-const initialState: ScadaSceneState & RequestStatus = {
+const initialState: ScadaSceneState & { status: RequestStatus } = {
   lines: [],
   boxes: [],
   texts: [],

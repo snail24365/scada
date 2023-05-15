@@ -1,5 +1,4 @@
 import { darkBlue2, darkBlue4 } from '@/assets/color';
-import Header from '@/components/Header';
 import EditModeNav from '@/features/scada-edit/EditModeNav';
 import EditSection from '@/features/scada-edit/EditSection';
 import MonitorModeNav from '@/features/scada-monitor/MonitorModeNav';
@@ -19,7 +18,6 @@ const ScadaPage = () => {
     <div
       style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', flexShrink: 1, flexGrow: 1 }}
     >
-      <Header />
       <nav style={{ background: darkBlue2, height: '54px', flexShrink: 0 }}>
         <AnimatePresence>
           <Navbar />

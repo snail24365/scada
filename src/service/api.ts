@@ -1,3 +1,4 @@
+import { SiteInfo } from '@/features/site/type';
 import { ScadaPage } from '@/types/type';
 import axios from 'axios';
 
@@ -21,6 +22,61 @@ import axios from 'axios';
  */
 const localStorageStrategy = async (args: RestServiceParam) => {
   const { method, url, data } = args;
+
+  if (url === '/site' && method === 'get') {
+    const data: SiteInfo[] = [
+      {
+        lng: 127.3845475,
+        lat: 36.3504119,
+        city: 'Daejeon',
+        id: 'daejeon',
+        address: '755 Hanbat-daero',
+        location: '대전광역시 유성구 봉명동 755',
+        area: 100,
+        numMachines: 10,
+        type: 'factory',
+        thumbnailUrl: '/thumbnail/daejeon-1.jpg'
+      },
+      {
+        lng: 129.3113596,
+        lat: 35.5383773,
+        city: 'Ulsan',
+        id: 'ulsan',
+        address: 'Wonsan-ri 919',
+        location: '울산광역시 북구 산업로 919',
+        area: 100,
+        numMachines: 10,
+        type: 'factory',
+        thumbnailUrl: '/thumbnail/ulsan-1.png'
+      },
+      {
+        lng: 126.9575991,
+        lat: 35.9482858,
+        city: 'Iksan',
+        id: 'iksan',
+        address: '599 Youngje-dong',
+        location: '익산시 중구 산업로 321',
+        area: 552.23,
+        numMachines: 34,
+        type: 'factory',
+        thumbnailUrl: '/thumbnail/iksan-1.png'
+      },
+      {
+        lng: 127.0018494,
+        lat: 36.789796,
+        city: 'Asan',
+        id: 'asan',
+        address: '1077 Hyundai-daero',
+        location: '아산시 서구 산업로 51',
+        area: 586.23,
+        numMachines: 25,
+        type: 'factory',
+        thumbnailUrl: '/thumbnail/asan-1.png'
+      }
+    ];
+    return data;
+  }
+
   if (url === '/tag-subscription' && method === 'post') {
     localStorage.setItem(url, JSON.stringify(data));
   }

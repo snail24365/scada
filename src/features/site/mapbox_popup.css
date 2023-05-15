@@ -1,0 +1,11 @@
+.mapbox-popup .mapboxgl-popup-content {
+  background-color: #161a1e;
+  opacity: 0.8;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.mapbox-popup .mapboxgl-popup-tip {
+  border-top-color: #161a1e;
+  opacity: 0.8;
+}

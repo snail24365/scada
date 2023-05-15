@@ -80,4 +80,4 @@ export type ScadaSceneState = {
   texts: TextEntity[];
 };
 
-export type RequestStatus = { status: 'idle' | 'loading' | 'succeeded' | 'failed' };
+export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
