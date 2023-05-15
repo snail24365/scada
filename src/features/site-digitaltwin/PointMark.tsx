@@ -83,15 +83,15 @@ const PointMark = (props: Props) => {
       const detail = element.querySelector('.detail') as HTMLDivElement;
       detail.style.removeProperty('left');
 
-      const { left, bottom, width: detailWidth, height: detailHeight } = detail.getBoundingClientRect();
+      detail.style.left = '-120px';
+      detail.style.top = '30px';
+      const { left, bottom, top, width: detailWidth, height: detailHeight } = detail.getBoundingClientRect();
       if (left + detailWidth > width) {
         detail.style.left = `${-detailWidth}px`;
       }
-      if (bottom > height) {
+      if (top + detailHeight > height) {
         detail.style.top = `${-detailHeight - 50}px`;
       }
-      // console.log();
-      // detail.style.right = '0px';
     }
   });
 

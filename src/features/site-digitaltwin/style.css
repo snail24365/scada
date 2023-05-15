@@ -23,7 +23,7 @@
   cursor: help;
   transform: scale(0, 0);
   transition: transform 0.3s;
-  z-index: 20;
+  z-index: 1;
 }
 
 .point .detail {
@@ -42,7 +42,7 @@
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
-  z-index: 50;
+  z-index: 200;
 }
 
 .point .detail div {

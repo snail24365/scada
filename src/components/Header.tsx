@@ -32,7 +32,9 @@ const Header = () => {
         height: '50px',
         backgroundColor: darkBlue5,
         paddingLeft: 20,
-        borderBottom: `3px solid ${borderColor2}`
+        borderBottom: `3px solid ${borderColor2}`,
+        position: 'relative',
+        zIndex: 100
       }}
     >
       <div css={{ marginRight: 8 }}>{icon}</div>

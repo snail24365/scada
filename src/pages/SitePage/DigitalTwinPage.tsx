@@ -1,4 +1,6 @@
 import { darkBlue1 } from '@/assets/color';
+import { DigitalTwinContext } from '@/features/site-digitaltwin/DigitalTwinContext';
+import PointMark from '@/features/site-digitaltwin/PointMark';
 import StatusBadge from '@/features/site-digitaltwin/StatusBadge';
 import useResizeListener from '@/hooks/useResizeListener';
 import { full } from '@/style/style';
@@ -11,19 +13,17 @@ import { BsChevronLeft } from 'react-icons/bs';
 import { Link, useLocation } from 'react-router-dom';
 import * as THREE from 'three';
 import FactoryModel from '../../features/site-digitaltwin/FactoryModel';
-import Markers from '@/features/site/Markers';
-import PointMark from '@/features/site-digitaltwin/PointMark';
-import { DigitalTwinContext } from '@/features/site-digitaltwin/DigitalTwinContext';
 
 type Props = {};
-
+/**
+ * Components related with digital twin should be refactored, it was partially hard coded and tightly coupled for demo purpose.
+ */
 const DigitalTwinPage = (props: Props) => {
   const { pathname } = useLocation();
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const rendererRef = React.useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = React.useRef<THREE.PerspectiveCamera | null>(null);
-  const raycaster = new THREE.Raycaster();
 
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -43,7 +43,14 @@ const DigitalTwinPage = (props: Props) => {
       animate={{ opacity: 1, left: 0 }}
       exit={{ opacity: 0, transform: 'translate(100%)', position: 'relative' }}
       transition={{ ease: 'easeInOut', duration: 0.4 }}
-      css={{ ...full, backgroundColor: '#f1f1f1', display: 'flex', flexDirection: 'column', position: 'relative' }}
+      css={{
+        ...full,
+        backgroundColor: '#f1f1f1',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        zIndex: 100
+      }}
     >
       <div css={{ height: 65, backgroundColor: darkBlue1, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
         <Link to="/site" state={{ prevPath: pathname }}>
@@ -63,7 +70,7 @@ const DigitalTwinPage = (props: Props) => {
               top: 30,
               display: 'flex',
               gap: 20,
-              zIndex: 100
+              zIndex: 10
             }}
           >
             <StatusBadge text="Normal" subText="State" color="#0399ea" />
